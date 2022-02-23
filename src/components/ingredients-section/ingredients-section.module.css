@@ -8,6 +8,7 @@
 }
 
 .ingredient {
+    list-style: none;
     max-width: 272px;;
 }
 

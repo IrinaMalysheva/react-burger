@@ -1,3 +1,8 @@
+.alignedRight {
+    display: flex;
+    justify-content: end;
+}
+
 .header {
     text-align: center;
 }
@@ -20,8 +25,8 @@
     display: inline-flex;
 }
 
-.leftNav {
-    max-width: 383px;
+.innerNav {
+    width: 383px;
 }
 
 .nav {

@@ -8,7 +8,7 @@ function BurgerIngredients(props) {
     const [current, setCurrent] = React.useState('one');
 
     return (
-        <main>
+        <main className={props.className}>
             <h2 className={`pt-10 pb-5 text text_type_main-large ${burgerIngredientsStyles.header}`}>
                 Соберите бургер
             </h2>

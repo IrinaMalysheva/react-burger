@@ -8,11 +8,11 @@ function IngredientsSection(props) {
             <h2 className={`pb-6 text text_type_main-medium ${ingredientsSectionStyles.header}`}>
                 {props.header}
             </h2>
-            <div className={`pl-4 ${ingredientsSectionStyles.secContainer}`}>
+            <ul className={`pl-4 ${ingredientsSectionStyles.secContainer}`}>
                 {
-                    props.data.map((item, key) =>{
-                        return (item.type == props.ingredientsType) && 
-                            <div className={`mb-8 ${ingredientsSectionStyles.ingredient}`} key={item.id}>
+                    props.data.map((item) => {
+                        return (item.type == props.ingredientsType) &&
+                            <li className={`mb-8 ${ingredientsSectionStyles.ingredient}`} key={item._id}>
                                 <img className="pl-4 pr-4" src={item.image} />
                                 <p className="pt-1 pb-1 flexContainerJcCenter">
                                     <span className={`pr-1 ${ingredientsSectionStyles.price}`}>{item.price}</span>
@@ -21,10 +21,10 @@ function IngredientsSection(props) {
                                 <p className={`text text_type_main-default ${ingredientsSectionStyles.ingredientsName}`}>
                                     {item.name}
                                 </p>
-                        </div>
+                            </li>
                     })
                 }
-            </div>
+            </ul>
         </section>
     )
 };
