@@ -1,0 +1,32 @@
+@font-face {
+    font-family: 'Iceland';
+    src: url("../../fonts/Iceland-Regular.ttf") format("ttf");
+}
+
+.header {
+    text-align: left;
+}
+
+.ingredient {
+    max-width: 272px;;
+}
+
+.ingredientsName {
+    min-height: 48px;
+}
+
+.price {
+    font-family: 'Iceland';
+    font-size: 28px;
+    line-height: 24px;
+}
+
+.secContainer {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: -32px;
+}
+
+.secContainer div:nth-child(2n + 1) {
+    padding-right: 24px;
+}
