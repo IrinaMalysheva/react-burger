@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { menuItemPropTypes } from '../../utils/constants';
 import ingredientsSectionStyles from './ingredients-section.module.css';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
@@ -28,5 +30,11 @@ function IngredientsSection(props) {
         </section>
     )
 };
+
+IngredientsSection.propTypes = {
+    data: PropTypes.arrayOf(menuItemPropTypes).isRequired,
+    header: PropTypes.string.isRequired,
+    ingredientsType: PropTypes.string.isRequired,
+}
 
 export default IngredientsSection;

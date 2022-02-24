@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { menuItemPropTypes } from '../../utils/constants';
 import burgerIngredientsStyles from './burger-ingredients.module.css';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import IngredientsSection from '../ingredients-section/ingredients-section';
@@ -8,7 +10,7 @@ function BurgerIngredients(props) {
     const [current, setCurrent] = React.useState('one');
 
     return (
-        <main className={props.className}>
+        <main className={props.nameOfClass}>
             <h2 className={`pt-10 pb-5 text text_type_main-large ${burgerIngredientsStyles.header}`}>
                 Соберите бургер
             </h2>
@@ -23,13 +25,18 @@ function BurgerIngredients(props) {
                     Начинки
                 </Tab>
             </div>
-            <ScrollableSection className={burgerIngredientsStyles.scrollSection}>
-                <IngredientsSection data={props.data} header="Булки" ingredientsType={"bun"} />
-                <IngredientsSection data={props.data} header="Соусы" ingredientsType={"sauce"} />
-                <IngredientsSection data={props.data} header="Начинки" ingredientsType={"main"} />
+            <ScrollableSection nameOfClass={burgerIngredientsStyles.scrollSection}>
+                <IngredientsSection data={props.data} header="Булки" ingredientsType="bun" />
+                <IngredientsSection data={props.data} header="Соусы" ingredientsType="sauce" />
+                <IngredientsSection data={props.data} header="Начинки" ingredientsType="main" />
             </ScrollableSection>
         </main>
     )
 };
+
+BurgerIngredients.propTypes = {
+    data: PropTypes.arrayOf(menuItemPropTypes).isRequired,
+    nameOfClass: PropTypes.string
+}
 
 export default BurgerIngredients;
