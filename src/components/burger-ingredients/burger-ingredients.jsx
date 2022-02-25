@@ -10,11 +10,11 @@ function BurgerIngredients(props) {
     const [current, setCurrent] = React.useState('one');
 
     return (
-        <main className={props.nameOfClass}>
+        <main className="mr-10" >
             <h2 className={`pt-10 pb-5 text text_type_main-large ${burgerIngredientsStyles.header}`}>
                 Соберите бургер
             </h2>
-            <div style={{ display: 'flex' }}>
+            <div className={burgerIngredientsStyles.tabsWrapper}>
                 <Tab value="one" active={current === 'one'} onClick={setCurrent}>
                     Булки
                 </Tab>
@@ -25,7 +25,7 @@ function BurgerIngredients(props) {
                     Начинки
                 </Tab>
             </div>
-            <ScrollableSection nameOfClass={burgerIngredientsStyles.scrollSection}>
+            <ScrollableSection parentClassName={burgerIngredientsStyles.scrollContainerStyles}>
                 <IngredientsSection data={props.data} header="Булки" ingredientsType="bun" />
                 <IngredientsSection data={props.data} header="Соусы" ingredientsType="sauce" />
                 <IngredientsSection data={props.data} header="Начинки" ingredientsType="main" />
@@ -35,8 +35,7 @@ function BurgerIngredients(props) {
 };
 
 BurgerIngredients.propTypes = {
-    data: PropTypes.arrayOf(menuItemPropTypes).isRequired,
-    nameOfClass: PropTypes.string
+    data: PropTypes.arrayOf(menuItemPropTypes).isRequired
 }
 
 export default BurgerIngredients;

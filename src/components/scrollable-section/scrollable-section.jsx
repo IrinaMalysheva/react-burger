@@ -4,7 +4,7 @@ import scrollableSectionStyles from './scrollable-section.module.css';
 
 function ScrollableSection(props) {
     return (
-        <section className={`${props.nameOfClass} ${scrollableSectionStyles.scrollableSection}`}>
+        <section className={`${scrollableSectionStyles.scrollableSection} ${props.parentClassName}`}>
             {props.children}
         </section>
     )
@@ -12,7 +12,7 @@ function ScrollableSection(props) {
 
 ScrollableSection.propTypes = {
     children: PropTypes.node,
-    nameOfClass: PropTypes.string
+    parentClassName: PropTypes.string
 }
 
 export default ScrollableSection;

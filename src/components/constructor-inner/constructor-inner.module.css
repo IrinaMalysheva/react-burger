@@ -9,3 +9,8 @@
     flex-direction: column;
     margin-bottom: -16px; 
 }
+
+.scrollContainerStyles {
+    height: 464px; 
+    margin: 16px 0;
+}

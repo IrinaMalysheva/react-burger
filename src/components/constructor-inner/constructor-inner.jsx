@@ -7,7 +7,7 @@ import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burg
 
 function ConstructorInner(props) {
     return (
-        <ScrollableSection styleProp={{ height: '464px', margin: "16px 0" }}>
+        <ScrollableSection parentClassName={constructorInnerStyles.scrollContainerStyles}>
             <ul className={constructorInnerStyles.innerContainer}>
                 {
                     props.data.map((item) => {

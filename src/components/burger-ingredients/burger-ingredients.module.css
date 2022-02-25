@@ -2,6 +2,10 @@
     text-align: left;
 }
 
-.scrollSection {
+.scrollContainerStyles {
     height: 716px;
+}
+
+.tabsWrapper {
+    display: flex;
 }
