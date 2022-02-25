@@ -1,0 +1,21 @@
+.finalPart {
+    align-items: center;
+    justify-content: flex-end;
+    display: flex;
+}
+
+.finalPart > p {
+    display: flex;
+}
+
+.pricePart {
+    font-family: 'Iceland';
+    font-size: 48px;
+    line-height: 36px;
+    margin-right: 10px;
+}
+
+.pricePart + svg {
+    height: 33px;
+    width: 33px;
+}

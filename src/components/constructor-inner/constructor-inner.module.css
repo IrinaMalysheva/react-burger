@@ -1,0 +1,11 @@
+.constructorItem {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+}
+
+.innerContainer {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: -16px; 
+}
