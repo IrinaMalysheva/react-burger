@@ -6,13 +6,17 @@ import ScrollableSection from '../scrollable-section/scrollable-section';
 import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
 function ConstructorInner(props) {
+    const handleClick = (e) => {
+        props.clickHandler(e.currentTarget.id);
+    };
+    
     return (
         <ScrollableSection parentClassName={constructorInnerStyles.scrollContainerStyles}>
             <ul className={constructorInnerStyles.innerContainer}>
                 {
                     props.data.map((item) => {
                         return (item.type != "bun") &&
-                            <li className={`mr-2 mb-4 ${constructorInnerStyles.constructorItem}`} key={item._id}>
+                            <li className={`mr-2 mb-4 ${constructorInnerStyles.constructorItem}`} key={item._id} id={item._id} onClick={handleClick} >
                                 <DragIcon type="primary" />
                                 <ConstructorElement
                                     text={item.name}

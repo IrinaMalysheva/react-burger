@@ -9,9 +9,10 @@ function BurgerConstructor(props) {
     let bunTopBottom = props.data.find((item) => {
         return (item.type == "bun");
     })
+
     return (
         <main className="pt-25 pb-13 pl-4">
-            <section className="ml-8">
+            <section className="ml-8" >
                 <ConstructorElement
                     type="top"
                     isLocked={true}
@@ -20,7 +21,7 @@ function BurgerConstructor(props) {
                     thumbnail={bunTopBottom.image_mobile}
                 />
             </section>
-            <ConstructorInner data={props.data} />
+            <ConstructorInner data={props.data} clickHandler={props.ingredientHandler}/>
             <section className="ml-8">
                 <ConstructorElement
                     type="bottom"
@@ -35,7 +36,7 @@ function BurgerConstructor(props) {
                     <span className={`text text_type_digits-medium ${burgerConstructorStyles.pricePart}`}>610</span>
                     <CurrencyIcon type="primary" />
                 </p>
-                <Button type="primary" size="large">
+                <Button type="primary" size="large" onClick={props.orderHandler}>
                     Оформить заказ
                 </Button>
             </div>
