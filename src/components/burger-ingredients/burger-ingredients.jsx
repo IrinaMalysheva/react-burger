@@ -26,16 +26,17 @@ function BurgerIngredients(props) {
                 </Tab>
             </div>
             <ScrollableSection parentClassName={burgerIngredientsStyles.scrollContainerStyles}>
-                <IngredientsSection data={props.data} header="Булки" ingredientsType="bun" />
-                <IngredientsSection data={props.data} header="Соусы" ingredientsType="sauce" />
-                <IngredientsSection data={props.data} header="Начинки" ingredientsType="main" />
+                <IngredientsSection data={props.data} header="Булки" ingredientsType="bun" clickHandler={props.clickHandler} />
+                <IngredientsSection data={props.data} header="Соусы" ingredientsType="sauce" clickHandler={props.clickHandler} />
+                <IngredientsSection data={props.data} header="Начинки" ingredientsType="main" clickHandler={props.clickHandler} />
             </ScrollableSection>
         </main>
     )
 };
 
 BurgerIngredients.propTypes = {
-    data: PropTypes.arrayOf(menuItemPropTypes).isRequired
+    data: PropTypes.arrayOf(menuItemPropTypes).isRequired,
+    clickHandler: PropTypes.func.isRequired
 }
 
 export default BurgerIngredients;

@@ -32,7 +32,7 @@ function BurgerConstructor(props) {
             </section>
             <div className={`mt-10 ${burgerConstructorStyles.finalPart}`}>
                 <p className={`mr-10`}>
-                    <span className={burgerConstructorStyles.pricePart}>610</span>
+                    <span className={`text text_type_digits-medium ${burgerConstructorStyles.pricePart}`}>610</span>
                     <CurrencyIcon type="primary" />
                 </p>
                 <Button type="primary" size="large">
