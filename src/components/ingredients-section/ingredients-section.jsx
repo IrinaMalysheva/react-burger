@@ -6,11 +6,11 @@ import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components
 
 function IngredientsSection(props) {
     return (
-        <section className="mt-10 mb-10">
+        <section className={`mt-10 mb-10 ${ingredientsSectionStyles.secContainer}`}>
             <h2 className={`pb-6 text text_type_main-medium ${ingredientsSectionStyles.header}`}>
                 {props.header}
             </h2>
-            <ul className={`pl-4 ${ingredientsSectionStyles.secContainer}`}>
+            <ul className={`pl-4 ${ingredientsSectionStyles.ingredientsContainer}`}>
                 {
                     props.data.map((item) => {
                         return (item.type == props.ingredientsType) &&
