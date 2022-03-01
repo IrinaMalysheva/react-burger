@@ -10,9 +10,9 @@ function ConstructorInner(props) {
         <ScrollableSection parentClassName={constructorInnerStyles.scrollContainerStyles}>
             <ul className={constructorInnerStyles.innerContainer}>
                 {
-                    props.data.map((item) => {
+                    props.data.map((item, index) => {
                         return (item.type != "bun") &&
-                            <li className={`mr-2 mb-4 ${constructorInnerStyles.constructorItem}`} key={item._id} id={item._id}>
+                            <li className={`mr-2 mb-4 ${constructorInnerStyles.constructorItem}`} key={index} id={item._id}>
                                 <DragIcon type="primary" />
                                 <ConstructorElement
                                     text={item.name}

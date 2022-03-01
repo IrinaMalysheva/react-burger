@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import modalStyles from './modal.module.css';
+import { Escape_keyCode } from '../../utils/constants';
 import ModalOverlay from '../modal-overlay/modal-overlay';
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 
@@ -11,7 +12,7 @@ function Modal(props) {
 
     React.useEffect(() => {
         const closeModal = (e) => {
-            if (e.key === "Escape" || e.keyCode === 27) {
+            if (e.key === "Escape" || e.keyCode === Escape_keyCode) {
                 onClose();
             }
         };

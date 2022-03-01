@@ -38,7 +38,7 @@ const App = () => {
   }, []);
 
   const handleCloseModal = () => {
-    setState({ ...state, isModalOpen: false }); 
+    setState({ ...state, isModalOpen: false });
 
   }
 
@@ -57,14 +57,16 @@ const App = () => {
         <main className="flexContainerJcCenter">
           <BurgerIngredients data={state.data} clickHandler={handleOpenIngrModal} />
           <BurgerConstructor data={state.data} orderHandler={handleOpenOrderModal} />
-          {state.isModalOpen &&
-          <Modal header={state.isIngredientModal ? "Детали ингредиента" : ""} onClose={handleCloseModal}>
-            { state.isIngredientModal
-              ? <IngredientDetails ingredientId={state.clickedIngredient} ingredientData={state.data} />
-              : <OrderDetails />
-            }
-          </Modal>
-      }
+          {state.isIngredientModal && state.isModalOpen &&
+            <Modal header="Детали ингредиента" onClose={handleCloseModal}>
+              <IngredientDetails ingredientId={state.clickedIngredient} ingredientData={state.data} />
+            </Modal>
+          }
+          {state.isOrderModal && state.isModalOpen &&
+            <Modal onClose={handleCloseModal}>
+              <OrderDetails />
+            </Modal>
+          }
         </main>
       }
     </div>

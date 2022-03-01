@@ -15,4 +15,6 @@ const menuItemPropTypes = PropTypes.shape({
     __v: PropTypes.number.isRequired,
 });
 
-export { menuItemPropTypes };
+const Escape_keyCode = 27;
+
+export { menuItemPropTypes, Escape_keyCode };
