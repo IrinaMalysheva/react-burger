@@ -16,17 +16,17 @@ function BurgerConstructor(props) {
                 <ConstructorElement
                     type="top"
                     isLocked={true}
-                    text={bunTopBottom.name}
+                    text={`${bunTopBottom.name} (верх)`}
                     price={bunTopBottom.price}
                     thumbnail={bunTopBottom.image_mobile}
                 />
             </section>
-            <ConstructorInner data={props.data} clickHandler={props.ingredientHandler}/>
+            <ConstructorInner data={props.data} />
             <section className="ml-8">
                 <ConstructorElement
                     type="bottom"
                     isLocked={true}
-                    text={bunTopBottom.name}
+                    text={`${bunTopBottom.name} (низ)`}
                     price={bunTopBottom.price}
                     thumbnail={bunTopBottom.image_mobile}
                 />

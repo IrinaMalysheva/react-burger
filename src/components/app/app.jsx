@@ -24,11 +24,14 @@ const App = () => {
     const fetchData = async () => {
       try {
         const response = await fetch(API_URL);
+        if (!response.ok) {
+          throw new Error("fetch() was not succeed.");
+        }
         const resJson = await response.json();
         setState({ data: resJson.data });
       }
       catch (e) {
-        console.log(e)
+        console.log(e);
       }
     };
     fetchData();
@@ -53,7 +56,7 @@ const App = () => {
       {state.data &&
         <main className="flexContainerJcCenter">
           <BurgerIngredients data={state.data} clickHandler={handleOpenIngrModal} />
-          <BurgerConstructor data={state.data} ingredientHandler={handleOpenIngrModal} orderHandler={handleOpenOrderModal} />
+          <BurgerConstructor data={state.data} orderHandler={handleOpenOrderModal} />
           {state.isModalOpen &&
           <Modal header={state.isIngredientModal ? "Детали ингредиента" : ""} onClose={handleCloseModal}>
             { state.isIngredientModal
