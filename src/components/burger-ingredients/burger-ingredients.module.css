@@ -1,0 +1,11 @@
+.header {
+    text-align: left;
+}
+
+.scrollContainerStyles {
+    height: 716px;
+}
+
+.tabsWrapper {
+    display: flex;
+}

@@ -1,0 +1,16 @@
+.scrollableSection {
+    overflow-y: auto;
+}
+
+.scrollableSection::-webkit-scrollbar {
+    width: 8px;
+}
+
+.scrollableSection::-webkit-scrollbar-track {
+    background: #2F2F37;
+    border: 1px dashed #4C4CFF;
+}
+
+.scrollableSection::-webkit-scrollbar-thumb {
+    background-color: #8585AD;
+}
