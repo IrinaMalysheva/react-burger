@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { menuItemPropTypes } from '../../utils/constants';
 import constructorInnerStyles from './constructor-inner.module.css';
+import ConstructorInnerElement from '../constructor-inner-element/constructor-inner-element';
 import ScrollableSection from '../scrollable-section/scrollable-section';
-import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
 function ConstructorInner(props) {
     return (
@@ -11,15 +11,7 @@ function ConstructorInner(props) {
             <ul className={constructorInnerStyles.innerContainer}>
                 {
                     props.data.map((item, index) => {
-                        return (item.type != "bun") &&
-                            <li className={`mr-2 mb-4 ${constructorInnerStyles.constructorItem}`} key={index} id={item._id}>
-                                <DragIcon type="primary" />
-                                <ConstructorElement
-                                    text={item.name}
-                                    price={item.price}
-                                    thumbnail={item.image}
-                                />
-                            </li>
+                        return (item.type != "bun") && <ConstructorInnerElement itemData={item} propKey={index} id={item._id} />
                     })
                 }
             </ul>
@@ -28,7 +20,8 @@ function ConstructorInner(props) {
 };
 
 ConstructorInner.propTypes = {
-    data: PropTypes.arrayOf(menuItemPropTypes).isRequired
+    data: PropTypes.arrayOf(menuItemPropTypes).isRequired,
+    totalPriceDispatch: PropTypes.func.isRequired
 }
 
 export default ConstructorInner;

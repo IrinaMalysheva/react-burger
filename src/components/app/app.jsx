@@ -1,4 +1,5 @@
 import { React, useState, useEffect } from 'react';
+import { BurgerDataContext } from '../../utils/burgerDataContext';
 //import data from '../../utils/data';
 import appStyles from './app.module.css';
 import AppHeader from '../app-header/app-header';
@@ -56,7 +57,9 @@ const App = () => {
       {state.data &&
         <main className="flexContainerJcCenter">
           <BurgerIngredients data={state.data} clickHandler={handleOpenIngrModal} />
-          <BurgerConstructor data={state.data} orderHandler={handleOpenOrderModal} />
+          <BurgerDataContext.Provider value={state.data}>
+            <BurgerConstructor orderHandler={handleOpenOrderModal} />  
+          </BurgerDataContext.Provider>
           {state.isIngredientModal && state.isModalOpen &&
             <Modal header="Детали ингредиента" onClose={handleCloseModal}>
               <IngredientDetails ingredientId={state.clickedIngredient} ingredientData={state.data} />
