@@ -3,3 +3,7 @@
     display: flex;
     justify-content: space-between;
 }
+
+.constructorItem:last-child {
+    margin-bottom: 0;
+}

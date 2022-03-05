@@ -1,5 +1,5 @@
 import { React, useState, useEffect } from 'react';
-import { BurgerDataContext } from '../../utils/burgerDataContext';
+import { BurgerDataContext, OrderIngsContext } from '../../utils/burgerDataContext';
 //import data from '../../utils/data';
 import appStyles from './app.module.css';
 import AppHeader from '../app-header/app-header';
@@ -20,6 +20,8 @@ const App = () => {
       isOrderModal: true,
       clickedIngredient: ""
     });
+
+  const [ingredients, setIngredients] = useState({ "ingredients": [] });
 
   useEffect(() => {
     const fetchData = async () => {
@@ -58,7 +60,9 @@ const App = () => {
         <main className="flexContainerJcCenter">
           <BurgerIngredients data={state.data} clickHandler={handleOpenIngrModal} />
           <BurgerDataContext.Provider value={state.data}>
-            <BurgerConstructor orderHandler={handleOpenOrderModal} />  
+            <OrderIngsContext.Provider value={{ingredients, setIngredients}}>
+              <BurgerConstructor orderHandler={handleOpenOrderModal} />
+            </OrderIngsContext.Provider>
           </BurgerDataContext.Provider>
           {state.isIngredientModal && state.isModalOpen &&
             <Modal header="Детали ингредиента" onClose={handleCloseModal}>
@@ -67,7 +71,9 @@ const App = () => {
           }
           {state.isOrderModal && state.isModalOpen &&
             <Modal onClose={handleCloseModal}>
-              <OrderDetails />
+              <OrderIngsContext.Provider value={{ingredients, setIngredients}}>
+                <OrderDetails />
+              </OrderIngsContext.Provider>
             </Modal>
           }
         </main>

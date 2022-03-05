@@ -1,13 +1,14 @@
 import React, { useContext, useReducer, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { menuItemPropTypes } from '../../utils/constants';
-import { BurgerDataContext, TotalPriceContext } from '../../utils/burgerDataContext';
+import { BurgerDataContext, OrderIngsContext, TotalPriceContext } from '../../utils/burgerDataContext';
 import burgerConstructorStyles from './burger-constructor.module.css';
 import ConstructorInner from '../constructor-inner/constructor-inner';
 import { Button, ConstructorElement, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
 function BurgerConstructor(props) {
     const data = useContext(BurgerDataContext);
+    const { ingredients, setIngredients } = useContext(OrderIngsContext);
     const initialTotalPrice = { totalPrice: 0 };
     const [totalPrice, totalPriceDispatch] = useReducer(reducer, initialTotalPrice);
 
@@ -27,6 +28,7 @@ function BurgerConstructor(props) {
     }
 
     useEffect(() => {
+        setIngredients({ "ingredients": [...ingredients.ingredients, bunTopBottom._id]});
         totalPriceDispatch({ type: 'add', reducerPrice: bunTopBottom.price * 2 });
     }, []);
 
@@ -68,6 +70,7 @@ function BurgerConstructor(props) {
 
 BurgerConstructor.propTypes = {
     //data: PropTypes.arrayOf(menuItemPropTypes).isRequired
+    orderHandler: PropTypes.func.isRequired
 }
 
 export default BurgerConstructor;
