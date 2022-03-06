@@ -28,7 +28,7 @@ function BurgerConstructor(props) {
     }
 
     useEffect(() => {
-        setIngredients({ "ingredients": [...ingredients.ingredients, bunTopBottom._id]});
+        setIngredients(prevState => ({ "ingredients": [...prevState.ingredients, bunTopBottom._id]}));
         totalPriceDispatch({ type: 'add', reducerPrice: bunTopBottom.price * 2 });
     }, []);
 
