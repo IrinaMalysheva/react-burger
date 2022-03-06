@@ -69,7 +69,6 @@ function BurgerConstructor(props) {
 };
 
 BurgerConstructor.propTypes = {
-    //data: PropTypes.arrayOf(menuItemPropTypes).isRequired
     orderHandler: PropTypes.func.isRequired
 }
 
