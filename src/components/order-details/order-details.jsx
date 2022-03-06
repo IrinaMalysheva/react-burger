@@ -1,7 +1,7 @@
-import React, { useState, useContext, useEffect } from "react";
-import { OrderIngsContext } from '../../utils/burgerDataContext';
+import { useState, useContext, useEffect } from "react";
+import { OrderIngredientsContext } from '../../utils/burgerDataContext';
+import { API_URL } from '../../utils/constants';
 import orderDetailsStyles from './order-details.module.css';
-//import PropTypes from "prop-types";
 import doneImg from "../../images/done.png";
 
 function OrderDetails() {
@@ -11,13 +11,13 @@ function OrderDetails() {
         "order": { "number": 0 }
     });
 
-    const ingredients = useContext(OrderIngsContext);
+    const ingredients = useContext(OrderIngredientsContext);
 
     useEffect(() => {
-        let json = JSON.stringify(ingredients.ingredients);
+        const json = JSON.stringify(ingredients.ingredients);
 
-        let xhr = new XMLHttpRequest();
-        xhr.open('POST', 'https://norma.nomoreparties.space/api/orders');
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', API_URL + "/orders");
         xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
         xhr.send(json);
 
@@ -25,7 +25,7 @@ function OrderDetails() {
             if (xhr.status != 200) {
                 console.log(`Ошибка ${xhr.status}: ${xhr.statusText}`);
             } else {
-                let jsonResp = JSON.parse(xhr.response);
+                const jsonResp = JSON.parse(xhr.response);
                 setOrderResponse(jsonResp);
             }
         };
@@ -50,9 +50,5 @@ function OrderDetails() {
         </div>
     )
 }
-
-OrderDetails.propTypes = {
-    //: PropTypes.string.isRequired
-};
 
 export default OrderDetails;

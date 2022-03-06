@@ -1,6 +1,7 @@
 import { React, useState, useEffect } from 'react';
-import { BurgerDataContext, OrderIngsContext } from '../../utils/burgerDataContext';
+import { BurgerDataContext, OrderIngredientsContext } from '../../utils/burgerDataContext';
 //import data from '../../utils/data';
+import { API_URL } from '../../utils/constants';
 import appStyles from './app.module.css';
 import AppHeader from '../app-header/app-header';
 import IngredientDetails from '../ingredient-details/ingredient-details';
@@ -10,23 +11,20 @@ import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
 
 const App = () => {
-  const API_URL = "https://norma.nomoreparties.space/api/ingredients";
-
-  const [state, setState] = useState(
-    {
-      data: null,
-      isModalOpen: false,
-      isIngredientModal: true,
-      isOrderModal: true,
-      clickedIngredient: ""
-    });
+  const [state, setState] = useState({
+    data: null,
+    isModalOpen: false,
+    isIngredientModal: true,
+    isOrderModal: true,
+    clickedIngredient: ""
+  });
 
   const [ingredients, setIngredients] = useState({ "ingredients": [] });
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(API_URL);
+        const response = await fetch(API_URL + "/ingredients");
         if (!response.ok) {
           throw new Error("fetch() was not succeed.");
         }
@@ -60,9 +58,9 @@ const App = () => {
         <main className="flexContainerJcCenter">
           <BurgerIngredients data={state.data} clickHandler={handleOpenIngrModal} />
           <BurgerDataContext.Provider value={state.data}>
-            <OrderIngsContext.Provider value={{ingredients, setIngredients}}>
+            <OrderIngredientsContext.Provider value={{ingredients, setIngredients}}>
               <BurgerConstructor orderHandler={handleOpenOrderModal} />
-            </OrderIngsContext.Provider>
+            </OrderIngredientsContext.Provider>
           </BurgerDataContext.Provider>
           {state.isIngredientModal && state.isModalOpen &&
             <Modal header="Детали ингредиента" onClose={handleCloseModal}>
@@ -71,9 +69,9 @@ const App = () => {
           }
           {state.isOrderModal && state.isModalOpen &&
             <Modal onClose={handleCloseModal}>
-              <OrderIngsContext.Provider value={{ingredients, setIngredients}}>
+              <OrderIngredientsContext.Provider value={{ingredients, setIngredients}}>
                 <OrderDetails />
-              </OrderIngsContext.Provider>
+              </OrderIngredientsContext.Provider>
             </Modal>
           }
         </main>

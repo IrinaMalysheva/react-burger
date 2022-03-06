@@ -1,12 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { menuItemPropTypes } from '../../utils/constants';
-import { OrderIngsContext, TotalPriceContext } from '../../utils/burgerDataContext';
+import { OrderIngredientsContext, TotalPriceContext } from '../../utils/burgerDataContext';
 import constructorInnerElementStyles from './constructor-inner-element.module.css';
 import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
-function ConstructorInnerElement({ itemData, id, propKey }) {
-    const { ingredients, setIngredients } = useContext(OrderIngsContext);
+function ConstructorInnerElement({ itemData, id }) {
+    const { ingredients, setIngredients } = useContext(OrderIngredientsContext);
     const totalPriceDispatch = useContext(TotalPriceContext);
     const [curId, setCurId] = useState("");
 
@@ -17,7 +17,7 @@ function ConstructorInnerElement({ itemData, id, propKey }) {
     }, [curId]);
 
     return (
-        <li className={`mr-2 mb-4 ${constructorInnerElementStyles.constructorItem}`} key={propKey} id={id}>
+        <li className={`mr-2 mb-4 ${constructorInnerElementStyles.constructorItem}`} id={id}>
             <DragIcon type="primary" />
             <ConstructorElement
                 text={itemData.name}
@@ -29,7 +29,8 @@ function ConstructorInnerElement({ itemData, id, propKey }) {
 };
 
 ConstructorInnerElement.propTypes = {
-    itemData: menuItemPropTypes.isRequired
+    itemData: menuItemPropTypes.isRequired,
+    id: PropTypes.string.isRequired
 }
 
 export default ConstructorInnerElement;
