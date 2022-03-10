@@ -16,5 +16,6 @@ const menuItemPropTypes = PropTypes.shape({
 });
 
 const Escape_keyCode = 27;
+const API_URL = "https://norma.nomoreparties.space/api";
 
-export { menuItemPropTypes, Escape_keyCode };
+export { API_URL, Escape_keyCode, menuItemPropTypes };
