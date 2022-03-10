@@ -18,7 +18,7 @@ function OrderDetails() {
 
         const fetchData = async () => {
             try {
-                const response = await fetch(API_URL + "111/orders", {
+                const response = await fetch(API_URL + "/orders", {
                     method: 'POST',
                     body: json,
                     headers: {
