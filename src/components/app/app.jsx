@@ -1,4 +1,7 @@
 import { React, useState, useEffect } from 'react';
+import { compose, createStore, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
+import { rootReducer } from '../../services/reducers';
 import { BurgerDataContext, OrderIngredientsContext } from '../../utils/burgerDataContext';
 import { API_URL } from '../../utils/constants';
 import appStyles from './app.module.css';
@@ -8,6 +11,13 @@ import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
 import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
+
+const composeEnhancers =
+  typeof window === 'object' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+    ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({})
+    : compose; 
+const enhancer = composeEnhancers(applyMiddleware(thunk));
+const store = createStore(rootReducer, enhancer); 
 
 const App = () => {
   const [state, setState] = useState({
