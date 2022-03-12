@@ -1,6 +1,5 @@
-import { useContext, useEffect } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import { OrderIngredientsContext } from '../../utils/burgerDataContext';
 import orderDetailsStyles from './order-details.module.css';
 import { getOrder } from '../../services/actions';
 import { API_URL } from '../../utils/constants';
@@ -8,12 +7,14 @@ import doneImg from "../../images/done.png";
 
 function OrderDetails() {
     const dispatch = useDispatch();
-    const ingredients = useContext(OrderIngredientsContext);
-    //const dataIngredientsList = useSelector(state => state.ingredientsOrder.dataIngredientsList);
+    const constructorInnerIngredients = useSelector(state => state.ingredientsOrder.constructorInnerIngredients);
+    const constructorBun = useSelector(state => state.ingredientsOrder.constructorBun);
+    const constructorIngredients = {ingredients: [...constructorInnerIngredients, constructorBun]};
+
     const orderResponse = useSelector(state => state.ingredientsOrder.orderObject);
 
     useEffect(() => {
-        dispatch(getOrder(API_URL, ingredients.ingredients));
+        dispatch(getOrder(API_URL, constructorIngredients));
     }, [dispatch]);
 
     return (

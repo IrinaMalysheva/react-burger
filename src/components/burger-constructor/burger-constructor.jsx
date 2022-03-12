@@ -1,20 +1,23 @@
-import { useContext, useReducer, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { BurgerDataContext, OrderIngredientsContext, TotalPriceContext } from '../../utils/burgerDataContext';
+import { useReducer, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { TotalPriceContext } from '../../utils/burgerDataContext';
 import burgerConstructorStyles from './burger-constructor.module.css';
 import ConstructorInner from '../constructor-inner/constructor-inner';
 import { Button, ConstructorElement, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import { OPEN_MODAL, OPEN_ORDER_MODAL } from '../../services/actions';
+import { OPEN_MODAL, OPEN_ORDER_MODAL, SET_CONSTRUCTOR_INGREDIENTS, SET_CONSTRUCTOR_BUN } from '../../services/actions';
 
-function BurgerConstructor(props) {
-    const data = useContext(BurgerDataContext);
+function BurgerConstructor() {
+    const data = useSelector(state => state.ingredientsOrder.dataIngredientsList);
     const dispatch = useDispatch();
-    const { ingredients, setIngredients } = useContext(OrderIngredientsContext);
     const initialTotalPrice = { totalPrice: 0 };
     const [totalPrice, totalPriceDispatch] = useReducer(reducer, initialTotalPrice);
 
     const bunTopBottom = data.find((item) => {
         return (item.type === "bun");
+    })
+
+    const innerIngredients = data.filter((item) => {
+        return (item.type !== "bun");
     })
 
     function reducer(state, action) {
@@ -29,9 +32,22 @@ function BurgerConstructor(props) {
     }
 
     useEffect(() => {
-        setIngredients(prevState => ({ "ingredients": [...prevState.ingredients, bunTopBottom._id]}));
-        totalPriceDispatch({ type: 'add', reducerPrice: bunTopBottom.price * 2 });
-    }, []);
+        dispatch({
+            type: SET_CONSTRUCTOR_BUN,
+            data: bunTopBottom
+        });
+    }, [dispatch, bunTopBottom]);
+
+    useEffect(() => {
+        dispatch({
+            type: SET_CONSTRUCTOR_INGREDIENTS,
+            data: innerIngredients
+        });
+    }, [dispatch, innerIngredients]);
+
+    useEffect(() => {
+        bunTopBottom && totalPriceDispatch({ type: 'add', reducerPrice: bunTopBottom.price * 2 });
+    }, [bunTopBottom]);
 
     const handleClick = (e) => {
         dispatch({ type: OPEN_MODAL });
@@ -40,6 +56,8 @@ function BurgerConstructor(props) {
 
     return (
         <main className="pt-25 pb-13 pl-4">
+            {data.length &&
+            <>
             <section className="ml-8" >
                 <ConstructorElement
                     type="top"
@@ -61,6 +79,8 @@ function BurgerConstructor(props) {
                     thumbnail={bunTopBottom.image_mobile}
                 />
             </section>
+            </>
+            }
             <div className={`mt-10 ${burgerConstructorStyles.finalPart}`}>
                 <p className={`mr-10`}>
                     <span className={`text text_type_digits-medium ${burgerConstructorStyles.pricePart}`}>{totalPrice.totalPrice}</span>

@@ -1,16 +1,14 @@
-import React, { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { menuItemPropTypes } from '../../utils/constants';
-import { OrderIngredientsContext, TotalPriceContext } from '../../utils/burgerDataContext';
+import { TotalPriceContext } from '../../utils/burgerDataContext';
 import constructorInnerElementStyles from './constructor-inner-element.module.css';
 import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
 function ConstructorInnerElement({ itemData, id }) {
-    const { ingredients, setIngredients } = useContext(OrderIngredientsContext);
     const totalPriceDispatch = useContext(TotalPriceContext);
 
     useEffect(() => {
-        setIngredients(prevState => ({ "ingredients": [...prevState.ingredients, id]}));
         totalPriceDispatch({ type: 'add', reducerPrice: itemData.price });
     }, []);
 

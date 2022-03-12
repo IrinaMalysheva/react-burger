@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { BurgerDataContext, OrderIngredientsContext } from '../../utils/burgerDataContext';
 import { API_URL } from '../../utils/constants';
 import appStyles from './app.module.css';
 import AppHeader from '../app-header/app-header';
@@ -19,7 +18,6 @@ const App = () => {
   const isModalOpen = useSelector(state => state.ingredientsOrder.isModalOpen);
   const isIngredientModal = useSelector(state => state.ingredientsOrder.isIngredientModal);
   const isOrderModal = useSelector(state => state.ingredientsOrder.isOrderModal);
-  const [ingredients, setIngredients] = useState({ "ingredients": [] });
 
   useEffect(() => {
     const fetchData = async () => {
@@ -44,21 +42,15 @@ const App = () => {
       {state.data &&
         <main className="flexContainerJcCenter">
           <BurgerIngredients />
-          <BurgerDataContext.Provider value={state.data}>
-            <OrderIngredientsContext.Provider value={{ingredients, setIngredients}}>
-              <BurgerConstructor />
-            </OrderIngredientsContext.Provider>
-          </BurgerDataContext.Provider>
+          <BurgerConstructor />
           {isIngredientModal && isModalOpen &&
             <Modal header="Детали ингредиента" >
-              <IngredientDetails ingredientId={state.clickedIngredient} ingredientData={state.data} />
+              <IngredientDetails ingredientId={state.clickedIngredient} />
             </Modal>
           }
           {isOrderModal && isModalOpen &&
             <Modal >
-              <OrderIngredientsContext.Provider value={{ingredients, setIngredients}}>
-                <OrderDetails />
-              </OrderIngredientsContext.Provider>
+              <OrderDetails />
             </Modal>
           }
         </main>

@@ -4,7 +4,10 @@ import {
     GET_DATA_INGREDIENTS_SUCCESS,
     GET_DATA_INGREDIENTS_ERROR,
 
-    GET_CURRENT_INGREDIENT_DETAILS,
+    SET_CONSTRUCTOR_INGREDIENTS,
+    SET_CONSTRUCTOR_BUN,
+
+    SET_CURRENT_INGREDIENT_DETAILS,
     REMOVE_CURRENT_INGREDIENT_DETAILS,
 
     GET_ORDER_REQUEST,
@@ -22,9 +25,8 @@ const initialState = {
     dataIngredientsRequest: false,
     dataIngredientsFailed: false,
 
-    constructorIngredientsList: [],
-    constructorIngredientsRequest: false,
-    constructorIngredientsFailed: false,
+    constructorInnerIngredients: [],
+    constructorBun: null,
 
     currentIngredientDetailsObject: null,
 
@@ -61,7 +63,19 @@ export const ingredientsOrderReducer = (state = initialState, action) => {
                 dataIngredientsFailed: true
             };
         }
-        case GET_CURRENT_INGREDIENT_DETAILS: {
+        case SET_CONSTRUCTOR_INGREDIENTS: {
+            return {
+                ...state, 
+                constructorInnerIngredients: [...action.data],
+            };
+        }
+        case SET_CONSTRUCTOR_BUN: {
+            return {
+                ...state, 
+                constructorBun: action.data,
+            };
+        }
+        case SET_CURRENT_INGREDIENT_DETAILS: {
             return {
                 ...state,
                 currentIngredientDetailsObject: [...state.dataIngredientsList].filter(item => item._id == action.id)[0]

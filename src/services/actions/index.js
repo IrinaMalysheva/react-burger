@@ -2,7 +2,10 @@ export const GET_DATA_INGREDIENTS_REQUEST = 'GET_DATA_INGREDIENTS_REQUEST';
 export const GET_DATA_INGREDIENTS_SUCCESS = 'GET_DATA_INGREDIENTS_SUCCESS';
 export const GET_DATA_INGREDIENTS_ERROR = 'GET_DATA_INGREDIENTS_ERROR';
 
-export const GET_CURRENT_INGREDIENT_DETAILS = 'GET_CURRENT_INGREDIENT_DETAILS';
+export const SET_CONSTRUCTOR_INGREDIENTS = 'SET_CONSTRUCTOR_INGREDIENTS';
+export const SET_CONSTRUCTOR_BUN = 'SET_CONSTRUCTOR_BUN';
+
+export const SET_CURRENT_INGREDIENT_DETAILS = 'SET_CURRENT_INGREDIENT_DETAILS';
 export const REMOVE_CURRENT_INGREDIENT_DETAILS = 'REMOVE_CURRENT_INGREDIENT_DETAILS';
 
 export const GET_ORDER_REQUEST = 'GET_ORDER_REQUEST';
@@ -45,12 +48,12 @@ export function getDataIngredientsList(apiUrl) {
     };
 }
 
-export function getOrder(apiUrl, constructorIngredientsList) {
+export function getOrder(apiUrl, constructorIngredients) {
     return function (dispatch) {
         dispatch({
             type: GET_ORDER_REQUEST
         });
-        const json = JSON.stringify(constructorIngredientsList);
+        const json = JSON.stringify(constructorIngredients);
 
         const fetchData = async () => {
             try {
