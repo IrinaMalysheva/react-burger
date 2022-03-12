@@ -1,10 +1,8 @@
-import React from "react";
+import { useSelector } from 'react-redux';
 import ingredientDetailsStyles from './ingredient-details.module.css';
-import { menuItemPropTypes } from '../../utils/constants';
-import PropTypes from "prop-types";
 
-function IngredientDetails({ ingredientId, ingredientData }) {
-    const ingredientItem = ingredientData.find((item) => item._id === ingredientId);
+function IngredientDetails() {
+    const ingredientItem = useSelector(state => state.ingredientsOrder.currentIngredientDetailsObject);
 
     return (
         <div className={ingredientDetailsStyles.ingredientContainer + " pb-15"} key={ingredientItem._id}>
@@ -30,11 +28,6 @@ function IngredientDetails({ ingredientId, ingredientData }) {
             </ul>
         </div>
     )
-};
-
-IngredientDetails.propTypes = {
-    ingredientData: PropTypes.arrayOf(menuItemPropTypes).isRequired,
-    ingredientId: PropTypes.string.isRequired
 };
 
 export default IngredientDetails;

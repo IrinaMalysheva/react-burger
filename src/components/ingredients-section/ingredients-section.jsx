@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import { menuItemPropTypes } from '../../utils/constants';
 import ingredientsSectionStyles from './ingredients-section.module.css';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import { GET_CURRENT_INGREDIENT_DETAILS } from '../../services/actions';
 
 function IngredientsSection(props) {
     const dispatch = useDispatch();
@@ -11,12 +12,10 @@ function IngredientsSection(props) {
     const handleClick = (e) => {
         props.clickHandler(e.currentTarget.id);
         let currentTargetId = e.currentTarget.id;
-        //console.log(currentTargetId);
-        // dispatch({
-        //     type: SET_CURRENT_INGREDIENT_DETAILS_OBJECT,
-        //     id: currentTargetId
-        // });
-        dispatch(dispatch(currentTargetId));
+        dispatch({
+            type: GET_CURRENT_INGREDIENT_DETAILS,
+            id: currentTargetId
+        });
     }
     
     return (

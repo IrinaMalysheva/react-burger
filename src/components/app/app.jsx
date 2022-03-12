@@ -55,7 +55,7 @@ const App = () => {
       <AppHeader />
       {state.data &&
         <main className="flexContainerJcCenter">
-          <BurgerIngredients data={state.data} clickHandler={handleOpenIngrModal} />
+          <BurgerIngredients clickHandler={handleOpenIngrModal} />
           <BurgerDataContext.Provider value={state.data}>
             <OrderIngredientsContext.Provider value={{ingredients, setIngredients}}>
               <BurgerConstructor orderHandler={handleOpenOrderModal} />
