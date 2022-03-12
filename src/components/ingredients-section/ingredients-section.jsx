@@ -1,17 +1,17 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { menuItemPropTypes } from '../../utils/constants';
 import ingredientsSectionStyles from './ingredients-section.module.css';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import { GET_CURRENT_INGREDIENT_DETAILS } from '../../services/actions';
+import { GET_CURRENT_INGREDIENT_DETAILS, OPEN_MODAL, OPEN_INGREDIENT_MODAL } from '../../services/actions';
 
 function IngredientsSection(props) {
     const dispatch = useDispatch();
 
     const handleClick = (e) => {
-        props.clickHandler(e.currentTarget.id);
         let currentTargetId = e.currentTarget.id;
+        dispatch({ type: OPEN_MODAL });
+        dispatch({ type: OPEN_INGREDIENT_MODAL });
         dispatch({
             type: GET_CURRENT_INGREDIENT_DETAILS,
             id: currentTargetId

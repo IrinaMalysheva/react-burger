@@ -1,13 +1,14 @@
-import React, { useContext, useReducer, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { menuItemPropTypes } from '../../utils/constants';
+import { useContext, useReducer, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { BurgerDataContext, OrderIngredientsContext, TotalPriceContext } from '../../utils/burgerDataContext';
 import burgerConstructorStyles from './burger-constructor.module.css';
 import ConstructorInner from '../constructor-inner/constructor-inner';
 import { Button, ConstructorElement, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import { OPEN_MODAL, OPEN_ORDER_MODAL } from '../../services/actions';
 
 function BurgerConstructor(props) {
     const data = useContext(BurgerDataContext);
+    const dispatch = useDispatch();
     const { ingredients, setIngredients } = useContext(OrderIngredientsContext);
     const initialTotalPrice = { totalPrice: 0 };
     const [totalPrice, totalPriceDispatch] = useReducer(reducer, initialTotalPrice);
@@ -31,6 +32,11 @@ function BurgerConstructor(props) {
         setIngredients(prevState => ({ "ingredients": [...prevState.ingredients, bunTopBottom._id]}));
         totalPriceDispatch({ type: 'add', reducerPrice: bunTopBottom.price * 2 });
     }, []);
+
+    const handleClick = (e) => {
+        dispatch({ type: OPEN_MODAL });
+        dispatch({ type: OPEN_ORDER_MODAL });
+    }
 
     return (
         <main className="pt-25 pb-13 pl-4">
@@ -60,16 +66,12 @@ function BurgerConstructor(props) {
                     <span className={`text text_type_digits-medium ${burgerConstructorStyles.pricePart}`}>{totalPrice.totalPrice}</span>
                     <CurrencyIcon type="primary" />
                 </p>
-                <Button type="primary" size="large" onClick={props.orderHandler}>
+                <Button type="primary" size="large" onClick={handleClick}>
                     Оформить заказ
                 </Button>
             </div>
         </main>
     )
 };
-
-BurgerConstructor.propTypes = {
-    orderHandler: PropTypes.func.isRequired
-}
 
 export default BurgerConstructor;

@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import burgerIngredientsStyles from './burger-ingredients.module.css';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -8,7 +7,7 @@ import ScrollableSection from '../scrollable-section/scrollable-section';
 import { getDataIngredientsList } from '../../services/actions';
 import { API_URL } from '../../utils/constants';
 
-function BurgerIngredients(props) {
+function BurgerIngredients() {
     const [current, setCurrent] = useState('one');
     const dispatch = useDispatch();
 
@@ -35,16 +34,12 @@ function BurgerIngredients(props) {
                 </Tab>
             </div>
             <ScrollableSection parentClassName={burgerIngredientsStyles.scrollContainerStyles}>
-                <IngredientsSection data={dataIngredientsList} header="Булки" ingredientsType="bun" clickHandler={props.clickHandler} />
-                <IngredientsSection data={dataIngredientsList} header="Соусы" ingredientsType="sauce" clickHandler={props.clickHandler} />
-                <IngredientsSection data={dataIngredientsList} header="Начинки" ingredientsType="main" clickHandler={props.clickHandler} />
+                <IngredientsSection data={dataIngredientsList} header="Булки" ingredientsType="bun" />
+                <IngredientsSection data={dataIngredientsList} header="Соусы" ingredientsType="sauce" />
+                <IngredientsSection data={dataIngredientsList} header="Начинки" ingredientsType="main" />
             </ScrollableSection>
         </main>
     )
 };
-
-BurgerIngredients.propTypes = {
-    clickHandler: PropTypes.func.isRequired
-}
 
 export default BurgerIngredients;

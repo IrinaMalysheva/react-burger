@@ -1,14 +1,19 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import ReactDOM from 'react-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import modalStyles from './modal.module.css';
 import { Escape_keyCode } from '../../utils/constants';
 import ModalOverlay from '../modal-overlay/modal-overlay';
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import { CLOSE_MODAL } from '../../services/actions';
 
 function Modal(props) {
     const modalRoot = document.getElementById("react-modals");
-    const { children, header, onClose } = props;
+    const { children, header } = props;
+
+    const dispatch = useDispatch();
+    const isModalOpen = useSelector(state => state.ingredientsOrder.isModalOpen);
 
     useEffect(() => {
         const closeModal = (e) => {
@@ -20,7 +25,11 @@ function Modal(props) {
         return () => {
             document.removeEventListener("keydown", closeModal);
         };
-    }, [onClose]);
+    }, [isModalOpen]);
+
+    const onClose = () => {
+        dispatch({type: CLOSE_MODAL});
+    };
 
     return ReactDOM.createPortal(
         <>
@@ -41,8 +50,7 @@ function Modal(props) {
 
 Modal.propTypes = {
     children: PropTypes.node.isRequired,
-    header: PropTypes.string,
-    onClose: PropTypes.func.isRequired
+    header: PropTypes.string
 }
 
 export default Modal;
