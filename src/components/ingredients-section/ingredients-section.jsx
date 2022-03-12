@@ -1,13 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
 import { menuItemPropTypes } from '../../utils/constants';
 import ingredientsSectionStyles from './ingredients-section.module.css';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
 function IngredientsSection(props) {
+    const dispatch = useDispatch();
+
     const handleClick = (e) => {
         props.clickHandler(e.currentTarget.id);
-    };
+        let currentTargetId = e.currentTarget.id;
+        //console.log(currentTargetId);
+        // dispatch({
+        //     type: SET_CURRENT_INGREDIENT_DETAILS_OBJECT,
+        //     id: currentTargetId
+        // });
+        dispatch(dispatch(currentTargetId));
+    }
     
     return (
         <section className={`mt-10 mb-10 ${ingredientsSectionStyles.secContainer}`}>
