@@ -7,4 +7,5 @@
 .scrollContainerStyles {
     margin: 16px 0;
     max-height: 464px;
+    scrollbar-width: thin;
 }

@@ -1,12 +1,16 @@
+
+import { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { menuItemPropTypes } from '../../utils/constants';
 import ingredientsSectionStyles from './ingredients-section.module.css';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import { SET_CURRENT_INGREDIENT_DETAILS, OPEN_MODAL, OPEN_INGREDIENT_MODAL } from '../../services/actions';
+import { OPEN_MODAL, OPEN_INGREDIENT_MODAL, SET_CURRENT_INGREDIENT_DETAILS, SET_TAB_OFFSETTOP } from '../../services/actions';
 
 function IngredientsSection(props) {
+    let minOffsetTop = 0;
     const dispatch = useDispatch();
+    const sectionElement = useRef(null);
 
     const handleClick = (e) => {
         let currentTargetId = e.currentTarget.id;
@@ -18,9 +22,20 @@ function IngredientsSection(props) {
         });
     }
     
+    useEffect(() => {
+        let tabName = sectionElement.current.getAttribute("data-tabname");
+        if (tabName === "one") {
+            minOffsetTop = sectionElement.current.offsetTop;
+        }
+        dispatch({
+            type: SET_TAB_OFFSETTOP,
+            data: {[tabName]: sectionElement.current.offsetTop - minOffsetTop}
+        });
+    }, []);
+
     return (
         <section className={`mt-10 mb-10 ${ingredientsSectionStyles.secContainer}`}>
-            <h2 className={`pb-6 text text_type_main-medium ${ingredientsSectionStyles.header}`}>
+            <h2 className={`pb-6 text text_type_main-medium ${ingredientsSectionStyles.header}`} data-tabname={props.tabName} ref={sectionElement}>
                 {props.header}
             </h2>
             <ul className={`pl-4 ${ingredientsSectionStyles.ingredientsContainer}`}>

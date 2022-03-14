@@ -17,6 +17,9 @@ export const OPEN_MODAL = 'OPEN_MODAL';
 export const OPEN_INGREDIENT_MODAL = 'OPEN_INGREDIENT_MODAL';
 export const OPEN_ORDER_MODAL = 'OPEN_ORDER_MODAL';
 
+export const SET_TAB_NAME = 'SET_TAB_NAME';
+export const SET_TAB_OFFSETTOP = 'SET_TAB_OFFSETTOP';
+
 export function getDataIngredientsList(apiUrl) {
     return function (dispatch) {
         dispatch({

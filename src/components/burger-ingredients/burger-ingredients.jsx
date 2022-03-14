@@ -11,11 +11,16 @@ function BurgerIngredients() {
     const [current, setCurrent] = useState('one');
     const dispatch = useDispatch();
 
+    const dataIngredientsList = useSelector(state => state.ingredientsOrder.dataIngredientsList);
+    const tabName = useSelector(state => state.general.tabName);
+
     useEffect(() => {
         dispatch(getDataIngredientsList(API_URL));
     }, [dispatch]);
 
-    const dataIngredientsList = useSelector(state => state.ingredientsOrder.dataIngredientsList);
+    useEffect(() => {
+        setCurrent(tabName);
+    }, [tabName]);
 
     return (
         <main className="mr-10" >
@@ -34,9 +39,9 @@ function BurgerIngredients() {
                 </Tab>
             </div>
             <ScrollableSection parentClassName={burgerIngredientsStyles.scrollContainerStyles}>
-                <IngredientsSection data={dataIngredientsList} header="Булки" ingredientsType="bun" />
-                <IngredientsSection data={dataIngredientsList} header="Соусы" ingredientsType="sauce" />
-                <IngredientsSection data={dataIngredientsList} header="Начинки" ingredientsType="main" />
+                <IngredientsSection data={dataIngredientsList} header="Булки" ingredientsType="bun" tabName="one" />
+                <IngredientsSection data={dataIngredientsList} header="Соусы" ingredientsType="sauce" tabName="two" />
+                <IngredientsSection data={dataIngredientsList} header="Начинки" ingredientsType="main" tabName="three" />
             </ScrollableSection>
         </main>
     )
