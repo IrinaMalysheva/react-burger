@@ -15,9 +15,9 @@ const App = () => {
     clickedIngredient: ""
   });
   
-  const isModalOpen = useSelector(state => state.ingredientsOrder.isModalOpen);
-  const isIngredientModal = useSelector(state => state.ingredientsOrder.isIngredientModal);
-  const isOrderModal = useSelector(state => state.ingredientsOrder.isOrderModal);
+  const isModalOpen = useSelector(state => state.general.isModalOpen);
+  const isIngredientModal = useSelector(state => state.general.isIngredientModal);
+  const isOrderModal = useSelector(state => state.general.isOrderModal);
 
   useEffect(() => {
     const fetchData = async () => {

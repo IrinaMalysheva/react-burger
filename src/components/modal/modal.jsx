@@ -13,7 +13,7 @@ function Modal(props) {
     const { children, header } = props;
 
     const dispatch = useDispatch();
-    const isModalOpen = useSelector(state => state.ingredientsOrder.isModalOpen);
+    const isModalOpen = useSelector(state => state.general.isModalOpen);
 
     useEffect(() => {
         const closeModal = (e) => {

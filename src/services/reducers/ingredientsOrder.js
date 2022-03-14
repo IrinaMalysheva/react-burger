@@ -13,11 +13,6 @@ import {
     GET_ORDER_REQUEST,
     GET_ORDER_SUCCESS,
     GET_ORDER_ERROR,
-
-    CLOSE_MODAL,
-    OPEN_MODAL,
-    OPEN_INGREDIENT_MODAL,
-    OPEN_ORDER_MODAL,
 } from '../actions';
 
 const initialState = {
@@ -33,10 +28,6 @@ const initialState = {
     orderObject: null,
     orderRequest: false,
     orderFailed: false,
-
-    isModalOpen: false,
-    isIngredientModal: false,
-    isOrderModal: false,
 };
 
 export const ingredientsOrderReducer = (state = initialState, action) => {
@@ -113,32 +104,6 @@ export const ingredientsOrderReducer = (state = initialState, action) => {
                 ...state,
                 orderRequest: false,
                 orderFailed: true
-            };
-        }
-        case CLOSE_MODAL: {
-            return {
-                ...state,
-                isModalOpen: false
-            };
-        }
-        case OPEN_MODAL: {
-            return {
-                ...state,
-                isModalOpen: true,
-                isIngredientModal: false,
-                isOrderModal: false
-            };
-        }
-        case OPEN_INGREDIENT_MODAL: {
-            return {
-                ...state,
-                isIngredientModal: true
-            };
-        }
-        case OPEN_ORDER_MODAL: {
-            return {
-                ...state,
-                isOrderModal: true
             };
         }
         default: {

@@ -4,6 +4,7 @@
 
 .scrollContainerStyles {
     height: 716px;
+    scrollbar-width: thin;
 }
 
 .tabsWrapper {
