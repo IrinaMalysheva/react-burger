@@ -2,10 +2,6 @@
     text-align: left;
 }
 
-.ingredient {
-    max-width: 272px;;
-}
-
 .ingredient:nth-child(2n + 1) {
     margin-right: 24px;
 }
@@ -14,10 +10,6 @@
     display: flex;
     flex-wrap: wrap;
     margin-bottom: -32px;
-}
-
-.ingredientsName {
-    min-height: 48px;
 }
 
 .secContainer {

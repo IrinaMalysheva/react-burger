@@ -20,7 +20,7 @@ const initialState = {
     dataIngredientsRequest: false,
     dataIngredientsFailed: false,
 
-    constructorInnerIngredients: [],
+    constructorFillingIngredients: [],
     constructorBun: null,
 
     currentIngredientDetailsObject: null,
@@ -57,7 +57,7 @@ export const ingredientsOrderReducer = (state = initialState, action) => {
         case SET_CONSTRUCTOR_INGREDIENTS: {
             return {
                 ...state, 
-                constructorInnerIngredients: [...action.data],
+                constructorFillingIngredients: [...action.data],
             };
         }
         case SET_CONSTRUCTOR_BUN: {

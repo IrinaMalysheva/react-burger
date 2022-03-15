@@ -21,7 +21,7 @@ function BurgerIngredients() {
     useEffect(() => {
         setCurrent(tabName);
     }, [tabName]);
-
+    
     return (
         <main className="mr-10" >
             <h2 className={`pt-10 pb-5 text text_type_main-large ${burgerIngredientsStyles.header}`}>

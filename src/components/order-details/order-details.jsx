@@ -7,9 +7,9 @@ import doneImg from "../../images/done.png";
 
 function OrderDetails() {
     const dispatch = useDispatch();
-    const constructorInnerIngredients = useSelector(state => state.ingredientsOrder.constructorInnerIngredients);
+    const constructorFillingIngredients = useSelector(state => state.ingredientsOrder.constructorFillingIngredients);
     const constructorBun = useSelector(state => state.ingredientsOrder.constructorBun);
-    const constructorIngredients = {ingredients: [...constructorInnerIngredients, constructorBun]};
+    const constructorIngredients = {ingredients: [...constructorFillingIngredients, constructorBun]};
 
     const orderResponse = useSelector(state => state.ingredientsOrder.orderObject);
 
