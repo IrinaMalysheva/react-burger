@@ -1,24 +1,25 @@
 import { useReducer, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useDrop } from "react-dnd";
+import { v4 as uuidv4 } from 'uuid';
 import { TotalPriceContext } from '../../utils/burgerDataContext';
 import burgerConstructorStyles from './burger-constructor.module.css';
 import ConstructorInner from '../constructor-inner/constructor-inner';
 import { Button, ConstructorElement, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import { OPEN_MODAL, OPEN_ORDER_MODAL, SET_CONSTRUCTOR_INGREDIENTS, SET_CONSTRUCTOR_BUN } from '../../services/actions';
+import { OPEN_MODAL, OPEN_ORDER_MODAL } from '../../services/actions';
+import {
+    addBun,
+    addIngredient,
+    removeIngredient,
+} from "../../services/actions";
 
 function BurgerConstructor() {
-    const data = useSelector(state => state.ingredientsOrder.dataIngredientsList);
+    const constructorBun = useSelector(state => state.ingredientsOrder.constructorBun);
+    const constructorFillingIngredients = useSelector(state => state.ingredientsOrder.constructorFillingIngredients);
+    const orderRequest = useSelector((store) => store.ingredientsOrder.orderRequest);
     const dispatch = useDispatch();
     const initialTotalPrice = { totalPrice: 0 };
     const [totalPrice, totalPriceDispatch] = useReducer(reducer, initialTotalPrice);
-
-    const bunTopBottom = data.find((item) => {
-        return (item.type === "bun");
-    })
-
-    const innerIngredients = data.filter((item) => {
-        return (item.type !== "bun");
-    })
 
     function reducer(state, action) {
         switch (action.type) {
@@ -31,62 +32,74 @@ function BurgerConstructor() {
         }
     }
 
-    useEffect(() => {
-        dispatch({
-            type: SET_CONSTRUCTOR_BUN,
-            data: bunTopBottom
-        });
-    }, [dispatch, bunTopBottom]);
-
-    useEffect(() => {
-        dispatch({
-            type: SET_CONSTRUCTOR_INGREDIENTS,
-            data: innerIngredients
-        });
-    }, [dispatch, innerIngredients]);
-
-    useEffect(() => {
-        bunTopBottom && totalPriceDispatch({ type: 'add', reducerPrice: bunTopBottom.price * 2 });
-    }, [bunTopBottom]);
+    // useEffect(() => {
+    //     bunTopBottom && totalPriceDispatch({ type: 'add', reducerPrice: bunTopBottom.price * 2 });
+    // }, [bunTopBottom]);
 
     const handleClick = (e) => {
         dispatch({ type: OPEN_MODAL });
         dispatch({ type: OPEN_ORDER_MODAL });
     }
 
+    const [, dropTarget] = useDrop({
+        accept: "ingredient",
+        drop: (ingredient) => {
+            handleDrop(ingredient);
+        },
+    });
+
+    const handleDrop = (item) => {
+        const uuid = uuidv4();
+        if (item.type === "bun") {
+            dispatch(addBun(item, uuid));
+        } else {
+            dispatch(addIngredient(item, uuid));
+        }
+    };
+
+    const handleRemove = (uuid) => {
+        dispatch(removeIngredient(uuid));
+    };
+
+    const isDisabled = !constructorBun || !constructorFillingIngredients?.length || orderRequest;
+
     return (
         <main className="pt-25 pb-13 pl-4">
-            {data.length &&
-            <>
-            <section className="ml-8" >
-                <ConstructorElement
-                    type="top"
-                    isLocked={true}
-                    text={`${bunTopBottom.name} (верх)`}
-                    price={bunTopBottom.price}
-                    thumbnail={bunTopBottom.image_mobile}
-                />
-            </section>
-            <TotalPriceContext.Provider value={totalPriceDispatch}>
-                <ConstructorInner data={data} totalPriceDispatch={totalPriceDispatch} />
-            </TotalPriceContext.Provider>
-            <section className="ml-8">
-                <ConstructorElement
-                    type="bottom"
-                    isLocked={true}
-                    text={`${bunTopBottom.name} (низ)`}
-                    price={bunTopBottom.price}
-                    thumbnail={bunTopBottom.image_mobile}
-                />
-            </section>
-            </>
-            }
+            <div className={`${burgerConstructorStyles.constructorTarget} ${!constructorBun && !constructorFillingIngredients.length && burgerConstructorStyles.constructorBordered}`} ref={dropTarget}>
+                {constructorBun &&
+                    <section className="ml-8" >
+                        <ConstructorElement
+                            type="top"
+                            isLocked={true}
+                            text={`${constructorBun.name} (верх)`}
+                            price={constructorBun.price}
+                            thumbnail={constructorBun.image_mobile}
+                        />
+                    </section>
+                }
+                <TotalPriceContext.Provider value={totalPriceDispatch}>
+                    {constructorFillingIngredients &&
+                        <ConstructorInner data={constructorFillingIngredients} totalPriceDispatch={totalPriceDispatch} onDelete={handleRemove} />
+                    }
+                </TotalPriceContext.Provider>
+                {constructorBun &&
+                    <section className="ml-8">
+                        <ConstructorElement
+                            type="bottom"
+                            isLocked={true}
+                            text={`${constructorBun.name} (низ)`}
+                            price={constructorBun.price}
+                            thumbnail={constructorBun.image_mobile}
+                        />
+                    </section>
+                }
+            </div>
             <div className={`mt-10 ${burgerConstructorStyles.finalPart}`}>
                 <p className={`mr-10`}>
                     <span className={`text text_type_digits-medium ${burgerConstructorStyles.pricePart}`}>{totalPrice.totalPrice}</span>
                     <CurrencyIcon type="primary" />
                 </p>
-                <Button type="primary" size="large" onClick={handleClick}>
+                <Button type="primary" size="large" onClick={handleClick} disabled={isDisabled}>
                     Оформить заказ
                 </Button>
             </div>

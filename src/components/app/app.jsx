@@ -8,6 +8,8 @@ import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
 import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 
 const App = () => {
   const [state, setState] = useState({
@@ -41,8 +43,10 @@ const App = () => {
       <AppHeader />
       {state.data &&
         <main className="flexContainerJcCenter">
-          <BurgerIngredients />
-          <BurgerConstructor />
+          <DndProvider backend={HTML5Backend}>
+            <BurgerIngredients />
+            <BurgerConstructor />
+          </DndProvider>
           {isIngredientModal && isModalOpen &&
             <Modal header="Детали ингредиента" >
               <IngredientDetails ingredientId={state.clickedIngredient} />

@@ -10,7 +10,7 @@ function ConstructorInner(props) {
             <ul className={constructorInnerStyles.innerContainer}>
                 {
                     props.data.map((item, index) => {
-                        return (item.type != "bun") && <ConstructorInnerElement itemData={item} key={index} id={item._id} />
+                        return (item.type != "bun") && <ConstructorInnerElement itemData={item} key={index} id={item._id} onDelete={props.onDelete} />
                     })
                 }
             </ul>
@@ -19,7 +19,8 @@ function ConstructorInner(props) {
 };
 
 ConstructorInner.propTypes = {
-    data: PropTypes.arrayOf(menuItemPropTypes).isRequired
+    data: PropTypes.arrayOf(menuItemPropTypes).isRequired,
+    onDelete: PropTypes.func.isRequired,
 }
 
 export default ConstructorInner;

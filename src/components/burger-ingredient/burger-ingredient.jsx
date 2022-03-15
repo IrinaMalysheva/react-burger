@@ -1,7 +1,6 @@
 
-import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import PropTypes from 'prop-types';
+import { useDrag } from "react-dnd";
 import { menuItemPropTypes } from '../../utils/constants';
 import BurgerIngredientStyles from './burger-ingredient.module.css';
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -29,9 +28,14 @@ function BurgerIngredient({ ingredientsType, item }) {
         });
     }
 
+    const [{ isDrag }, dragRef] = useDrag({
+        type: "ingredient",
+        item: item,
+    });
+
     return (
         (item.type == ingredientsType) &&
-        <li className={`mb-8 ${BurgerIngredientStyles.ingredient}`} onClick={handleClick} id={item._id}>
+        <li className={`mb-8 ${BurgerIngredientStyles.ingredient}`} onClick={handleClick} id={item._id} ref={dragRef}>
             {count != 0 && <Counter count={count} size="default" />}
             <img className="pl-4 pr-4" src={item.image} />
             <p className="pt-1 pb-1 flexContainerJcCenter">

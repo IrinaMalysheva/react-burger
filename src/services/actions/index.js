@@ -2,8 +2,10 @@ export const GET_DATA_INGREDIENTS_REQUEST = 'GET_DATA_INGREDIENTS_REQUEST';
 export const GET_DATA_INGREDIENTS_SUCCESS = 'GET_DATA_INGREDIENTS_SUCCESS';
 export const GET_DATA_INGREDIENTS_ERROR = 'GET_DATA_INGREDIENTS_ERROR';
 
-export const SET_CONSTRUCTOR_INGREDIENTS = 'SET_CONSTRUCTOR_INGREDIENTS';
 export const SET_CONSTRUCTOR_BUN = 'SET_CONSTRUCTOR_BUN';
+export const ADD_CONSTRUCTOR_INGREDIENT = 'ADD_CONSTRUCTOR_INGREDIENT';
+export const REMOVE_CONSTRUCTOR_INGREDIENT = 'REMOVE_CONSTRUCTOR_INGREDIENT';
+export const CLEAR_CONSTRUCTOR = 'CLEAR_CONSTRUCTOR';
 
 export const SET_CURRENT_INGREDIENT_DETAILS = 'SET_CURRENT_INGREDIENT_DETAILS';
 export const REMOVE_CURRENT_INGREDIENT_DETAILS = 'REMOVE_CURRENT_INGREDIENT_DETAILS';
@@ -56,7 +58,7 @@ export function getOrder(apiUrl, constructorIngredients) {
         dispatch({
             type: GET_ORDER_REQUEST
         });
-        const json = JSON.stringify(constructorIngredients);
+        const json = JSON.stringify(constructorIngredients);        
 
         const fetchData = async () => {
             try {
@@ -78,6 +80,7 @@ export function getOrder(apiUrl, constructorIngredients) {
                     type: GET_ORDER_SUCCESS,
                     data: jsonResp
                 });
+                dispatch({ type: CLEAR_CONSTRUCTOR });
             } catch (error) {
                 console.error(error);
                 dispatch({
@@ -86,5 +89,26 @@ export function getOrder(apiUrl, constructorIngredients) {
             }
         }
         fetchData();
+    };
+}
+
+export function addBun(item, uuid) {
+    return {
+        type: SET_CONSTRUCTOR_BUN,
+        item: { ...item, uuid: uuid }
+    };
+}
+
+export function addIngredient(item, uuid) {
+    return {
+        type: ADD_CONSTRUCTOR_INGREDIENT,
+        item: { ...item, uuid: uuid }
+    };
+}
+
+export function removeIngredient(uuid) {
+    return {
+        type: REMOVE_CONSTRUCTOR_INGREDIENT,
+        uuid
     };
 }

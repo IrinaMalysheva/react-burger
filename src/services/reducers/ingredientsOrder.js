@@ -4,15 +4,17 @@ import {
     GET_DATA_INGREDIENTS_SUCCESS,
     GET_DATA_INGREDIENTS_ERROR,
 
-    SET_CONSTRUCTOR_INGREDIENTS,
-    SET_CONSTRUCTOR_BUN,
-
     SET_CURRENT_INGREDIENT_DETAILS,
     REMOVE_CURRENT_INGREDIENT_DETAILS,
 
     GET_ORDER_REQUEST,
     GET_ORDER_SUCCESS,
     GET_ORDER_ERROR,
+
+    SET_CONSTRUCTOR_BUN,
+    ADD_CONSTRUCTOR_INGREDIENT,
+    REMOVE_CONSTRUCTOR_INGREDIENT,
+    CLEAR_CONSTRUCTOR
 } from '../actions';
 
 const initialState = {
@@ -54,16 +56,29 @@ export const ingredientsOrderReducer = (state = initialState, action) => {
                 dataIngredientsFailed: true
             };
         }
-        case SET_CONSTRUCTOR_INGREDIENTS: {
+        case ADD_CONSTRUCTOR_INGREDIENT: {
             return {
-                ...state, 
-                constructorFillingIngredients: [...action.data],
+                ...state,
+                constructorFillingIngredients: [...state.constructorFillingIngredients, action.item]
             };
         }
         case SET_CONSTRUCTOR_BUN: {
             return {
-                ...state, 
-                constructorBun: action.data,
+                ...state,
+                constructorBun: action.item
+            };
+        }
+        case REMOVE_CONSTRUCTOR_INGREDIENT: {
+            return {
+                ...state,
+                constructorFillingIngredients: [...state.constructorFillingIngredients.filter((ingredient) => ingredient.uuid !== action.uuid)]
+            };
+        }
+        case CLEAR_CONSTRUCTOR: {
+            return {
+                ...state,
+                constructorBun: null,
+                constructorFillingIngredients: []
             };
         }
         case SET_CURRENT_INGREDIENT_DETAILS: {

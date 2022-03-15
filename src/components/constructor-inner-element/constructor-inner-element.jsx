@@ -5,7 +5,7 @@ import { TotalPriceContext } from '../../utils/burgerDataContext';
 import constructorInnerElementStyles from './constructor-inner-element.module.css';
 import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
-function ConstructorInnerElement({ itemData, id }) {
+function ConstructorInnerElement({ itemData, id, onDelete }) {
     const totalPriceDispatch = useContext(TotalPriceContext);
 
     useEffect(() => {
@@ -19,6 +19,7 @@ function ConstructorInnerElement({ itemData, id }) {
                 text={itemData.name}
                 price={itemData.price}
                 thumbnail={itemData.image}
+                handleClose={() => onDelete(itemData.uuid)}
             />
         </li>
     )
@@ -26,7 +27,8 @@ function ConstructorInnerElement({ itemData, id }) {
 
 ConstructorInnerElement.propTypes = {
     itemData: menuItemPropTypes.isRequired,
-    id: PropTypes.string.isRequired
+    id: PropTypes.string.isRequired,
+    onDelete: PropTypes.func.isRequired,
 }
 
 export default ConstructorInnerElement;
