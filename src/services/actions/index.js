@@ -6,6 +6,7 @@ export const SET_CONSTRUCTOR_BUN = 'SET_CONSTRUCTOR_BUN';
 export const ADD_CONSTRUCTOR_INGREDIENT = 'ADD_CONSTRUCTOR_INGREDIENT';
 export const REMOVE_CONSTRUCTOR_INGREDIENT = 'REMOVE_CONSTRUCTOR_INGREDIENT';
 export const CLEAR_CONSTRUCTOR = 'CLEAR_CONSTRUCTOR';
+export const MOVE_CONSTRUCTOR_INGREDIENT = 'MOVE_CONSTRUCTOR_INGREDIENT';
 
 export const SET_CURRENT_INGREDIENT_DETAILS = 'SET_CURRENT_INGREDIENT_DETAILS';
 export const REMOVE_CURRENT_INGREDIENT_DETAILS = 'REMOVE_CURRENT_INGREDIENT_DETAILS';
@@ -110,5 +111,13 @@ export function removeIngredient(uuid) {
     return {
         type: REMOVE_CONSTRUCTOR_INGREDIENT,
         uuid
+    };
+}
+
+export function moveIngredient(dragIndex, hoverIndex) {
+    return {
+        type: MOVE_CONSTRUCTOR_INGREDIENT,
+        dragIndex,
+        hoverIndex
     };
 }

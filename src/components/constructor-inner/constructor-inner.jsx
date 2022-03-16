@@ -10,7 +10,13 @@ function ConstructorInner(props) {
             <ul className={constructorInnerStyles.innerContainer}>
                 {
                     props.data.map((item, index) => {
-                        return (item.type != "bun") && <ConstructorInnerElement itemData={item} key={index} id={item._id} onDelete={props.onDelete} />
+                        return (item.type != "bun") && <ConstructorInnerElement
+                            itemData={item}
+                            key={index}
+                            id={item._id}
+                            onDelete={props.onDelete}
+                            index={index}
+                        />
                     })
                 }
             </ul>

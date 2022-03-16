@@ -14,7 +14,8 @@ import {
     SET_CONSTRUCTOR_BUN,
     ADD_CONSTRUCTOR_INGREDIENT,
     REMOVE_CONSTRUCTOR_INGREDIENT,
-    CLEAR_CONSTRUCTOR
+    CLEAR_CONSTRUCTOR,
+    MOVE_CONSTRUCTOR_INGREDIENT,
 } from '../actions';
 
 const initialState = {
@@ -79,6 +80,15 @@ export const ingredientsOrderReducer = (state = initialState, action) => {
                 ...state,
                 constructorBun: null,
                 constructorFillingIngredients: []
+            };
+        }
+        case MOVE_CONSTRUCTOR_INGREDIENT: {
+            let reorderedFillingIngredients = [...state.constructorFillingIngredients];
+            const dragItem = reorderedFillingIngredients.splice(action.dragIndex, 1);
+            reorderedFillingIngredients.splice(action.hoverIndex, 0, dragItem[0]);
+            return {
+                ...state,
+                constructorFillingIngredients: [...reorderedFillingIngredients],
             };
         }
         case SET_CURRENT_INGREDIENT_DETAILS: {
