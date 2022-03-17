@@ -52,7 +52,6 @@ function ConstructorInnerElement({ itemData, id, index, onDelete }) {
         },
     });
 
-    const opacity = isDragging ? 0 : 1;
     dragRef(dropTarget(ref));
 
     const moveConstructorIngredient = useCallback((dragIndex, hoverIndex) => {
@@ -60,7 +59,7 @@ function ConstructorInnerElement({ itemData, id, index, onDelete }) {
     }, []);
 
     return (
-        <li className={`mr-2 mb-4 ${constructorInnerElementStyles.constructorItem}`} id={id} ref={ref} style={{ opacity }} data-handler-id={handlerId}>
+        <li className={`mr-2 mb-4 ${constructorInnerElementStyles.constructorItem}`} id={id} ref={ref} data-handler-id={handlerId}>
             <DragIcon type="primary" />
             <ConstructorElement
                 text={itemData.name}

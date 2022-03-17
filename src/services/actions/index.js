@@ -30,17 +30,17 @@ export function getDataIngredientsList(apiUrl) {
             type: GET_DATA_INGREDIENTS_REQUEST
         });
         return fetch(apiUrl + "/ingredients")
-        .then(checkResponse)
-        .then(jsonResp => dispatch({
-            type: GET_DATA_INGREDIENTS_SUCCESS,
-            data: jsonResp.data
-        }))
-        .catch((err) => {
-            console.log(err);
-            dispatch({
-                type: GET_DATA_INGREDIENTS_ERROR
-            });
-        })
+            .then(checkResponse)
+            .then(jsonResp => dispatch({
+                type: GET_DATA_INGREDIENTS_SUCCESS,
+                data: jsonResp.data
+            }))
+            .catch((err) => {
+                console.log(err);
+                dispatch({
+                    type: GET_DATA_INGREDIENTS_ERROR
+                });
+            })
     };
 }
 
@@ -59,16 +59,19 @@ export function getOrder(apiUrl, constructorIngredients) {
             }
         })
             .then(checkResponse)
-            .then(jsonResp => dispatch({
-                type: GET_ORDER_SUCCESS,
-                data: jsonResp
-            }))
+            .then(jsonResp => {
+                dispatch({
+                    type: GET_ORDER_SUCCESS,
+                    data: jsonResp
+                });
+                dispatch({ type: CLEAR_CONSTRUCTOR });
+            })
             .catch((err) => {
                 console.log(err);
                 dispatch({
                     type: GET_ORDER_ERROR
-            });
-        })
+                });
+            })
     };
 }
 
