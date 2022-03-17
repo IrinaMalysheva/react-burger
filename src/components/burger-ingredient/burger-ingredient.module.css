@@ -1,0 +1,8 @@
+.ingredient {
+    max-width: 272px;
+    position: relative;
+}
+
+.ingredientsName {
+    min-height: 48px;
+}

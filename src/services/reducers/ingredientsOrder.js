@@ -1,0 +1,139 @@
+
+import {
+    GET_DATA_INGREDIENTS_REQUEST,
+    GET_DATA_INGREDIENTS_SUCCESS,
+    GET_DATA_INGREDIENTS_ERROR,
+
+    SET_CURRENT_INGREDIENT_DETAILS,
+    REMOVE_CURRENT_INGREDIENT_DETAILS,
+
+    GET_ORDER_REQUEST,
+    GET_ORDER_SUCCESS,
+    GET_ORDER_ERROR,
+    REMOVE_ORDER_OBJECT,
+
+    SET_CONSTRUCTOR_BUN,
+    ADD_CONSTRUCTOR_INGREDIENT,
+    REMOVE_CONSTRUCTOR_INGREDIENT,
+    CLEAR_CONSTRUCTOR,
+    MOVE_CONSTRUCTOR_INGREDIENT,
+} from '../actions';
+
+const initialState = {
+    dataIngredientsList: [],
+    dataIngredientsRequest: false,
+    dataIngredientsFailed: false,
+
+    constructorFillingIngredients: [],
+    constructorBun: null,
+
+    currentIngredientDetailsObject: null,
+
+    orderObject: null,
+    orderRequest: false,
+    orderFailed: false,
+};
+
+export const ingredientsOrderReducer = (state = initialState, action) => {
+    switch (action.type) {
+        case GET_DATA_INGREDIENTS_REQUEST: {
+            return {
+                ...state,
+                dataIngredientsFailed: false,
+                dataIngredientsRequest: true
+            };
+        }
+        case GET_DATA_INGREDIENTS_SUCCESS: {
+            return {
+                ...state, 
+                dataIngredientsList: [...action.data],
+                dataIngredientsRequest: false,
+                dataIngredientsFailed: false,
+            };
+        }
+        case GET_DATA_INGREDIENTS_ERROR: {
+            return {
+                ...state,
+                dataIngredientsRequest: false,
+                dataIngredientsFailed: true
+            };
+        }
+        case ADD_CONSTRUCTOR_INGREDIENT: {
+            return {
+                ...state,
+                constructorFillingIngredients: [...state.constructorFillingIngredients, action.item]
+            };
+        }
+        case SET_CONSTRUCTOR_BUN: {
+            return {
+                ...state,
+                constructorBun: action.item
+            };
+        }
+        case REMOVE_CONSTRUCTOR_INGREDIENT: {
+            return {
+                ...state,
+                constructorFillingIngredients: [...state.constructorFillingIngredients.filter((ingredient) => ingredient.uuid !== action.uuid)]
+            };
+        }
+        case CLEAR_CONSTRUCTOR: {
+            return {
+                ...state,
+                constructorBun: null,
+                constructorFillingIngredients: []
+            };
+        }
+        case MOVE_CONSTRUCTOR_INGREDIENT: {
+            let reorderedFillingIngredients = [...state.constructorFillingIngredients];
+            const dragItem = reorderedFillingIngredients.splice(action.dragIndex, 1);
+            reorderedFillingIngredients.splice(action.hoverIndex, 0, dragItem[0]);
+            return {
+                ...state,
+                constructorFillingIngredients: [...reorderedFillingIngredients],
+            };
+        }
+        case SET_CURRENT_INGREDIENT_DETAILS: {
+            return {
+                ...state,
+                currentIngredientDetailsObject: [...state.dataIngredientsList].filter(item => item._id == action.id)[0]
+            };
+        }
+        case REMOVE_CURRENT_INGREDIENT_DETAILS: {
+            return {
+                ...state,
+                currentIngredientDetailsObject: null
+            };
+        }
+        case GET_ORDER_REQUEST: {
+            return {
+                ...state,
+                orderFailed: false,
+                orderRequest: true
+            };
+        }
+        case GET_ORDER_SUCCESS: {
+            return {
+                ...state, 
+                orderObject: action.data,
+                orderRequest: false,
+                orderFailed: false,
+            };
+        }
+        case GET_ORDER_ERROR: {
+            return {
+                ...state,
+                orderRequest: false,
+                orderFailed: true
+            };
+        }
+        case REMOVE_ORDER_OBJECT: {
+            return {
+                ...state, 
+                orderObject: null
+            };
+        }
+        default: {
+            return state;
+        }
+    }
+};

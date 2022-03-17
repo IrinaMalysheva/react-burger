@@ -1,75 +1,97 @@
-import React, { useContext, useReducer, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { menuItemPropTypes } from '../../utils/constants';
-import { BurgerDataContext, OrderIngredientsContext, TotalPriceContext } from '../../utils/burgerDataContext';
+import { useMemo } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useDrop } from "react-dnd";
+import { v4 as uuidv4 } from 'uuid';
 import burgerConstructorStyles from './burger-constructor.module.css';
 import ConstructorInner from '../constructor-inner/constructor-inner';
 import { Button, ConstructorElement, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import { OPEN_MODAL, OPEN_ORDER_MODAL } from '../../services/actions';
+import {
+    addBun,
+    addIngredient,
+    removeIngredient,
+} from "../../services/actions";
 
-function BurgerConstructor(props) {
-    const data = useContext(BurgerDataContext);
-    const { ingredients, setIngredients } = useContext(OrderIngredientsContext);
-    const initialTotalPrice = { totalPrice: 0 };
-    const [totalPrice, totalPriceDispatch] = useReducer(reducer, initialTotalPrice);
+function BurgerConstructor() {
+    const constructorBun = useSelector(state => state.ingredientsOrder.constructorBun);
+    const constructorFillingIngredients = useSelector(state => state.ingredientsOrder.constructorFillingIngredients);
+    const orderRequest = useSelector((store) => store.ingredientsOrder.orderRequest);
+    const dispatch = useDispatch();
 
-    const bunTopBottom = data.find((item) => {
-        return (item.type === "bun");
-    })
+    const totalPrice = useMemo(() => {
+        let interimPrice = constructorBun ? constructorBun.price * 2 : 0;
+        return (constructorFillingIngredients)
+            ? constructorFillingIngredients?.reduce((sum, item) => sum + item.price, interimPrice)
+            : interimPrice
+    }, [constructorBun, constructorFillingIngredients] );
 
-    function reducer(state, action) {
-        switch (action.type) {
-            case "add":
-                return { totalPrice: state.totalPrice + action.reducerPrice };
-            case "remove":
-                return { totalPrice: state.totalPrice - action.reducerPrice };
-            default:
-                throw new Error(`Wrong type of action: ${action.type}`);
-        }
+    const handleClick = (e) => {
+        dispatch({ type: OPEN_MODAL });
+        dispatch({ type: OPEN_ORDER_MODAL });
     }
 
-    useEffect(() => {
-        setIngredients(prevState => ({ "ingredients": [...prevState.ingredients, bunTopBottom._id]}));
-        totalPriceDispatch({ type: 'add', reducerPrice: bunTopBottom.price * 2 });
-    }, []);
+    const [, dropTarget] = useDrop({
+        accept: "ingredient",
+        drop: (ingredient) => {
+            handleDrop(ingredient);
+        },
+    });
+
+    const handleDrop = (item) => {
+        const uuid = uuidv4();
+        if (item.type === "bun") {
+            dispatch(addBun(item, uuid));
+        } else {
+            dispatch(addIngredient(item, uuid));
+        }
+    };
+
+    const handleRemove = (uuid) => {
+        dispatch(removeIngredient(uuid));
+    };
+
+    const isDisabled = !constructorBun || !constructorFillingIngredients?.length || orderRequest;
 
     return (
         <main className="pt-25 pb-13 pl-4">
-            <section className="ml-8" >
-                <ConstructorElement
-                    type="top"
-                    isLocked={true}
-                    text={`${bunTopBottom.name} (верх)`}
-                    price={bunTopBottom.price}
-                    thumbnail={bunTopBottom.image_mobile}
-                />
-            </section>
-            <TotalPriceContext.Provider value={totalPriceDispatch}>
-                <ConstructorInner data={data} totalPriceDispatch={totalPriceDispatch} />
-            </TotalPriceContext.Provider>
-            <section className="ml-8">
-                <ConstructorElement
-                    type="bottom"
-                    isLocked={true}
-                    text={`${bunTopBottom.name} (низ)`}
-                    price={bunTopBottom.price}
-                    thumbnail={bunTopBottom.image_mobile}
-                />
-            </section>
+            <div className={`${burgerConstructorStyles.constructorTarget} ${!constructorBun && !constructorFillingIngredients.length && burgerConstructorStyles.constructorBordered}`} ref={dropTarget}>
+                {constructorBun &&
+                    <section className="ml-8" >
+                        <ConstructorElement
+                            type="top"
+                            isLocked={true}
+                            text={`${constructorBun.name} (верх)`}
+                            price={constructorBun.price}
+                            thumbnail={constructorBun.image_mobile}
+                        />
+                    </section>
+                }
+                {constructorFillingIngredients &&
+                    <ConstructorInner data={constructorFillingIngredients} onDelete={handleRemove} />
+                }
+                {constructorBun &&
+                    <section className="ml-8">
+                        <ConstructorElement
+                            type="bottom"
+                            isLocked={true}
+                            text={`${constructorBun.name} (низ)`}
+                            price={constructorBun.price}
+                            thumbnail={constructorBun.image_mobile}
+                        />
+                    </section>
+                }
+            </div>
             <div className={`mt-10 ${burgerConstructorStyles.finalPart}`}>
                 <p className={`mr-10`}>
-                    <span className={`text text_type_digits-medium ${burgerConstructorStyles.pricePart}`}>{totalPrice.totalPrice}</span>
+                    <span className={`text text_type_digits-medium ${burgerConstructorStyles.pricePart}`}>{totalPrice}</span>
                     <CurrencyIcon type="primary" />
                 </p>
-                <Button type="primary" size="large" onClick={props.orderHandler}>
+                <Button type="primary" size="large" onClick={handleClick} disabled={isDisabled}>
                     Оформить заказ
                 </Button>
             </div>
         </main>
     )
 };
-
-BurgerConstructor.propTypes = {
-    orderHandler: PropTypes.func.isRequired
-}
 
 export default BurgerConstructor;

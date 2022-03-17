@@ -1,3 +1,11 @@
+.constructorTarget {
+    min-height: 352px;
+}
+
+.constructorBordered {
+    border: 1px dashed #4C4CFF;
+}
+
 .finalPart {
     align-items: center;
     justify-content: flex-end;
