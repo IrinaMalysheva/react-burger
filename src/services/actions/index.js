@@ -1,3 +1,4 @@
+import { checkResponse } from '../../utils/utils';
 export const GET_DATA_INGREDIENTS_REQUEST = 'GET_DATA_INGREDIENTS_REQUEST';
 export const GET_DATA_INGREDIENTS_SUCCESS = 'GET_DATA_INGREDIENTS_SUCCESS';
 export const GET_DATA_INGREDIENTS_ERROR = 'GET_DATA_INGREDIENTS_ERROR';
@@ -28,68 +29,46 @@ export function getDataIngredientsList(apiUrl) {
         dispatch({
             type: GET_DATA_INGREDIENTS_REQUEST
         });
-        const fetchData = async () => {
-            try {
-                const response = await fetch(apiUrl + "/ingredients");
-                if (!response.ok) {
-                    dispatch({
-                        type: GET_DATA_INGREDIENTS_ERROR
-                    });
-                    throw new Error("fetch() was not succeed.");
-                }
-                const resJson = await response.json();
-                dispatch({
-                    type: GET_DATA_INGREDIENTS_SUCCESS,
-                    data: resJson.data
-                });
-            }
-            catch (e) {
-                console.log(e);
-                dispatch({
-                    type: GET_DATA_INGREDIENTS_ERROR
-                });
-            }
-        };
-        fetchData();
+        return fetch(apiUrl + "/ingredients")
+        .then(checkResponse)
+        .then(jsonResp => dispatch({
+            type: GET_DATA_INGREDIENTS_SUCCESS,
+            data: jsonResp.data
+        }))
+        .catch((err) => {
+            console.log(err);
+            dispatch({
+                type: GET_DATA_INGREDIENTS_ERROR
+            });
+        })
     };
 }
 
 export function getOrder(apiUrl, constructorIngredients) {
+    const json = JSON.stringify(constructorIngredients);
+
     return function (dispatch) {
         dispatch({
             type: GET_ORDER_REQUEST
         });
-        const json = JSON.stringify(constructorIngredients);        
-
-        const fetchData = async () => {
-            try {
-                const response = await fetch(apiUrl + "/orders", {
-                    method: 'POST',
-                    body: json,
-                    headers: {
-                        'Content-Type': 'application/json; charset=utf-8'
-                    }
-                });
-                if (!response.ok) {
-                    dispatch({
-                        type: GET_ORDER_ERROR
-                    });
-                    throw new Error("POST fetch() was not succeed.");
-                  }
-                const jsonResp = await response.json();
-                dispatch({
-                    type: GET_ORDER_SUCCESS,
-                    data: jsonResp
-                });
-                dispatch({ type: CLEAR_CONSTRUCTOR });
-            } catch (error) {
-                console.error(error);
+        return fetch(apiUrl + "/orders", {
+            method: 'POST',
+            body: json,
+            headers: {
+                'Content-Type': 'application/json; charset=utf-8'
+            }
+        })
+            .then(checkResponse)
+            .then(jsonResp => dispatch({
+                type: GET_ORDER_SUCCESS,
+                data: jsonResp
+            }))
+            .catch((err) => {
+                console.log(err);
                 dispatch({
                     type: GET_ORDER_ERROR
-                });
-            }
-        }
-        fetchData();
+            });
+        })
     };
 }
 
