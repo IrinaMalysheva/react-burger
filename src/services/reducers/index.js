@@ -1,11 +1,12 @@
 import { combineReducers } from 'redux';
 import { ingredientsOrderReducer } from './ingredientsOrder';
 import {
-    CLOSE_MODAL,
     OPEN_MODAL,
+    CLOSE_MODAL,
     OPEN_INGREDIENT_MODAL,
+    CLOSE_INGREDIENT_MODAL,
     OPEN_ORDER_MODAL,
-
+    CLOSE_ORDER_MODAL,
     SET_TAB_NAME,
     SET_TAB_OFFSETTOP,
 } from '../actions';
@@ -41,10 +42,22 @@ export const generalReducer = (state = initialState, action) => {
                 isIngredientModal: true
             };
         }
+        case CLOSE_INGREDIENT_MODAL: {
+            return {
+                ...state,
+                isIngredientModal: false
+            };
+        }
         case OPEN_ORDER_MODAL: {
             return {
                 ...state,
                 isOrderModal: true
+            };
+        }
+        case CLOSE_ORDER_MODAL: {
+            return {
+                ...state,
+                isOrderModal: false
             };
         }
         case SET_TAB_OFFSETTOP: {

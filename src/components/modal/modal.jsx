@@ -6,14 +6,9 @@ import modalStyles from './modal.module.css';
 import { Escape_keyCode } from '../../utils/constants';
 import ModalOverlay from '../modal-overlay/modal-overlay';
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import { CLOSE_MODAL } from '../../services/actions';
 
-function Modal(props) {
+function Modal({ children, header, onClose }) {
     const modalRoot = document.getElementById("react-modals");
-    const { children, header } = props;
-
-    const dispatch = useDispatch();
-    const isModalOpen = useSelector(state => state.general.isModalOpen);
 
     useEffect(() => {
         const closeModal = (e) => {
@@ -25,11 +20,7 @@ function Modal(props) {
         return () => {
             document.removeEventListener("keydown", closeModal);
         };
-    }, [isModalOpen]);
-
-    const onClose = () => {
-        dispatch({type: CLOSE_MODAL});
-    };
+    }, [onClose]);
 
     return ReactDOM.createPortal(
         <>

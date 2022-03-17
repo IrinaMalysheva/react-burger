@@ -16,10 +16,12 @@ export const GET_ORDER_REQUEST = 'GET_ORDER_REQUEST';
 export const GET_ORDER_SUCCESS = 'GET_ORDER_SUCCESS';
 export const GET_ORDER_ERROR = 'GET_ORDER_ERROR';
 
-export const CLOSE_MODAL = 'CLOSE_MODAL';
 export const OPEN_MODAL = 'OPEN_MODAL';
+export const CLOSE_MODAL = 'CLOSE_MODAL';
 export const OPEN_INGREDIENT_MODAL = 'OPEN_INGREDIENT_MODAL';
+export const CLOSE_INGREDIENT_MODAL = 'CLOSE_INGREDIENT_MODAL';
 export const OPEN_ORDER_MODAL = 'OPEN_ORDER_MODAL';
+export const CLOSE_ORDER_MODAL = 'CLOSE_ORDER_MODAL';
 
 export const SET_TAB_NAME = 'SET_TAB_NAME';
 export const SET_TAB_OFFSETTOP = 'SET_TAB_OFFSETTOP';
@@ -101,5 +103,17 @@ export function moveIngredient(dragIndex, hoverIndex) {
         type: MOVE_CONSTRUCTOR_INGREDIENT,
         dragIndex,
         hoverIndex
+    };
+}
+
+export function closeIngredientModal() {
+    return {
+        type: CLOSE_INGREDIENT_MODAL
+    };
+}
+
+export function closeOrderModal() {
+    return {
+        type: CLOSE_ORDER_MODAL
     };
 }
