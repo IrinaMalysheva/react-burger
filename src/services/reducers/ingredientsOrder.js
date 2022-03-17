@@ -10,6 +10,7 @@ import {
     GET_ORDER_REQUEST,
     GET_ORDER_SUCCESS,
     GET_ORDER_ERROR,
+    REMOVE_ORDER_OBJECT,
 
     SET_CONSTRUCTOR_BUN,
     ADD_CONSTRUCTOR_INGREDIENT,
@@ -103,12 +104,6 @@ export const ingredientsOrderReducer = (state = initialState, action) => {
                 currentIngredientDetailsObject: null
             };
         }
-        case REMOVE_CURRENT_INGREDIENT_DETAILS: {
-            return {
-                ...state,
-                currentIngredientDetailsObject: null
-            };
-        }
         case GET_ORDER_REQUEST: {
             return {
                 ...state,
@@ -129,6 +124,12 @@ export const ingredientsOrderReducer = (state = initialState, action) => {
                 ...state,
                 orderRequest: false,
                 orderFailed: true
+            };
+        }
+        case REMOVE_ORDER_OBJECT: {
+            return {
+                ...state, 
+                orderObject: null
             };
         }
         default: {

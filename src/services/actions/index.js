@@ -15,6 +15,7 @@ export const REMOVE_CURRENT_INGREDIENT_DETAILS = 'REMOVE_CURRENT_INGREDIENT_DETA
 export const GET_ORDER_REQUEST = 'GET_ORDER_REQUEST';
 export const GET_ORDER_SUCCESS = 'GET_ORDER_SUCCESS';
 export const GET_ORDER_ERROR = 'GET_ORDER_ERROR';
+export const REMOVE_ORDER_OBJECT = 'REMOVE_ORDER_OBJECT';
 
 export const OPEN_MODAL = 'OPEN_MODAL';
 export const CLOSE_MODAL = 'CLOSE_MODAL';
@@ -107,13 +108,15 @@ export function moveIngredient(dragIndex, hoverIndex) {
 }
 
 export function closeIngredientModal() {
-    return {
-        type: CLOSE_INGREDIENT_MODAL
-    };
+    return function (dispatch) {
+        dispatch({ type: CLOSE_INGREDIENT_MODAL });
+        dispatch({ type: REMOVE_CURRENT_INGREDIENT_DETAILS });
+    }
 }
 
 export function closeOrderModal() {
-    return {
-        type: CLOSE_ORDER_MODAL
-    };
+    return function (dispatch) {
+        dispatch({ type: CLOSE_ORDER_MODAL });
+        dispatch({ type: REMOVE_ORDER_OBJECT });
+    }
 }
