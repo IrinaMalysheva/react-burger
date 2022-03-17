@@ -12,7 +12,7 @@ function ConstructorInner(props) {
                     props.data.map((item, index) => {
                         return (item.type != "bun") && <ConstructorInnerElement
                             itemData={item}
-                            key={index}
+                            key={item.uuid}
                             id={item._id}
                             onDelete={props.onDelete}
                             index={index}
