@@ -3,6 +3,7 @@ import { HomePage } from '../../pages/home';
 import { LoginPage } from '../../pages/login';
 import { NotFound404 } from '../../pages/404';
 import { RegisterPage } from '../../pages/register';
+import { ForgotPasswordPage } from '../../pages/forgot-password';
 import appStyles from './app.module.css';
 import AppHeader from '../app-header/app-header';
 
@@ -20,6 +21,9 @@ const App = () => {
           </Route>
           <Route path="/register" exact={true}>
             <RegisterPage />
+          </Route>
+          <Route path="/forgot-password" exact={true}>
+            <ForgotPasswordPage />
           </Route>
           <Route>
             <NotFound404 />
