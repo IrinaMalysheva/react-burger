@@ -62,7 +62,7 @@ export function ProfilePasswordPage() {
                 </div>
                 <div className="inputWrapper">
                     <Input
-                        type={'text'}
+                        type={'email'}
                         placeholder={'Логин'}
                         onChange={e => setEmailValue(e.target.value)}
                         icon={'EditIcon'}

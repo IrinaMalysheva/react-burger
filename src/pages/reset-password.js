@@ -4,8 +4,17 @@ import { Button, Input, PasswordInput } from '@ya.praktikum/react-developer-burg
 
 export function ResetPasswordPage() {
     const [passwordValue, setPasswordValue] = useState('');
+    const inputPasswordRef = useRef(null);
     const [mailCodeValue, setMailCodeValue] = useState('');
     const inputMailCodeRef = useRef(null);
+
+    const [inputType, setInputType] = useState('password');
+    const [iconType, setIconType] = useState('ShowIcon'); 
+    const onPasswordIconClick = () => {
+        setInputType(inputType == 'password' ? 'text' : 'password');
+        setIconType(iconType == 'ShowIcon' ? 'HideIcon' : 'ShowIcon');
+        //setTimeout(() => inputPasswordRef.current.focus(), 0);
+    }
 
     return (
         <div className="autorizeBox">
@@ -13,10 +22,17 @@ export function ResetPasswordPage() {
                 Восстановление пароля
             </p>
             <div className="inputWrapper">
-                <PasswordInput
+                <Input
+                    type={inputType}
+                    placeholder={'Введите новый пароль'}
                     onChange={e => setPasswordValue(e.target.value)}
+                    icon={iconType}
                     value={passwordValue}
                     name={'password'}
+                    error={false}
+                    ref={inputPasswordRef}
+                    onIconClick={onPasswordIconClick}
+                    errorText={'Ошибка'}
                 />
             </div>
             <div className="inputWrapper">

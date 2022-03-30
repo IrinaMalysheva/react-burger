@@ -3,10 +3,10 @@ import { Link } from 'react-router-dom';
 import { Button, Input, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
 
 export function RegisterPage() {
-    const [emailValue, setEmailValue] = useState('');
     const [nameValue, setNameValue] = useState('');
-    const inputEmailRef = useRef(null);
     const inputNameRef = useRef(null);
+    const [emailValue, setEmailValue] = useState('');
+    const inputEmailRef = useRef(null);
     const [passwordValue, setPasswordValue] = useState('');
 
     return (
@@ -51,7 +51,7 @@ export function RegisterPage() {
                 </Button>
             </div>
             <p className="text text_type_main-default text_color_inactive">
-            Уже зарегистрированы? <Link to='/login'>Войти</Link>
+                Уже зарегистрированы? <Link to='/login'>Войти</Link>
             </p>
         </div>
     );
