@@ -1,0 +1,27 @@
+.profileBox {
+    margin: 0 auto;
+    max-width: 480px;
+}
+
+.profileContainer {
+    margin: 120px auto 0;
+    max-width: 1240px;
+}
+
+.activeLink {
+    color: #F2F2F3;
+}
+
+.sideMenu {
+    position: absolute;
+    text-align: left;
+    width: 320px;
+}
+
+.sideMenuItem {
+    padding: 17px 0;
+}
+
+.sideMenuLink {
+    text-decoration: none;
+}

@@ -5,6 +5,7 @@ import { NotFound404 } from '../../pages/404';
 import { RegisterPage } from '../../pages/register';
 import { ForgotPasswordPage } from '../../pages/forgot-password';
 import { ResetPasswordPage } from '../../pages/reset-password';
+import { ProfilePasswordPage } from '../../pages/profile';
 import appStyles from './app.module.css';
 import AppHeader from '../app-header/app-header';
 
@@ -28,6 +29,9 @@ const App = () => {
           </Route>
           <Route path="/reset-password" exact={true}>
             <ResetPasswordPage />
+          </Route>
+          <Route path="/profile" exact={true}>
+            <ProfilePasswordPage />
           </Route>
           <Route>
             <NotFound404 />

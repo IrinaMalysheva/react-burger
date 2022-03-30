@@ -8,14 +8,14 @@
   text-decoration: none;
 }
 
-.autorizeBox div.input,
-.autorizeBox div.input input,
-.autorizeBox .inputWrapper > div
+.inputWrapper > div,
+.inputWrapper div.input,
+.inputWrapper div.input input
 {
   width: 100%;
 }
 
-.autorizeBox .inputWrapper {
+.inputWrapper {
   padding-bottom: 24px;
 }
 
