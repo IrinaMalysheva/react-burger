@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Button, Input, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
+import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
+import { checkResponse } from '../utils/utils';
 
 export function ResetPasswordPage() {
     const [passwordValue, setPasswordValue] = useState('');
@@ -15,6 +16,26 @@ export function ResetPasswordPage() {
         setIconType(iconType == 'ShowIcon' ? 'HideIcon' : 'ShowIcon');
         //setTimeout(() => inputPasswordRef.current.focus(), 0);
     }
+
+    const resetPasswordReset = () => {
+        fetch("https://norma.nomoreparties.space/api/password-reset/reset", {
+            method: 'POST',
+            body: JSON.stringify({
+                "password": passwordValue,
+                "token": "a20e02619e15d76495d90cba717bde3725d46c4dcb75c19ca4c08e347738dc754a09cd69520be037"
+            }),
+            headers: {
+                'Content-Type': 'application/json; charset=utf-8'
+            }
+        })
+            .then(checkResponse)
+            .then(jsonResp => {
+                console.log(jsonResp);
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+    };
 
     return (
         <div className="autorizeBox">
@@ -48,7 +69,7 @@ export function ResetPasswordPage() {
                 />
             </div>
             <div className="pb-20">
-                <Button type="primary" size="medium">
+                <Button type="primary" size="medium" onClick={resetPasswordReset}>
                     Сохранить
                 </Button>
             </div>
