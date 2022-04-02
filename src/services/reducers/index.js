@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 import { ingredientsOrderReducer } from './ingredientsOrder';
+import { authRegisterReducer } from './authRegister';
 import {
     OPEN_MODAL,
     CLOSE_MODAL,
@@ -83,5 +84,6 @@ export const generalReducer = (state = initialState, action) => {
 
 export const rootReducer = combineReducers({
     ingredientsOrder: ingredientsOrderReducer,
-    general: generalReducer
+    general: generalReducer,
+    authRegister: authRegisterReducer,
 });

@@ -1,13 +1,21 @@
 import { useRef, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Button, Input, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
+import { register } from "../services/actions/authRegister";
 
 export function RegisterPage() {
+    const dispatch = useDispatch();
+
     const [nameValue, setNameValue] = useState('');
     const inputNameRef = useRef(null);
     const [emailValue, setEmailValue] = useState('');
     const inputEmailRef = useRef(null);
     const [passwordValue, setPasswordValue] = useState('');
+
+    const handleRegister = () => {
+        dispatch(register(nameValue, emailValue, passwordValue));
+    };
 
     return (
         <div className="autorizeBox">
@@ -46,7 +54,7 @@ export function RegisterPage() {
                 />
             </div>
             <div className="pb-20">
-                <Button type="primary" size="medium">
+                <Button type="primary" size="medium" onClick={handleRegister}>
                     Зарегистрироваться
                 </Button>
             </div>
