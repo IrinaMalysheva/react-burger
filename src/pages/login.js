@@ -1,11 +1,24 @@
 import { useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, Redirect } from 'react-router-dom';
 import { Button, Input, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
+import { login } from "../services/actions/authRegister";
 
 export function LoginPage() {
+    const dispatch = useDispatch();
+    const isLoginSuccessful = useSelector(state => state.authRegister.isLoginSuccessful);
+
     const [emailValue, setEmailValue] = useState('');
     const inputEmailRef = useRef(null);
     const [passwordValue, setPasswordValue] = useState('');
+
+    const handleLogin = () => {
+        dispatch(login(emailValue, passwordValue));
+    };
+
+    if (isLoginSuccessful) {
+        return <Redirect to="/" />;
+    }
 
     return (
         <div className="autorizeBox">
@@ -32,7 +45,7 @@ export function LoginPage() {
                 />
             </div>
             <div className="pb-20">
-                <Button type="primary" size="medium">
+                <Button type="primary" size="medium" onClick={handleLogin}>
                     Войти
                 </Button>
             </div>
