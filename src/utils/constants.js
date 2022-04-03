@@ -17,7 +17,3 @@ export const menuItemPropTypes = PropTypes.shape({
 
 export const Escape_keyCode = 27;
 export const API_URL = "https://norma.nomoreparties.space/api";
-export const API_LOGIN = "https://norma.nomoreparties.space/api/auth/login";
-export const API_REGISTER = "https://norma.nomoreparties.space/api/auth/register";
-export const API_LOGOUT = "https://norma.nomoreparties.space/api/auth/logout";
-export const API_TOKEN = "https://norma.nomoreparties.space/api/auth/token";

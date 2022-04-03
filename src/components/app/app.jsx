@@ -1,4 +1,6 @@
+import { useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 import { HomePage } from '../../pages/home';
 import { LoginPage } from '../../pages/login';
 import { NotFound404 } from '../../pages/404';
@@ -8,8 +10,20 @@ import { ResetPasswordPage } from '../../pages/reset-password';
 import { ProfilePasswordPage } from '../../pages/profile';
 import appStyles from './app.module.css';
 import AppHeader from '../app-header/app-header';
+import { 
+  getUser
+  ,updateToken 
+} from "../../services/actions/authRegister";
 
 const App = () => {
+  const dispatch = useDispatch();
+  const isLoggedIn = useSelector(state => state.authRegister.isLoggedIn);
+
+  useEffect(() => {
+    dispatch(updateToken());
+    dispatch(getUser());
+  }, [dispatch]);
+
   return (
     <div className={`App ${appStyles.App}`}>
       <Router>

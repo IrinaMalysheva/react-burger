@@ -1,15 +1,48 @@
-import { useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useEffect, useRef, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { Link, NavLink } from 'react-router-dom';
 import profileStyles from './profile.module.css';
-import { Input } from '@ya.praktikum/react-developer-burger-ui-components';
+import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
+import { updateUser, logout } from "../services/actions/authRegister";
 
 export function ProfilePasswordPage() {
-    const [nameValue, setNameValue] = useState('Марк');
+    const dispatch = useDispatch();
+    const { userData, accessToken, refreshToken } = useSelector((store) => store.authRegister);
+    const [profileValues, setProfileValues] = useState({ 
+        name: userData ? userData.name : "",
+        email: userData ? userData?.email : "",
+        password: ""
+    });
     const inputNameRef = useRef(null);
-    const [emailValue, setEmailValue] = useState('mail@stellar.burgers');
     const inputEmailRef = useRef(null);
-    const [passwordValue, setPasswordValue] = useState('111111');
     const inputPasswordRef = useRef(null);
+
+    const [isChanged, setIsChanged] = useState(false);
+
+    useEffect(() => {
+        setIsChanged(
+            profileValues?.name !== userData?.name || profileValues?.email !== userData?.email || profileValues?.password !== userData?.password
+        );
+    }, [userData, profileValues]);
+
+    const handleChange = (e) => {
+        setProfileValues({ ...profileValues, [e.target.name]: e.target.value });
+    };
+
+    const handleLogout = (e) => {
+        e.preventDefault();
+        dispatch(logout());
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        dispatch(updateUser(profileValues.email, profileValues.name, profileValues.password));
+    };
+
+    const onCancel = (e) => {
+        e.preventDefault();
+        setProfileValues({ name: "", email: "", password: ""});
+    };
 
     const onNameIconClick = () => {
         setTimeout(() => inputNameRef.current.focus(), 0);
@@ -27,17 +60,17 @@ export function ProfilePasswordPage() {
         <div className={profileStyles.profileContainer}>
             <div className={`${profileStyles.sideMenu} mr-15`}>
                 <div className={profileStyles.sideMenuItem}>
-                    <Link to='/profile' className={`text text_type_main-medium ${profileStyles.sideMenuLink} ${profileStyles.activeLink}`}>
+                    <NavLink to='/profile' className={`text text_type_main-medium ${profileStyles.sideMenuLink} ${profileStyles.activeLink}`}>
                         Профиль
-                    </Link>
+                    </NavLink>
                 </div>
                 <div className={profileStyles.sideMenuItem}>
-                    <Link to='/order-history' className={`text text_type_main-medium text_color_inactive ${profileStyles.sideMenuLink}`}>
+                    <NavLink to='/order-history' className={`text text_type_main-medium text_color_inactive ${profileStyles.sideMenuLink}`}>
                         История заказов
-                    </Link>
+                    </NavLink>
                 </div>
                 <div className={profileStyles.sideMenuItem}>
-                    <Link to='/logout' className={`text text_type_main-medium text_color_inactive ${profileStyles.sideMenuLink}`}>
+                    <Link to='/logout' onClick={handleLogout} className={`text text_type_main-medium text_color_inactive ${profileStyles.sideMenuLink}`}>
                         Выход
                     </Link>
                 </div>
@@ -45,14 +78,14 @@ export function ProfilePasswordPage() {
                     В этом разделе вы можете изменить свои персональные данные
                 </p>
             </div>
-            <div className={profileStyles.profileBox}>
+            <form onSubmit={handleSubmit} className={profileStyles.profileBox}>
                 <div className="inputWrapper">
                     <Input
                         type={'text'}
                         placeholder={'Имя'}
-                        onChange={e => setNameValue(e.target.value)}
+                        onChange={handleChange}
                         icon={'EditIcon'}
-                        value={nameValue}
+                        value={profileValues.name}
                         name={'name'}
                         error={false}
                         ref={inputNameRef}
@@ -64,9 +97,9 @@ export function ProfilePasswordPage() {
                     <Input
                         type={'email'}
                         placeholder={'Логин'}
-                        onChange={e => setEmailValue(e.target.value)}
+                        onChange={handleChange}
                         icon={'EditIcon'}
-                        value={emailValue}
+                        value={profileValues.email}
                         name={'email'}
                         error={false}
                         ref={inputEmailRef}
@@ -78,9 +111,9 @@ export function ProfilePasswordPage() {
                     <Input
                         type={'password'}
                         placeholder={'Пароль'}
-                        onChange={e => setPasswordValue(e.target.value)}
+                        onChange={handleChange}
                         icon={'EditIcon'}
-                        value={passwordValue}
+                        value={profileValues.password}
                         name={'password'}
                         error={false}
                         ref={inputPasswordRef}
@@ -88,7 +121,21 @@ export function ProfilePasswordPage() {
                         errorText={'Ошибка'}
                     />
                 </div>
-            </div>
+                {isChanged && (
+                    <div className="mt-8">
+                        <Button
+                            type="secondary"
+                            size="medium"
+                            onClick={onCancel}
+                        >
+                            Отмена
+                        </Button>
+                        <Button type="primary" size="medium">
+                            Сохранить
+                        </Button>
+                    </div>
+                )}
+            </form>
         </div>
     );
 }

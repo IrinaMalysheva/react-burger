@@ -6,7 +6,7 @@ import { login } from "../services/actions/authRegister";
 
 export function LoginPage() {
     const dispatch = useDispatch();
-    const isLoginSuccessful = useSelector(state => state.authRegister.isLoginSuccessful);
+    const isLoggedIn = useSelector(state => state.authRegister.isLoggedIn);
 
     const [emailValue, setEmailValue] = useState('');
     const inputEmailRef = useRef(null);
@@ -16,7 +16,7 @@ export function LoginPage() {
         dispatch(login(emailValue, passwordValue));
     };
 
-    if (isLoginSuccessful) {
+    if (isLoggedIn) {
         return <Redirect to="/" />;
     }
 
