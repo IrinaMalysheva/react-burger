@@ -1,17 +1,24 @@
 import { useRef, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, Redirect, useLocation } from 'react-router-dom';
 import { Button, Input, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
 import { register } from "../services/actions/authRegister";
+import { getCookie } from '../utils/utils';
 
 export function RegisterPage() {
     const dispatch = useDispatch();
+    const { state } = useLocation();
+    const { isLoggedIn, isRegistered, registerFailed } = useSelector(state => state.authRegister);
 
     const [nameValue, setNameValue] = useState('');
     const inputNameRef = useRef(null);
     const [emailValue, setEmailValue] = useState('');
     const inputEmailRef = useRef(null);
     const [passwordValue, setPasswordValue] = useState('');
+
+    if (isLoggedIn || getCookie("refreshToken")) {
+        return <Redirect to={ state?.from || '/' } />;
+    }
 
     const handleRegister = () => {
         dispatch(register(nameValue, emailValue, passwordValue));
@@ -58,6 +65,16 @@ export function RegisterPage() {
                     Зарегистрироваться
                 </Button>
             </div>
+            {registerFailed &&
+                <p className="text text_type_main-default text_color_inactive pb-8">
+                    Вероятно, пользователь с таким E-mail уже существует. Попробуйте <Link to='/login'>Войти</Link> или использовать другой E-mail для регистрации
+                </p>
+            }
+            {isRegistered &&
+                <p className="text text_type_main-default pb-8">
+                    Вы успешно зарегистрированы! <Link to='/login' style={{ textDecoration: "underline" }}>Войдите</Link>
+                </p>
+            }
             <p className="text text_type_main-default text_color_inactive">
                 Уже зарегистрированы? <Link to='/login'>Войти</Link>
             </p>

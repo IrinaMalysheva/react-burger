@@ -26,6 +26,14 @@ import {
     LOGOUT_REQUEST,
     LOGOUT_SUCCESS,
     LOGOUT_ERROR,
+
+    FORGOT_PASSWORD_REQUEST,
+    FORGOT_PASSWORD_SUCCESS,
+    FORGOT_PASSWORD_ERROR,
+
+    RESET_PASSWORD_REQUEST,
+    RESET_PASSWORD_SUCCESS,
+    RESET_PASSWORD_ERROR,
 } from '../actions/authRegister';
 
 import { setCookie } from '../../utils/utils';
@@ -35,7 +43,7 @@ const initialState = {
     accessToken: "",
     refreshToken: "",
 
-    isRegisterSuccessful: false,
+    isRegistered: false,
     registerRequest: false,
     registerFailed: false,
 
@@ -52,8 +60,16 @@ const initialState = {
     getUserRequest: false,
     getUserFailed: false,
 
+    isLoggedOut: false,
     logoutRequest: false,
     logoutFailed: false,
+
+    forgotPasswordRequest: false,
+    forgotPasswordFailed: false,
+
+    isPasswordReseted: false,
+    resetPasswordRequest: false,
+    resetPasswordFailed: false,
 };
 
 export const authRegisterReducer = (state = initialState, action) => {
@@ -92,7 +108,7 @@ export const authRegisterReducer = (state = initialState, action) => {
                 ...state,
                 registerRequest: false,
                 registerFailed: false,
-                isRegisterSuccessful: true
+                isRegistered: true
             };
         }
         case REGISTER_ERROR: {
@@ -190,6 +206,7 @@ export const authRegisterReducer = (state = initialState, action) => {
         case LOGOUT_REQUEST: {
             return {
                 ...state,
+                isLoggedOut: false,
                 logoutRequest: true,
                 logoutFailed: false
             };
@@ -197,6 +214,8 @@ export const authRegisterReducer = (state = initialState, action) => {
         case LOGOUT_SUCCESS: {
             return {
                 ...state,
+                isLoggedIn: false,
+                isLoggedOut: true,
                 logoutRequest: false,
                 logoutFailed: false
             };
@@ -204,8 +223,54 @@ export const authRegisterReducer = (state = initialState, action) => {
         case LOGOUT_ERROR: {
             return {
                 ...state,
+                isLoggedOut: false,
                 logoutRequest: false,
                 logoutFailed: true
+            };
+        }
+        case FORGOT_PASSWORD_REQUEST: {
+            return {
+                ...state,
+                forgotPasswordRequest: true,
+                forgotPasswordFailed: false
+            };
+        }
+        case FORGOT_PASSWORD_SUCCESS: {
+            return {
+                ...state,
+                forgotPasswordRequest: false,
+                forgotPasswordFailed: false
+            };
+        }
+        case FORGOT_PASSWORD_ERROR: {
+            return {
+                ...state,
+                forgotPasswordRequest: false,
+                forgotPasswordFailed: true
+            };
+        }
+        case RESET_PASSWORD_REQUEST: {
+            return {
+                ...state,
+                isPasswordReseted: false,
+                resetPasswordRequest: true,
+                resetPasswordFailed: false
+            };
+        }
+        case RESET_PASSWORD_SUCCESS: {
+            return {
+                ...state,
+                isPasswordReseted: true,
+                resetPasswordRequest: false,
+                resetPasswordFailed: false
+            };
+        }
+        case RESET_PASSWORD_ERROR: {
+            return {
+                ...state,
+                isPasswordReseted: false,
+                resetPasswordRequest: false,
+                resetPasswordFailed: true
             };
         }
         default: {

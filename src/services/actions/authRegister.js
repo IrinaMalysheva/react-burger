@@ -1,4 +1,4 @@
-import { checkResponse, getCookie } from '../../utils/utils';
+import { checkResponse, getCookie, deleteCookie } from '../../utils/utils';
 import { API_URL } from '../../utils/constants';
 
 export const SET_USER_DATA = 'SET_USER_DATA';
@@ -29,14 +29,44 @@ export const LOGOUT_REQUEST = 'LOGOUT_REQUEST';
 export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
 export const LOGOUT_ERROR = 'LOGOUT_ERROR';
 
-export function getUser() {
+export const FORGOT_PASSWORD_REQUEST = 'FORGOT_PASSWORD_REQUEST';
+export const FORGOT_PASSWORD_SUCCESS = 'FORGOT_PASSWORD_SUCCESS';
+export const FORGOT_PASSWORD_ERROR = 'FORGOT_PASSWORD_ERROR';
+
+export const RESET_PASSWORD_REQUEST = 'RESET_PASSWORD_REQUEST';
+export const RESET_PASSWORD_SUCCESS = 'RESET_PASSWORD_SUCCESS';
+export const RESET_PASSWORD_ERROR = 'RESET_PASSWORD_ERROR';
+
+export function forgotPassword(emailValue) {
+    return function (dispatch) {
+        dispatch({ type: FORGOT_PASSWORD_REQUEST });
+        return fetch(API_URL + "/password-reset", {
+            method: 'POST',
+            body: JSON.stringify({
+                "email": emailValue
+            }),
+            headers: {
+                'Content-Type': 'application/json; charset=utf-8'
+            }
+        })
+            .then(checkResponse)
+            .then(jsonResp => {
+                dispatch({ type: FORGOT_PASSWORD_SUCCESS });
+            })
+            .catch((err) => {
+                dispatch({ type: FORGOT_PASSWORD_ERROR });
+            })
+    }
+};
+
+export function getUser(accessToken) {
     return function (dispatch) {
         dispatch({ type: GET_USER_REQUEST });
         return fetch(API_URL + "/auth/user", {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json; charset=utf-8',
-                Authorization: 'Bearer ' + getCookie("refreshToken")
+                Authorization: 'Bearer ' + accessToken
             }
         })
             .then(checkResponse)
@@ -62,14 +92,8 @@ export function getUser() {
                 }
             })
             .catch((err) => {
-                if (getCookie("refreshToken")) {
-                    //dispatch(updateToken());
-                    //dispatch(getUser());
-                } else {
-                    dispatch({
-                        type: GET_USER_ERROR
-                    })
-                }
+                dispatch(updateToken());
+                dispatch({ type: GET_USER_ERROR })
             })
     }
 };
@@ -92,6 +116,13 @@ export function login(emailValue, passwordValue) {
                 if (jsonResp.success) {
                     const accessToken = jsonResp.accessToken.split('Bearer ')[1];
                     dispatch({
+                        type: SET_USER_DATA,
+                        data: {
+                            "email": jsonResp.user.email,
+                            "name": jsonResp.user.name
+                        }
+                    });
+                    dispatch({
                         type: SET_ACCESS_TOKEN,
                         data: accessToken
                     });
@@ -103,9 +134,7 @@ export function login(emailValue, passwordValue) {
                 }
             })
             .catch((err) => {
-                dispatch({
-                    type: LOGIN_ERROR
-                });
+                dispatch({ type: LOGIN_ERROR });
             })
     }
 };
@@ -116,7 +145,7 @@ export function logout() {
         return fetch(API_URL + "/auth/logout", {
             method: 'POST',
             body: JSON.stringify({
-                "token": getCookie('refreshToken')
+                "token": getCookie("refreshToken")
             }),
             headers: {
                 'Content-Type': 'application/json; charset=utf-8'
@@ -124,15 +153,13 @@ export function logout() {
         })
             .then(checkResponse)
             .then(jsonResp => {
-                //deleteCookie("refreshToken");
+                deleteCookie("refreshToken");
                 if (jsonResp.success) {
                     dispatch({ type: LOGOUT_SUCCESS });
                 }
             })
             .catch((err) => {
-                dispatch({
-                    type: LOGOUT_ERROR
-                });
+                dispatch({ type: LOGOUT_ERROR });
             })
     }
 };
@@ -174,9 +201,30 @@ export function register(nameValue, emailValue, passwordValue) {
                 }
             })
             .catch((err) => {
-                dispatch({
-                    type: REGISTER_ERROR
-                });
+                dispatch({ type: REGISTER_ERROR });
+            })
+    }
+};
+
+export function resetPassword(passwordValue, tokenValue) {
+    return function (dispatch) {
+        dispatch({ type: RESET_PASSWORD_REQUEST });
+        return fetch(API_URL + "/password-reset/reset", {
+            method: 'POST',
+            body: JSON.stringify({
+                "password": passwordValue,
+                "token": tokenValue
+            }),
+            headers: {
+                'Content-Type': 'application/json; charset=utf-8'
+            }
+        })
+            .then(checkResponse)
+            .then(jsonResp => {
+                dispatch({ type: RESET_PASSWORD_SUCCESS });
+            })
+            .catch((err) => {
+                dispatch({ type: RESET_PASSWORD_ERROR });
             })
     }
 };
@@ -187,7 +235,7 @@ export function updateToken() {
         return fetch(API_URL + "/auth/token", {
             method: 'POST',
             body: JSON.stringify({
-                "token": getCookie('refreshToken')
+                "token": getCookie("refreshToken")
             }),
             headers: {
                 'Content-Type': 'application/json; charset=utf-8'
@@ -206,12 +254,11 @@ export function updateToken() {
                         data: jsonResp.refreshToken
                     });
                     dispatch({ type: TOKEN_SUCCESS });
+                    dispatch(getUser(accessToken));
                 }
             })
             .catch((err) => {
-                dispatch({
-                    type: TOKEN_ERROR
-                });
+                dispatch({ type: TOKEN_ERROR });
             })
     }
 };
@@ -243,9 +290,7 @@ export function updateUser(email, name, password) {
                 }
             })
             .catch((err) => {
-                dispatch({
-                    type: UPDATE_USER_ERROR
-                });
+                dispatch({ type: UPDATE_USER_ERROR });
             })
     }
 };

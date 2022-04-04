@@ -1,13 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, Redirect } from 'react-router-dom';
 import profileStyles from './profile.module.css';
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
-import { updateUser, logout } from "../services/actions/authRegister";
+import { logout, updateUser } from "../services/actions/authRegister";
 
-export function ProfilePasswordPage() {
+export function ProfilePage() {
     const dispatch = useDispatch();
-    const { userData, accessToken, refreshToken } = useSelector((store) => store.authRegister);
+    const { isLoggedOut, userData } = useSelector((store) => store.authRegister);
     const [profileValues, setProfileValues] = useState({ 
         name: userData ? userData.name : "",
         email: userData ? userData?.email : "",
@@ -24,6 +24,10 @@ export function ProfilePasswordPage() {
             profileValues?.name !== userData?.name || profileValues?.email !== userData?.email || profileValues?.password !== userData?.password
         );
     }, [userData, profileValues]);
+
+    if (isLoggedOut) {
+        return <Redirect to="/login" />;
+    }
 
     const handleChange = (e) => {
         setProfileValues({ ...profileValues, [e.target.name]: e.target.value });
@@ -70,7 +74,7 @@ export function ProfilePasswordPage() {
                     </NavLink>
                 </div>
                 <div className={profileStyles.sideMenuItem}>
-                    <Link to='/logout' onClick={handleLogout} className={`text text_type_main-medium text_color_inactive ${profileStyles.sideMenuLink}`}>
+                    <Link to="/profile" onClick={handleLogout} className={`text text_type_main-medium text_color_inactive ${profileStyles.sideMenuLink}`}>
                         Выход
                     </Link>
                 </div>

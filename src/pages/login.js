@@ -1,24 +1,25 @@
 import { useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, Redirect } from 'react-router-dom';
+import { Link, Redirect, useLocation } from 'react-router-dom';
 import { Button, Input, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
 import { login } from "../services/actions/authRegister";
 
 export function LoginPage() {
     const dispatch = useDispatch();
+    const { state } = useLocation();
     const isLoggedIn = useSelector(state => state.authRegister.isLoggedIn);
 
     const [emailValue, setEmailValue] = useState('');
     const inputEmailRef = useRef(null);
     const [passwordValue, setPasswordValue] = useState('');
 
+    if (isLoggedIn) {
+        return <Redirect to={ state?.from || '/' } />;
+    }
+
     const handleLogin = () => {
         dispatch(login(emailValue, passwordValue));
     };
-
-    if (isLoggedIn) {
-        return <Redirect to="/" />;
-    }
 
     return (
         <div className="autorizeBox">

@@ -7,22 +7,28 @@ import { NotFound404 } from '../../pages/404';
 import { RegisterPage } from '../../pages/register';
 import { ForgotPasswordPage } from '../../pages/forgot-password';
 import { ResetPasswordPage } from '../../pages/reset-password';
-import { ProfilePasswordPage } from '../../pages/profile';
+import { ProfilePage } from '../../pages/profile';
+import { ProtectedRoute } from '../protected-route/protected-route';
 import appStyles from './app.module.css';
 import AppHeader from '../app-header/app-header';
 import { 
-  getUser
-  ,updateToken 
+  getUser,
+  updateToken,
 } from "../../services/actions/authRegister";
+import { getCookie } from '../../utils/utils';
 
 const App = () => {
   const dispatch = useDispatch();
-  const isLoggedIn = useSelector(state => state.authRegister.isLoggedIn);
+  const { accessToken, userData } = useSelector((store) => store.authRegister);
 
+  const refreshToken = getCookie("refreshToken");
   useEffect(() => {
-    dispatch(updateToken());
-    dispatch(getUser());
-  }, [dispatch]);
+    if (accessToken) {
+      dispatch(getUser(accessToken));
+    } else if (refreshToken) {
+      dispatch(updateToken());
+    }
+  }, []);
 
   return (
     <div className={`App ${appStyles.App}`}>
@@ -44,9 +50,9 @@ const App = () => {
           <Route path="/reset-password" exact={true}>
             <ResetPasswordPage />
           </Route>
-          <Route path="/profile" exact={true}>
-            <ProfilePasswordPage />
-          </Route>
+          <ProtectedRoute path="/profile" exact={true}>
+            <ProfilePage />
+          </ProtectedRoute>
           <Route>
             <NotFound404 />
           </Route>

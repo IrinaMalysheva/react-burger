@@ -1,40 +1,49 @@
-import { useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useRef, useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { Link, useLocation, useHistory, Redirect } from 'react-router-dom';
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
-import { checkResponse } from '../utils/utils';
+import { resetPassword } from "../services/actions/authRegister";
 
 export function ResetPasswordPage() {
+    const dispatch = useDispatch();
+    const { state } = useLocation();
+    const history = useHistory();
+    const { isLoggedIn, isPasswordReseted } = useSelector(state => state.authRegister);
+    const prevPathname = history.location.state?.prevPathname;
+
     const [passwordValue, setPasswordValue] = useState('');
     const inputPasswordRef = useRef(null);
     const [mailCodeValue, setMailCodeValue] = useState('');
     const inputMailCodeRef = useRef(null);
 
     const [inputType, setInputType] = useState('password');
-    const [iconType, setIconType] = useState('ShowIcon'); 
+    const [iconType, setIconType] = useState('ShowIcon');
     const onPasswordIconClick = () => {
         setInputType(inputType == 'password' ? 'text' : 'password');
         setIconType(iconType == 'ShowIcon' ? 'HideIcon' : 'ShowIcon');
         //setTimeout(() => inputPasswordRef.current.focus(), 0);
     }
 
-    const resetPasswordReset = () => {
-        fetch("https://norma.nomoreparties.space/api/password-reset/reset", {
-            method: 'POST',
-            body: JSON.stringify({
-                "password": passwordValue,
-                "token": "a20e02619e15d76495d90cba717bde3725d46c4dcb75c19ca4c08e347738dc754a09cd69520be037"
-            }),
-            headers: {
-                'Content-Type': 'application/json; charset=utf-8'
-            }
-        })
-            .then(checkResponse)
-            .then(jsonResp => {
-                console.log(jsonResp);
-            })
-            .catch((err) => {
-                console.log(err);
-            })
+    useEffect(() => {
+        if (isPasswordReseted) {
+            window.setTimeout(() => {
+                history.push({ pathname: '/login' });
+            }, 3000)
+        }
+    }, [isPasswordReseted]);
+
+    if (isLoggedIn) {
+        return <Redirect to={state?.from || '/'} />;
+    }
+
+    if (!prevPathname) {
+        return (
+            <Redirect to={'/forgot-password'} />
+        );
+    }
+
+    const handleResetPassword = () => {
+        dispatch(resetPassword(passwordValue, mailCodeValue));
     };
 
     return (
@@ -68,8 +77,9 @@ export function ResetPasswordPage() {
                     errorText={'Ошибка'}
                 />
             </div>
+            {isPasswordReseted && <p className="text text_type_main-default mt-4 mb-10">Пароль успешно изменён</p>}
             <div className="pb-20">
-                <Button type="primary" size="medium" onClick={resetPasswordReset}>
+                <Button type="primary" size="medium" onClick={handleResetPassword}>
                     Сохранить
                 </Button>
             </div>
