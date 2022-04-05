@@ -1,9 +1,8 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, Redirect, useLocation } from 'react-router-dom';
 import { Button, Input, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
 import { register } from "../services/actions/authRegister";
-import { getCookie } from '../utils/utils';
 
 export function RegisterPage() {
     const dispatch = useDispatch();
@@ -15,13 +14,26 @@ export function RegisterPage() {
     const [emailValue, setEmailValue] = useState('');
     const inputEmailRef = useRef(null);
     const [passwordValue, setPasswordValue] = useState('');
+    const [isDisabled, setIsDisabled] = useState(false);
 
-    if (isLoggedIn || getCookie("refreshToken")) {
-        return <Redirect to={ state?.from || '/' } />;
+    useEffect(() => {
+        if (isRegistered) {
+            setIsDisabled(true);
+        }
+    }, [isRegistered]);
+
+    if (isLoggedIn) {
+        return <Redirect to={ state?.from || '/login' } />;
     }
 
     const handleRegister = () => {
         dispatch(register(nameValue, emailValue, passwordValue));
+        setIsDisabled(true);
+    };
+
+    const onEmailChange = (e) => {
+        setEmailValue(e.target.value);
+        setIsDisabled(false);
     };
 
     return (
@@ -45,7 +57,7 @@ export function RegisterPage() {
                 <Input
                     type={'text'}
                     placeholder={'E-mail'}
-                    onChange={e => setEmailValue(e.target.value)}
+                    onChange={onEmailChange}
                     value={emailValue}
                     name={'email'}
                     error={false}
@@ -61,19 +73,21 @@ export function RegisterPage() {
                 />
             </div>
             <div className="pb-20">
-                <Button type="primary" size="medium" onClick={handleRegister}>
+                <Button type="primary" size="medium" onClick={handleRegister} disabled={isDisabled}>
                     Зарегистрироваться
                 </Button>
             </div>
             {registerFailed &&
                 <p className="text text_type_main-default text_color_inactive pb-8">
-                    Вероятно, пользователь с таким E-mail уже существует. Попробуйте <Link to='/login'>Войти</Link> или использовать другой E-mail для регистрации
+                    Возможно, пользователь с таким E-mail уже существует. Попробуйте <Link to='/login'>Войти</Link> или использовать другой E-mail для регистрации
                 </p>
             }
-            {isRegistered &&
-                <p className="text text_type_main-default pb-8">
-                    Вы успешно зарегистрированы! <Link to='/login' style={{ textDecoration: "underline" }}>Войдите</Link>
-                </p>
+            {(isRegistered && isDisabled) &&
+                <>
+                    <p className="text text_type_main-default pb-8">
+                        Вы были успешно зарегистрированы! <Link to='/login' style={{ textDecoration: "underline" }}>Войдите</Link>
+                    </p>
+                </>
             }
             <p className="text text_type_main-default text_color_inactive">
                 Уже зарегистрированы? <Link to='/login'>Войти</Link>

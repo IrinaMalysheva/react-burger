@@ -1,13 +1,15 @@
 import { useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Link, NavLink, Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import profileStyles from './profile.module.css';
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
-import { logout, updateUser } from "../services/actions/authRegister";
+import { updateUser } from "../services/actions/authRegister";
+import ProfileSideMenu from "../components/profile-side-menu/profile-side-menu";
+import { getUser } from "../services/actions/authRegister";
 
 export function ProfilePage() {
     const dispatch = useDispatch();
-    const { isLoggedOut, userData } = useSelector((store) => store.authRegister);
+    const { accessToken, isLoggedOut, userData } = useSelector((store) => store.authRegister);
     const [profileValues, setProfileValues] = useState({ 
         name: userData ? userData.name : "",
         email: userData ? userData?.email : "",
@@ -33,11 +35,6 @@ export function ProfilePage() {
         setProfileValues({ ...profileValues, [e.target.name]: e.target.value });
     };
 
-    const handleLogout = (e) => {
-        e.preventDefault();
-        dispatch(logout());
-    };
-
     const handleSubmit = (e) => {
         e.preventDefault();
         dispatch(updateUser(profileValues.email, profileValues.name, profileValues.password));
@@ -45,7 +42,9 @@ export function ProfilePage() {
 
     const onCancel = (e) => {
         e.preventDefault();
-        setProfileValues({ name: "", email: "", password: ""});
+        dispatch(getUser(accessToken));
+        setProfileValues({ ...profileValues, password: ""});
+        //setProfileValues({ name: "", email: "", password: ""});
     };
 
     const onNameIconClick = () => {
@@ -62,26 +61,7 @@ export function ProfilePage() {
 
     return (
         <div className={profileStyles.profileContainer}>
-            <div className={`${profileStyles.sideMenu} mr-15`}>
-                <div className={profileStyles.sideMenuItem}>
-                    <NavLink to='/profile' className={`text text_type_main-medium ${profileStyles.sideMenuLink} ${profileStyles.activeLink}`}>
-                        Профиль
-                    </NavLink>
-                </div>
-                <div className={profileStyles.sideMenuItem}>
-                    <NavLink to='/order-history' className={`text text_type_main-medium text_color_inactive ${profileStyles.sideMenuLink}`}>
-                        История заказов
-                    </NavLink>
-                </div>
-                <div className={profileStyles.sideMenuItem}>
-                    <Link to="/profile" onClick={handleLogout} className={`text text_type_main-medium text_color_inactive ${profileStyles.sideMenuLink}`}>
-                        Выход
-                    </Link>
-                </div>
-                <p className="text text_type_main-default text_color_inactive pt-20">
-                    В этом разделе вы можете изменить свои персональные данные
-                </p>
-            </div>
+            <ProfileSideMenu />
             <form onSubmit={handleSubmit} className={profileStyles.profileBox}>
                 <div className="inputWrapper">
                     <Input

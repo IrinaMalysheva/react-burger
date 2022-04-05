@@ -1,0 +1,17 @@
+.activeLink {
+    color: #F2F2F3;
+}
+
+.sideMenu {
+    position: absolute;
+    text-align: left;
+    width: 320px;
+}
+
+.sideMenuItem {
+    padding: 17px 0;
+}
+
+.sideMenuLink {
+    text-decoration: none;
+}

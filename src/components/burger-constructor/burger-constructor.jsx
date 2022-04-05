@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { useDrop } from "react-dnd";
 import { v4 as uuidv4 } from 'uuid';
 import burgerConstructorStyles from './burger-constructor.module.css';
@@ -14,6 +15,8 @@ import {
 
 function BurgerConstructor() {
     const dispatch = useDispatch();
+    const history = useHistory();
+    const { isLoggedIn } = useSelector(store => store.authRegister);
     const { constructorBun, constructorFillingIngredients, orderRequest } = useSelector(state => state.ingredientsOrder);
 
     const totalPrice = useMemo(() => {
@@ -24,6 +27,10 @@ function BurgerConstructor() {
     }, [constructorBun, constructorFillingIngredients] );
 
     const handleClick = (e) => {
+        if (!isLoggedIn) {
+            history.push({ pathname: '/login', state: { prevPathname: history.location.pathname } });
+            return;
+        }
         dispatch({ type: OPEN_MODAL });
         dispatch({ type: OPEN_ORDER_MODAL });
     }

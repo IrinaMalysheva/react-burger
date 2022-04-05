@@ -4,9 +4,6 @@ import {
     GET_DATA_INGREDIENTS_SUCCESS,
     GET_DATA_INGREDIENTS_ERROR,
 
-    SET_CURRENT_INGREDIENT_DETAILS,
-    REMOVE_CURRENT_INGREDIENT_DETAILS,
-
     GET_ORDER_REQUEST,
     GET_ORDER_SUCCESS,
     GET_ORDER_ERROR,
@@ -90,18 +87,6 @@ export const ingredientsOrderReducer = (state = initialState, action) => {
             return {
                 ...state,
                 constructorFillingIngredients: [...reorderedFillingIngredients],
-            };
-        }
-        case SET_CURRENT_INGREDIENT_DETAILS: {
-            return {
-                ...state,
-                currentIngredientDetailsObject: [...state.dataIngredientsList].filter(item => item._id == action.id)[0]
-            };
-        }
-        case REMOVE_CURRENT_INGREDIENT_DETAILS: {
-            return {
-                ...state,
-                currentIngredientDetailsObject: null
             };
         }
         case GET_ORDER_REQUEST: {

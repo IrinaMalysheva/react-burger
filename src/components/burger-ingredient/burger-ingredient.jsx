@@ -5,7 +5,7 @@ import { useDrag } from "react-dnd";
 import { menuItemPropTypes } from '../../utils/constants';
 import BurgerIngredientStyles from './burger-ingredient.module.css';
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import { OPEN_MODAL, OPEN_INGREDIENT_MODAL, SET_CURRENT_INGREDIENT_DETAILS } from '../../services/actions';
+import { OPEN_MODAL, OPEN_INGREDIENT_MODAL } from '../../services/actions';
 
 function BurgerIngredient({ ingredientsType, item }) {
     const dispatch = useDispatch();
@@ -23,13 +23,8 @@ function BurgerIngredient({ ingredientsType, item }) {
     }
     
     const handleClick = (e) => {
-        let currentTargetId = e.currentTarget.id;
         dispatch({ type: OPEN_MODAL });
         dispatch({ type: OPEN_INGREDIENT_MODAL });
-        dispatch({
-            type: SET_CURRENT_INGREDIENT_DETAILS,
-            id: currentTargetId
-        });
     }
 
     const [{ isDrag }, dragRef] = useDrag({

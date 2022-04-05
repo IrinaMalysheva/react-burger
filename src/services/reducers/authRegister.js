@@ -99,6 +99,7 @@ export const authRegisterReducer = (state = initialState, action) => {
         case REGISTER_REQUEST: {
             return {
                 ...state,
+                isRegistered: false,
                 registerRequest: true,
                 registerFailed: false
             };
@@ -106,14 +107,15 @@ export const authRegisterReducer = (state = initialState, action) => {
         case REGISTER_SUCCESS: {
             return {
                 ...state,
+                isRegistered: true,
                 registerRequest: false,
-                registerFailed: false,
-                isRegistered: true
+                registerFailed: false
             };
         }
         case REGISTER_ERROR: {
             return {
                 ...state,
+                isRegistered: false,
                 registerRequest: false,
                 registerFailed: true
             };
@@ -128,9 +130,10 @@ export const authRegisterReducer = (state = initialState, action) => {
         case LOGIN_SUCCESS: {
             return {
                 ...state,
+                isLoggedIn: true,
+                isLoggedOut: false,
                 loginRequest: false,
                 loginFailed: false,
-                isLoggedIn: true
             };
         }
         case LOGIN_ERROR: {
@@ -214,6 +217,7 @@ export const authRegisterReducer = (state = initialState, action) => {
         case LOGOUT_SUCCESS: {
             return {
                 ...state,
+                isRegistered: false,
                 isLoggedIn: false,
                 isLoggedOut: true,
                 logoutRequest: false,

@@ -8,6 +8,7 @@ import { RegisterPage } from '../../pages/register';
 import { ForgotPasswordPage } from '../../pages/forgot-password';
 import { ResetPasswordPage } from '../../pages/reset-password';
 import { ProfilePage } from '../../pages/profile';
+import { OrderHistoryPage } from '../../pages/order-history';
 import { ProtectedRoute } from '../protected-route/protected-route';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import Modal from '../modal/modal';
@@ -27,6 +28,7 @@ function ModalSwitch() {
   const { accessToken, userData } = useSelector((store) => store.authRegister);
 
   const refreshToken = getCookie("refreshToken");
+
   useEffect(() => {
     if (accessToken) {
       dispatch(getUser(accessToken));
@@ -65,6 +67,9 @@ function ModalSwitch() {
         </Route>
         <ProtectedRoute path="/profile" exact={true}>
           <ProfilePage />
+        </ProtectedRoute>
+        <ProtectedRoute path="/order-history" exact={true}>
+          <OrderHistoryPage />
         </ProtectedRoute>
         <Route path='/ingredients/:ingredientId' exact>
           <IngredientDetails />

@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, Redirect, useHistory, useLocation } from 'react-router-dom';
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
 import { forgotPassword } from "../services/actions/authRegister";
-import { getCookie } from '../utils/utils';
 
 export function ForgotPasswordPage() {
     const dispatch = useDispatch();
@@ -13,7 +12,7 @@ export function ForgotPasswordPage() {
     const isLoggedIn = useSelector(state => state.authRegister.isLoggedIn);
     const [emailValue, setEmailValue] = useState('');
 
-    if (isLoggedIn || getCookie("refreshToken")) {
+    if (isLoggedIn) {
         return <Redirect to={ state?.from || '/' } />;
     }
 
