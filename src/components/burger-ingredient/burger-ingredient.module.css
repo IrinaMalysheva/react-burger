@@ -3,6 +3,11 @@
     position: relative;
 }
 
+.ingredientLink {
+    color: white;
+    text-decoration: none;
+}
+
 .ingredientsName {
     min-height: 48px;
 }

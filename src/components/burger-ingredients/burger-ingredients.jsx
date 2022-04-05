@@ -4,8 +4,6 @@ import burgerIngredientsStyles from './burger-ingredients.module.css';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import IngredientsSection from '../ingredients-section/ingredients-section';
 import ScrollableSection from '../scrollable-section/scrollable-section';
-import { getDataIngredientsList } from '../../services/actions';
-import { API_URL } from '../../utils/constants';
 
 function BurgerIngredients() {
     const [current, setCurrent] = useState('one');
@@ -13,10 +11,6 @@ function BurgerIngredients() {
 
     const dataIngredientsList = useSelector(state => state.ingredientsOrder.dataIngredientsList);
     const tabName = useSelector(state => state.general.tabName);
-
-    useEffect(() => {
-        dispatch(getDataIngredientsList(API_URL));
-    }, [dispatch]);
 
     useEffect(() => {
         setCurrent(tabName);

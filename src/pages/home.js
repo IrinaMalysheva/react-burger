@@ -1,8 +1,7 @@
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { useDispatch, useSelector } from 'react-redux';
-import { closeIngredientModal, closeOrderModal } from '../services/actions';
-import IngredientDetails from '../components/ingredient-details/ingredient-details';
+import { closeOrderModal } from '../services/actions';
 import BurgerIngredients from '../components/burger-ingredients/burger-ingredients';
 import BurgerConstructor from '../components/burger-constructor/burger-constructor';
 import Modal from '../components/modal/modal';
@@ -14,25 +13,16 @@ export function HomePage() {
 
     const dispatch = useDispatch();
 
-    const onIngredientModalClose = () => {
-        dispatch(closeIngredientModal());
-    };
-
     const onOrderModalClose = () => {
         dispatch(closeOrderModal());
     };
 
     return (
-        <main className="flexContainerJcCenter">
+        <main className="flexContainerJcCenter pb-10">
             <DndProvider backend={HTML5Backend}>
                 <BurgerIngredients />
                 <BurgerConstructor />
             </DndProvider>
-            {isIngredientModal &&
-                <Modal header="Детали ингредиента" onClose={onIngredientModalClose}>
-                    <IngredientDetails />
-                </Modal>
-            }
             {isOrderModal &&
                 <Modal onClose={onOrderModalClose}>
                     <OrderDetails />

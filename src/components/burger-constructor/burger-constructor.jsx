@@ -13,10 +13,8 @@ import {
 } from "../../services/actions";
 
 function BurgerConstructor() {
-    const constructorBun = useSelector(state => state.ingredientsOrder.constructorBun);
-    const constructorFillingIngredients = useSelector(state => state.ingredientsOrder.constructorFillingIngredients);
-    const orderRequest = useSelector((store) => store.ingredientsOrder.orderRequest);
     const dispatch = useDispatch();
+    const { constructorBun, constructorFillingIngredients, orderRequest } = useSelector(state => state.ingredientsOrder);
 
     const totalPrice = useMemo(() => {
         let interimPrice = constructorBun ? constructorBun.price * 2 : 0;
