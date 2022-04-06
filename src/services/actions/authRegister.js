@@ -1,9 +1,7 @@
-import { checkResponse, getCookie, deleteCookie } from '../../utils/utils';
+import { checkResponse, getCookie, deleteCookie, setCookie } from '../../utils/utils';
 import { API_URL } from '../../utils/constants';
 
 export const SET_USER_DATA = 'SET_USER_DATA';
-export const SET_ACCESS_TOKEN = 'SET_ACCESS_TOKEN';
-export const SET_REFRESH_TOKEN = 'SET_REFRESH_TOKEN';
 
 export const REGISTER_REQUEST = 'REGISTER_REQUEST';
 export const REGISTER_SUCCESS = 'REGISTER_SUCCESS';
@@ -59,20 +57,19 @@ export function forgotPassword(emailValue) {
     }
 };
 
-export function getUser(accessToken) {
+export function getUser() {
     return function (dispatch) {
         dispatch({ type: GET_USER_REQUEST });
         return fetch(API_URL + "/auth/user", {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json; charset=utf-8',
-                Authorization: 'Bearer ' + accessToken
+                Authorization: 'Bearer ' + getCookie('accessToken')
             }
         })
             .then(checkResponse)
             .then(jsonResp => {
                 if (jsonResp.success) {
-                    const accessToken = jsonResp.accessToken.split('Bearer ')[1];
                     dispatch({
                         type: SET_USER_DATA,
                         data: {
@@ -80,20 +77,16 @@ export function getUser(accessToken) {
                             "name": jsonResp.user.name
                         }
                     });
-                    dispatch({
-                        type: SET_ACCESS_TOKEN,
-                        data: accessToken
-                    });
-                    dispatch({
-                        type: SET_REFRESH_TOKEN,
-                        data: jsonResp.refreshToken
-                    });
                     dispatch({ type: GET_USER_SUCCESS });
                 }
             })
             .catch((err) => {
-                dispatch(updateToken());
-                dispatch({ type: GET_USER_ERROR })
+                if (getCookie('refreshToken')) {
+                    dispatch(updateToken());
+                    dispatch(getUser());
+                } else {
+                    dispatch({ type: GET_USER_ERROR })
+                }
             })
     }
 };
@@ -115,20 +108,14 @@ export function login(emailValue, passwordValue) {
             .then(jsonResp => {
                 if (jsonResp.success) {
                     const accessToken = jsonResp.accessToken.split('Bearer ')[1];
+                    setCookie('accessToken', accessToken);
+                    setCookie('refreshToken', jsonResp.refreshToken);
                     dispatch({
                         type: SET_USER_DATA,
                         data: {
                             "email": jsonResp.user.email,
                             "name": jsonResp.user.name
                         }
-                    });
-                    dispatch({
-                        type: SET_ACCESS_TOKEN,
-                        data: accessToken
-                    });
-                    dispatch({
-                        type: SET_REFRESH_TOKEN,
-                        data: jsonResp.refreshToken
                     });
                     dispatch({ type: LOGIN_SUCCESS });
                 }
@@ -182,20 +169,14 @@ export function register(nameValue, emailValue, passwordValue) {
             .then(jsonResp => {
                 if (jsonResp.success) {
                     const accessToken = jsonResp.accessToken.split('Bearer ')[1];
+                    setCookie('accessToken', accessToken);
+                    setCookie('refreshToken', jsonResp.refreshToken);
                     dispatch({
                         type: SET_USER_DATA,
                         data: {
                             "email": jsonResp.user.email,
                             "name": jsonResp.user.name
                         }
-                    });
-                    dispatch({
-                        type: SET_ACCESS_TOKEN,
-                        data: accessToken
-                    });
-                    dispatch({
-                        type: SET_REFRESH_TOKEN,
-                        data: jsonResp.refreshToken
                     });
                     dispatch({ type: REGISTER_SUCCESS });
                 }
@@ -245,16 +226,8 @@ export function updateToken() {
             .then(jsonResp => {
                 if (jsonResp.success) {
                     const accessToken = jsonResp.accessToken.split('Bearer ')[1];
-                    dispatch({
-                        type: SET_ACCESS_TOKEN,
-                        data: accessToken
-                    });
-                    dispatch({
-                        type: SET_REFRESH_TOKEN,
-                        data: jsonResp.refreshToken
-                    });
+                    setCookie('accessToken', accessToken);
                     dispatch({ type: TOKEN_SUCCESS });
-                    dispatch(getUser(accessToken));
                 }
             })
             .catch((err) => {
@@ -277,14 +250,12 @@ export function updateUser(email, name, password) {
             .then(checkResponse)
             .then(jsonResp => {
                 if (jsonResp.success) {
-                    const accessToken = jsonResp.accessToken.split('Bearer ')[1];
                     dispatch({
-                        type: SET_ACCESS_TOKEN,
-                        data: accessToken
-                    });
-                    dispatch({
-                        type: SET_REFRESH_TOKEN,
-                        data: jsonResp.refreshToken
+                        type: SET_USER_DATA,
+                        data: {
+                            "email": jsonResp.user.email,
+                            "name": jsonResp.user.name
+                        }
                     });
                     dispatch({ type: UPDATE_USER_SUCCESS });
                 }

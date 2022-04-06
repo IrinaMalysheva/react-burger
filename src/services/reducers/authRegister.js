@@ -1,7 +1,5 @@
 import {
     SET_USER_DATA,
-    SET_ACCESS_TOKEN,
-    SET_REFRESH_TOKEN,
 
     REGISTER_REQUEST,
     REGISTER_SUCCESS,
@@ -40,7 +38,6 @@ import { setCookie } from '../../utils/utils';
 
 const initialState = {
     userData: null,
-    accessToken: "",
     refreshToken: "",
 
     isRegistered: false,
@@ -83,19 +80,6 @@ export const authRegisterReducer = (state = initialState, action) => {
                 }
             };
         }
-        case SET_ACCESS_TOKEN: {
-            return {
-                ...state,
-                accessToken: action.data
-            };
-        }
-        case SET_REFRESH_TOKEN: {
-            setCookie('refreshToken', action.data);
-            return {
-                ...state,
-                refreshToken: action.data
-            };
-        }
         case REGISTER_REQUEST: {
             return {
                 ...state,
@@ -108,6 +92,7 @@ export const authRegisterReducer = (state = initialState, action) => {
             return {
                 ...state,
                 isRegistered: true,
+                isLoggedIn: true,
                 registerRequest: false,
                 registerFailed: false
             };
@@ -174,6 +159,7 @@ export const authRegisterReducer = (state = initialState, action) => {
         case UPDATE_USER_SUCCESS: {
             return {
                 ...state,
+                isLoggedIn: true,
                 updateUserRequest: false,
                 updateUserFailed: false
             };
@@ -195,6 +181,7 @@ export const authRegisterReducer = (state = initialState, action) => {
         case GET_USER_SUCCESS: {
             return {
                 ...state,
+                isLoggedIn: true,
                 getUserRequest: false,
                 getUserFailed: false
             };

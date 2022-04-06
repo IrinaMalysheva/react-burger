@@ -9,9 +9,9 @@ import { getUser } from "../services/actions/authRegister";
 
 export function ProfilePage() {
     const dispatch = useDispatch();
-    const { accessToken, isLoggedOut, userData } = useSelector((store) => store.authRegister);
+    const { isLoggedIn, userData } = useSelector((store) => store.authRegister);
     const [profileValues, setProfileValues] = useState({ 
-        name: userData ? userData.name : "",
+        name: userData ? userData?.name : "",
         email: userData ? userData?.email : "",
         password: ""
     });
@@ -26,8 +26,8 @@ export function ProfilePage() {
             profileValues?.name !== userData?.name || profileValues?.email !== userData?.email || profileValues?.password !== userData?.password
         );
     }, [userData, profileValues]);
-
-    if (isLoggedOut) {
+    
+    if (!isLoggedIn) {
         return <Redirect to="/login" />;
     }
 
@@ -42,9 +42,8 @@ export function ProfilePage() {
 
     const onCancel = (e) => {
         e.preventDefault();
-        dispatch(getUser(accessToken));
-        setProfileValues({ ...profileValues, password: ""});
-        //setProfileValues({ name: "", email: "", password: ""});
+        dispatch(getUser());
+        setProfileValues({ ...userData, password: ""});
     };
 
     const onNameIconClick = () => {

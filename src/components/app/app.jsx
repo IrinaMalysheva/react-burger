@@ -18,24 +18,16 @@ import AppHeader from '../app-header/app-header';
 import { getUser, updateToken } from "../../services/actions/authRegister";
 import { getDataIngredientsList } from '../../services/actions';
 import { API_URL } from '../../utils/constants';
-import { getCookie } from '../../utils/utils';
 
 function ModalSwitch() {
   const location = useLocation();
   const dispatch = useDispatch();
   const history = useHistory();
   const background = location.state && location.state.background;
-  const { accessToken, userData } = useSelector((store) => store.authRegister);
-
-  const refreshToken = getCookie("refreshToken");
 
   useEffect(() => {
-    if (accessToken) {
-      dispatch(getUser(accessToken));
-    } else if (refreshToken) {
-      dispatch(updateToken());
-    }
-  }, []);
+    dispatch(getUser());
+  }, [dispatch]);
 
   useEffect(() => {
     dispatch(getDataIngredientsList(API_URL));

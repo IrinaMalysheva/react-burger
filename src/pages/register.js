@@ -82,13 +82,6 @@ export function RegisterPage() {
                     Возможно, пользователь с таким E-mail уже существует. Попробуйте <Link to='/login'>Войти</Link> или использовать другой E-mail для регистрации
                 </p>
             }
-            {(isRegistered && isDisabled) &&
-                <>
-                    <p className="text text_type_main-default pb-8">
-                        Вы были успешно зарегистрированы! <Link to='/login' style={{ textDecoration: "underline" }}>Войдите</Link>
-                    </p>
-                </>
-            }
             <p className="text text_type_main-default text_color_inactive">
                 Уже зарегистрированы? <Link to='/login'>Войти</Link>
             </p>
