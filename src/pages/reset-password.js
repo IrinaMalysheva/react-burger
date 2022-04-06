@@ -42,7 +42,8 @@ export function ResetPasswordPage() {
         );
     }
 
-    const handleResetPassword = () => {
+    const handleResetPassword = (e) => {
+        e.preventDefault();
         dispatch(resetPassword(passwordValue, mailCodeValue));
     };
 
@@ -51,38 +52,42 @@ export function ResetPasswordPage() {
             <p className="text text_type_main-medium pb-6">
                 Восстановление пароля
             </p>
-            <div className="inputWrapper">
-                <Input
-                    type={inputType}
-                    placeholder={'Введите новый пароль'}
-                    onChange={e => setPasswordValue(e.target.value)}
-                    icon={iconType}
-                    value={passwordValue}
-                    name={'password'}
-                    error={false}
-                    ref={inputPasswordRef}
-                    onIconClick={onPasswordIconClick}
-                    errorText={'Ошибка'}
-                />
-            </div>
-            <div className="inputWrapper">
-                <Input
-                    type={'text'}
-                    placeholder={'Введите код из письма'}
-                    onChange={e => setMailCodeValue(e.target.value)}
-                    value={mailCodeValue}
-                    name={'mailCode'}
-                    error={false}
-                    ref={inputMailCodeRef}
-                    errorText={'Ошибка'}
-                />
-            </div>
-            {isPasswordReseted && <p className="text text_type_main-default mt-4 mb-10">Пароль успешно изменён</p>}
-            <div className="pb-20">
-                <Button type="primary" size="medium" onClick={handleResetPassword}>
-                    Сохранить
-                </Button>
-            </div>
+            <form onSubmit={handleResetPassword}>
+                <div className="inputWrapper">
+                    <Input
+                        type={inputType}
+                        placeholder={'Введите новый пароль'}
+                        onChange={e => setPasswordValue(e.target.value)}
+                        icon={iconType}
+                        value={passwordValue}
+                        name={'password'}
+                        error={false}
+                        ref={inputPasswordRef}
+                        onIconClick={onPasswordIconClick}
+                        errorText={'Ошибка'}
+                    />
+                </div>
+                <div className="inputWrapper">
+                    <Input
+                        type={'text'}
+                        placeholder={'Введите код из письма'}
+                        onChange={e => setMailCodeValue(e.target.value)}
+                        value={mailCodeValue}
+                        name={'mailCode'}
+                        error={false}
+                        ref={inputMailCodeRef}
+                        errorText={'Ошибка'}
+                    />
+                </div>
+                {!isPasswordReseted && <p className="text text_type_main-default mt-8 mb-20">
+                    Пароль успешно изменён. Вы будете перенаправлены на страницу Входа
+                    </p>}
+                <div className="pb-20">
+                    <Button type="primary" size="medium">
+                        Сохранить
+                    </Button>
+                </div>
+            </form>
             <p className="text text_type_main-default text_color_inactive">
                 Вспомнили пароль? <Link to='/login'>Войти</Link>
             </p>

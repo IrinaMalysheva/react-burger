@@ -140,6 +140,7 @@ export function logout() {
         })
             .then(checkResponse)
             .then(jsonResp => {
+                deleteCookie("accessToken");
                 deleteCookie("refreshToken");
                 if (jsonResp.success) {
                     dispatch({ type: LOGOUT_SUCCESS });
@@ -244,7 +245,7 @@ export function updateUser(email, name, password) {
             body: JSON.stringify({ email, name, password }),
             headers: {
                 'Content-Type': 'application/json; charset=utf-8',
-                Authorization: getCookie("refreshToken")
+                Authorization: 'Bearer ' + getCookie('accessToken')
             }
         })
             .then(checkResponse)
