@@ -1,5 +1,6 @@
 import { Route, Redirect } from "react-router-dom";
 import { useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
 
 export function ProtectedRoute({ children, ...rest }) {
     const { isLoggedIn } = useSelector(store => store.authRegister);
@@ -15,3 +16,9 @@ export function ProtectedRoute({ children, ...rest }) {
         />
     );
 }
+
+ProtectedRoute.propTypes = {
+    children: PropTypes.node.isRequired,
+}
+
+export default ProtectedRoute;

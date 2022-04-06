@@ -2,6 +2,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
 import { useDrag } from "react-dnd";
+import PropTypes from 'prop-types';
 import { menuItemPropTypes } from '../../utils/constants';
 import BurgerIngredientStyles from './burger-ingredient.module.css';
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -27,7 +28,7 @@ function BurgerIngredient({ ingredientsType, item }) {
         dispatch({ type: OPEN_INGREDIENT_MODAL });
     }
 
-    const [{ isDrag }, dragRef] = useDrag({
+    const [{ }, dragRef] = useDrag({
         type: "ingredient",
         item: item,
     });
@@ -60,6 +61,7 @@ function BurgerIngredient({ ingredientsType, item }) {
 };
 
 BurgerIngredient.propTypes = {
+    ingredientsType: PropTypes.string.isRequired,
     item: menuItemPropTypes.isRequired,
 }
 

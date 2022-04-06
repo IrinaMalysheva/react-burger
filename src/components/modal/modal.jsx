@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
 import ReactDOM from 'react-dom';
-import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import modalStyles from './modal.module.css';
 import { Escape_keyCode } from '../../utils/constants';
@@ -41,7 +40,8 @@ function Modal({ children, header, onClose }) {
 
 Modal.propTypes = {
     children: PropTypes.node.isRequired,
-    header: PropTypes.string
+    header: PropTypes.string,
+    onClose: PropTypes.func.isRequired,
 }
 
 export default Modal;
