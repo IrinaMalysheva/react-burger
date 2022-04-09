@@ -1,3 +1,24 @@
+.autorizeBox {
+  margin: 180px auto;
+  width: 480px;
+}
+
+.autorizeBox a {
+  color: #4C4CFF;
+  text-decoration: none;
+}
+
+.inputWrapper > div,
+.inputWrapper div.input,
+.inputWrapper div.input input
+{
+  width: 100%;
+}
+
+.inputWrapper {
+  padding-bottom: 24px;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',

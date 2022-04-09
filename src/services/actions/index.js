@@ -1,4 +1,4 @@
-import { checkResponse } from '../../utils/utils';
+import { checkResponse, getCookie } from '../../utils/utils';
 export const GET_DATA_INGREDIENTS_REQUEST = 'GET_DATA_INGREDIENTS_REQUEST';
 export const GET_DATA_INGREDIENTS_SUCCESS = 'GET_DATA_INGREDIENTS_SUCCESS';
 export const GET_DATA_INGREDIENTS_ERROR = 'GET_DATA_INGREDIENTS_ERROR';
@@ -8,9 +8,6 @@ export const ADD_CONSTRUCTOR_INGREDIENT = 'ADD_CONSTRUCTOR_INGREDIENT';
 export const REMOVE_CONSTRUCTOR_INGREDIENT = 'REMOVE_CONSTRUCTOR_INGREDIENT';
 export const CLEAR_CONSTRUCTOR = 'CLEAR_CONSTRUCTOR';
 export const MOVE_CONSTRUCTOR_INGREDIENT = 'MOVE_CONSTRUCTOR_INGREDIENT';
-
-export const SET_CURRENT_INGREDIENT_DETAILS = 'SET_CURRENT_INGREDIENT_DETAILS';
-export const REMOVE_CURRENT_INGREDIENT_DETAILS = 'REMOVE_CURRENT_INGREDIENT_DETAILS';
 
 export const GET_ORDER_REQUEST = 'GET_ORDER_REQUEST';
 export const GET_ORDER_SUCCESS = 'GET_ORDER_SUCCESS';
@@ -58,7 +55,8 @@ export function getOrder(apiUrl, constructorIngredients) {
             method: 'POST',
             body: json,
             headers: {
-                'Content-Type': 'application/json; charset=utf-8'
+                'Content-Type': 'application/json; charset=utf-8',
+                Authorization: getCookie("refreshToken")
             }
         })
             .then(checkResponse)
@@ -110,7 +108,6 @@ export function moveIngredient(dragIndex, hoverIndex) {
 export function closeIngredientModal() {
     return function (dispatch) {
         dispatch({ type: CLOSE_INGREDIENT_MODAL });
-        dispatch({ type: REMOVE_CURRENT_INGREDIENT_DETAILS });
     }
 }
 

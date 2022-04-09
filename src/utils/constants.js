@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 
-const menuItemPropTypes = PropTypes.shape({
+export const menuItemPropTypes = PropTypes.shape({
     _id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
@@ -15,7 +15,5 @@ const menuItemPropTypes = PropTypes.shape({
     __v: PropTypes.number.isRequired,
 });
 
-const Escape_keyCode = 27;
-const API_URL = "https://norma.nomoreparties.space/api";
-
-export { API_URL, Escape_keyCode, menuItemPropTypes };
+export const Escape_keyCode = 27;
+export const API_URL = "https://norma.nomoreparties.space/api";

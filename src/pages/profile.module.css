@@ -1,0 +1,9 @@
+.profileBox {
+    margin: 0 auto;
+    max-width: 480px;
+}
+
+.profileContainer {
+    margin: 120px auto 0;
+    max-width: 1240px;
+}

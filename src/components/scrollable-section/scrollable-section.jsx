@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import scrollableSectionStyles from './scrollable-section.module.css';
 import { SET_TAB_NAME } from '../../services/actions';
 
-function ScrollableSection(props) {
+function ScrollableSection({ parentClassName, children }) {
     const sectionElement = useRef(null);
     const dispatch = useDispatch();
     const tabName = useSelector(state => state.general.tabName);
@@ -15,7 +15,7 @@ function ScrollableSection(props) {
         sectionElement.current.addEventListener('scroll', handleScroll);
     }, []);
 
-    function handleScroll(event) {
+    function handleScroll() {
         setScrollTop(sectionElement.current.scrollTop);
     }
 
@@ -42,8 +42,8 @@ function ScrollableSection(props) {
     }, [scrollTop]);
 
     return (
-        <section className={`${scrollableSectionStyles.scrollableSection} ${props.parentClassName}`} ref={sectionElement}>
-            {props.children}
+        <section className={`${scrollableSectionStyles.scrollableSection} ${parentClassName}`} ref={sectionElement}>
+            {children}
         </section>
     )
 };

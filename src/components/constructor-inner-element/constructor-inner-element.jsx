@@ -72,8 +72,9 @@ function ConstructorInnerElement({ itemData, id, index, onDelete }) {
 };
 
 ConstructorInnerElement.propTypes = {
-    itemData: menuItemPropTypes.isRequired,
     id: PropTypes.string.isRequired,
+    index: PropTypes.number.isRequired,
+    itemData: menuItemPropTypes.isRequired,
     onDelete: PropTypes.func.isRequired,
 }
 

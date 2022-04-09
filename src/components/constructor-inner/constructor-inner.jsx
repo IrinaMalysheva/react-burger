@@ -4,17 +4,17 @@ import constructorInnerStyles from './constructor-inner.module.css';
 import ConstructorInnerElement from '../constructor-inner-element/constructor-inner-element';
 import ScrollableSection from '../scrollable-section/scrollable-section';
 
-function ConstructorInner(props) {
+function ConstructorInner({ data, onDelete }) {
     return (
         <ScrollableSection parentClassName={constructorInnerStyles.scrollContainerStyles}>
             <ul className={constructorInnerStyles.innerContainer}>
                 {
-                    props.data.map((item, index) => {
+                    data.map((item, index) => {
                         return (item.type != "bun") && <ConstructorInnerElement
                             itemData={item}
                             key={item.uuid}
                             id={item._id}
-                            onDelete={props.onDelete}
+                            onDelete={onDelete}
                             index={index}
                         />
                     })

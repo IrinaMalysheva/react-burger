@@ -1,27 +1,39 @@
-import React from 'react';
+import { Link, NavLink } from 'react-router-dom';
 import appHeaderStyles from './app-header.module.css';
-import { Icons, BurgerIcon, ListIcon, ProfileIcon, Logo, Typography } from '@ya.praktikum/react-developer-burger-ui-components';
+import { BurgerIcon, ListIcon, ProfileIcon, Logo } from '@ya.praktikum/react-developer-burger-ui-components';
 
-function AppHeader(props) {
+function AppHeader() {
     return (
-        <header className={`ml-5 mr-4 mt-4 ${appHeaderStyles.header}`}>
+        <header className={appHeaderStyles.header}>
             <nav className={appHeaderStyles.nav}>
                 <div className={appHeaderStyles.innerNav}>
-                    <a className={`mb-4 mt-4 mr-2 pl-5 pr-5 pb-4 pt-4 text text_type_main-default ${appHeaderStyles.headerLink} ${appHeaderStyles.active}`} href="">
-                        <span className={`mr-2 text_type_main-default ${appHeaderStyles.iconWrapper}`}><BurgerIcon type="primary" /></span>
+                    <NavLink
+                        to="/" exact
+                        className={`mb-4 mt-4 mr-2 pl-5 pr-5 pb-4 pt-4 text text_type_main-default text_color_inactive ${appHeaderStyles.headerLink}`}
+                        activeClassName={appHeaderStyles.activeLink}
+                    >
+                        <span className={`mr-2 text_type_main-default ${appHeaderStyles.iconWrapper}`}><BurgerIcon type="secondary" /></span>
                         <span className=''>Конструктор</span>
-                    </a>
-                    <a className={`mb-4 mt-4 pl-5 pr-5 pb-4 pt-4 text text_type_main-default ${appHeaderStyles.headerLink} ${appHeaderStyles.inactive}`} href="">
+                    </NavLink>
+                    <NavLink
+                        to="/order-history" exact
+                        className={`mb-4 mt-4 pl-5 pr-5 pb-4 pt-4 text text_type_main-default text_color_inactive ${appHeaderStyles.headerLink}`}
+                        activeClassName={appHeaderStyles.activeLink}
+                    >
                         <span className={`mr-2 text_type_main-default ${appHeaderStyles.iconWrapper}`}><ListIcon type="secondary" /></span>
                         <span className=''>Лента заказов</span>
-                    </a>
+                    </NavLink>
                 </div>
-                <a className={appHeaderStyles.headerLink} href=""><Logo /></a>
+                <Link className={appHeaderStyles.headerLink} to='/'><Logo /></Link>
                 <div className={`${appHeaderStyles.innerNav} ${appHeaderStyles.alignedRight}`}>
-                    <a className={`mb-4 mt-4 pl-5 pr-5 pb-4 pt-4 text text_type_main-default ${appHeaderStyles.headerLink} ${appHeaderStyles.inactive}`} href="">
+                    <NavLink
+                        to="/profile" exact
+                        className={`mb-4 mt-4 pl-5 pr-5 pb-4 pt-4 text text_type_main-default text_color_inactive ${appHeaderStyles.headerLink}`}
+                        activeClassName={appHeaderStyles.activeLink}
+                    >
                         <span className={`mr-2 text_type_main-default ${appHeaderStyles.iconWrapper}`}><ProfileIcon type="secondary" /></span>
-                        <span className=''>Личный кабинет</span>
-                    </a>
+                        Личный кабинет
+                    </NavLink>
                 </div>
             </nav>
         </header>
