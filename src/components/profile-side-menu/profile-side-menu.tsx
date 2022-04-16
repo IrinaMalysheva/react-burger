@@ -1,12 +1,13 @@
+import { FC, SyntheticEvent } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import profileSideMenuStyles from './profile-side-menu.module.css';
 import { logout } from "../../services/actions/authRegister";
 
-function ProfileSideMenu() {
+const ProfileSideMenu: FC = () => {
     const dispatch = useDispatch();
 
-    const handleLogout = (e) => {
+    const handleLogout = (e: SyntheticEvent) => {
         e.preventDefault();
         dispatch(logout());
     };

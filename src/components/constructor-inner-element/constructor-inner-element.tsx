@@ -1,14 +1,14 @@
+import { FC } from 'react';
 import { useCallback, useRef } from 'react';
-import PropTypes from 'prop-types';
 import { useDrag, useDrop } from "react-dnd";
 import { useDispatch } from 'react-redux';
-import { menuItemPropTypes } from '../../utils/constants';
 import constructorInnerElementStyles from './constructor-inner-element.module.css';
 import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { moveIngredient } from '../../services/actions';
+import { TConstructorInnerElement, TIngredient } from '../../utils/types';
 
-function ConstructorInnerElement({ itemData, id, index, onDelete }) {
-    const ref = useRef(null);
+const ConstructorInnerElement: FC<TConstructorInnerElement> = ({ itemData, id, index, onDelete }) => {
+    const ref = useRef<HTMLLIElement>(null);
     const dispatch = useDispatch();
 
     const [{ isDragging }, dragRef] = useDrag({
@@ -28,7 +28,7 @@ function ConstructorInnerElement({ itemData, id, index, onDelete }) {
                 handlerId: monitor.getHandlerId(),
             };
         },
-        hover(item, monitor) {
+        hover(item: any, monitor) {
             if (!ref.current) {
                 return;
             }
@@ -40,7 +40,7 @@ function ConstructorInnerElement({ itemData, id, index, onDelete }) {
             const hoverBoundingRect = ref.current?.getBoundingClientRect();
             const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
             const clientOffset = monitor.getClientOffset();
-            const hoverClientY = clientOffset.y - hoverBoundingRect.top;
+            const hoverClientY = (clientOffset?.y ?? 0) - hoverBoundingRect.top;
             if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
                 return;
             }
@@ -70,12 +70,5 @@ function ConstructorInnerElement({ itemData, id, index, onDelete }) {
         </li>
     )
 };
-
-ConstructorInnerElement.propTypes = {
-    id: PropTypes.string.isRequired,
-    index: PropTypes.number.isRequired,
-    itemData: menuItemPropTypes.isRequired,
-    onDelete: PropTypes.func.isRequired,
-}
 
 export default ConstructorInnerElement;

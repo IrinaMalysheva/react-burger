@@ -1,22 +1,23 @@
-import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { FC, SyntheticEvent, useState } from 'react';
+import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
 import { Link, Redirect, useHistory, useLocation } from 'react-router-dom';
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
 import { forgotPassword } from "../services/actions/authRegister";
+import { TLocation } from "../utils/types";
 
-export function ForgotPasswordPage() {
+export const ForgotPasswordPage: FC = () => {
     const dispatch = useDispatch();
-    const { state } = useLocation();
+    const { state } = useLocation<TLocation>();
     const history = useHistory();
 
-    const isLoggedIn = useSelector(state => state.authRegister.isLoggedIn);
+    const isLoggedIn = useSelector((store: RootStateOrAny) => store.authRegister.isLoggedIn);
     const [emailValue, setEmailValue] = useState('');
 
     if (isLoggedIn) {
         return <Redirect to={ state?.from || '/' } />;
     }
 
-    const handleForgotPassword = (e) => {
+    const handleForgotPassword = (e: SyntheticEvent) => {
         e.preventDefault();
         dispatch(forgotPassword(emailValue));
         history.push({ pathname: '/reset-password', state: { prevPathname: history.location.pathname } });

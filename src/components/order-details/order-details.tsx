@@ -1,17 +1,18 @@
+import { FC } from "react";
 import { useEffect } from "react";
-import { useDispatch, useSelector } from 'react-redux';
+import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
 import orderDetailsStyles from './order-details.module.css';
 import { getOrder } from '../../services/actions';
 import { API_URL } from '../../utils/constants';
 import doneImg from "../../images/done.png";
 
-function OrderDetails() {
+const OrderDetails: FC = () => {
     const dispatch = useDispatch();
-    const constructorFillingIngredients = useSelector(state => state.ingredientsOrder.constructorFillingIngredients);
-    const constructorBun = useSelector(state => state.ingredientsOrder.constructorBun);
+    const constructorFillingIngredients = useSelector((store: RootStateOrAny) => store.ingredientsOrder.constructorFillingIngredients);
+    const constructorBun = useSelector((store: RootStateOrAny) => store.ingredientsOrder.constructorBun);
     const constructorIngredients = {ingredients: [...constructorFillingIngredients, constructorBun]};
 
-    const orderResponse = useSelector(state => state.ingredientsOrder.orderObject);
+    const orderResponse = useSelector((store: RootStateOrAny) => store.ingredientsOrder.orderObject);
 
     useEffect(() => {
         dispatch(getOrder(API_URL, constructorIngredients));

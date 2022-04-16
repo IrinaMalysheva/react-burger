@@ -1,10 +1,10 @@
-import PropTypes from 'prop-types';
-import { menuItemPropTypes } from '../../utils/constants';
+import { FC } from 'react';
 import constructorInnerStyles from './constructor-inner.module.css';
 import ConstructorInnerElement from '../constructor-inner-element/constructor-inner-element';
 import ScrollableSection from '../scrollable-section/scrollable-section';
+import { TConstructorInner } from '../../utils/types';
 
-function ConstructorInner({ data, onDelete }) {
+const ConstructorInner: FC<TConstructorInner> = ({ data, onDelete }) => {
     return (
         <ScrollableSection parentClassName={constructorInnerStyles.scrollContainerStyles}>
             <ul className={constructorInnerStyles.innerContainer}>
@@ -23,10 +23,5 @@ function ConstructorInner({ data, onDelete }) {
         </ScrollableSection>
     )
 };
-
-ConstructorInner.propTypes = {
-    data: PropTypes.arrayOf(menuItemPropTypes).isRequired,
-    onDelete: PropTypes.func.isRequired,
-}
 
 export default ConstructorInner;

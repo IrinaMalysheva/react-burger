@@ -1,13 +1,14 @@
-import { useEffect, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { FC, SyntheticEvent, useEffect, useRef, useState } from 'react';
+import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
 import { Link, Redirect, useLocation } from 'react-router-dom';
 import { Button, Input, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
 import { register } from "../services/actions/authRegister";
+import { TLocation } from "../utils/types";
 
-export function RegisterPage() {
+export const RegisterPage: FC = () => {
     const dispatch = useDispatch();
-    const { state } = useLocation();
-    const { isLoggedIn, isRegistered, registerFailed } = useSelector(state => state.authRegister);
+    const { state } = useLocation<TLocation>();
+    const { isLoggedIn, isRegistered, registerFailed } = useSelector((store: RootStateOrAny) => store.authRegister);
 
     const [nameValue, setNameValue] = useState('');
     const inputNameRef = useRef(null);
@@ -26,13 +27,13 @@ export function RegisterPage() {
         return <Redirect to={ state?.from || '/login' } />;
     }
 
-    const handleRegister = (e) => {
+    const handleRegister = (e: SyntheticEvent) => {
         e.preventDefault();
         dispatch(register(nameValue, emailValue, passwordValue));
         setIsDisabled(true);
     };
 
-    const onEmailChange = (e) => {
+    const onEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setEmailValue(e.target.value);
         setIsDisabled(false);
     };

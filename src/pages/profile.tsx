@@ -1,5 +1,6 @@
+import { FC, SyntheticEvent } from 'react';
 import { useEffect, useRef, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { RootStateOrAny, useSelector, useDispatch } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import profileStyles from './profile.module.css';
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -7,17 +8,17 @@ import { updateUser } from "../services/actions/authRegister";
 import ProfileSideMenu from "../components/profile-side-menu/profile-side-menu";
 import { getUser } from "../services/actions/authRegister";
 
-export function ProfilePage() {
+export const ProfilePage: FC = () => {
     const dispatch = useDispatch();
-    const { isLoggedIn, userData } = useSelector((store) => store.authRegister);
+    const { isLoggedIn, userData } = useSelector((store: RootStateOrAny) => store.authRegister);
     const [profileValues, setProfileValues] = useState({ 
         name: userData ? userData?.name : "",
         email: userData ? userData?.email : "",
         password: ""
     });
-    const inputNameRef = useRef(null);
-    const inputEmailRef = useRef(null);
-    const inputPasswordRef = useRef(null);
+    const inputNameRef = useRef<HTMLInputElement>(null);
+    const inputEmailRef = useRef<HTMLInputElement>(null);
+    const inputPasswordRef = useRef<HTMLInputElement>(null);
 
     const [isChanged, setIsChanged] = useState(false);
 
@@ -31,31 +32,31 @@ export function ProfilePage() {
         return <Redirect to="/login" />;
     }
 
-    const handleChange = (e) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setProfileValues({ ...profileValues, [e.target.name]: e.target.value });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = (e: SyntheticEvent) => {
         e.preventDefault();
         dispatch(updateUser(profileValues.email, profileValues.name, profileValues.password));
     };
 
-    const onCancel = (e) => {
+    const onCancel = (e: SyntheticEvent) => {
         e.preventDefault();
         dispatch(getUser());
         setProfileValues({ ...userData, password: ""});
     };
 
     const onNameIconClick = () => {
-        setTimeout(() => inputNameRef.current.focus(), 0);
+        setTimeout(() => inputNameRef?.current?.focus(), 0);
     }
 
     const onEmailIconClick = () => {
-        setTimeout(() => inputEmailRef.current.focus(), 0);
+        setTimeout(() => inputEmailRef?.current?.focus(), 0);
     }
 
     const onPasswordIconClick = () => {
-        setTimeout(() => inputPasswordRef.current.focus(), 0);
+        setTimeout(() => inputPasswordRef?.current?.focus(), 0);
     }
 
     return (

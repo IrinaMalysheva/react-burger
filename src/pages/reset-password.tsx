@@ -1,14 +1,15 @@
-import { useRef, useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { FC, SyntheticEvent, useRef, useState, useEffect } from 'react';
+import { RootStateOrAny, useSelector, useDispatch } from 'react-redux';
 import { Link, useLocation, useHistory, Redirect } from 'react-router-dom';
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
 import { resetPassword } from "../services/actions/authRegister";
+import { THistory, TLocation } from "../utils/types";
 
-export function ResetPasswordPage() {
+export const ResetPasswordPage: FC = () => {
     const dispatch = useDispatch();
-    const { state } = useLocation();
-    const history = useHistory();
-    const { isLoggedIn, isPasswordReseted } = useSelector(state => state.authRegister);
+    const { state } = useLocation<TLocation>();
+    const history = useHistory<THistory>();
+    const { isLoggedIn, isPasswordReseted } = useSelector((store: RootStateOrAny) => store.authRegister);
     const prevPathname = history.location.state?.prevPathname;
 
     const [passwordValue, setPasswordValue] = useState('');
@@ -16,8 +17,8 @@ export function ResetPasswordPage() {
     const [mailCodeValue, setMailCodeValue] = useState('');
     const inputMailCodeRef = useRef(null);
 
-    const [inputType, setInputType] = useState('password');
-    const [iconType, setIconType] = useState('ShowIcon');
+    const [inputType, setInputType] = useState<'password' | 'text' | 'email'>('password');
+    const [iconType, setIconType] = useState<'ShowIcon' | 'HideIcon'>('ShowIcon');
     const onPasswordIconClick = () => {
         setInputType(inputType == 'password' ? 'text' : 'password');
         setIconType(iconType == 'ShowIcon' ? 'HideIcon' : 'ShowIcon');
@@ -42,7 +43,7 @@ export function ResetPasswordPage() {
         );
     }
 
-    const handleResetPassword = (e) => {
+    const handleResetPassword = (e: SyntheticEvent) => {
         e.preventDefault();
         dispatch(resetPassword(passwordValue, mailCodeValue));
     };
@@ -79,7 +80,7 @@ export function ResetPasswordPage() {
                         errorText={'Ошибка'}
                     />
                 </div>
-                {!isPasswordReseted && <p className="text text_type_main-default mt-8 mb-20">
+                {isPasswordReseted && <p className="text text_type_main-default mt-8 mb-20">
                     Пароль успешно изменён. Вы будете перенаправлены на страницу Входа
                     </p>}
                 <div className="pb-20">
