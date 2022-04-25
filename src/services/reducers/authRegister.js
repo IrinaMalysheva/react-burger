@@ -34,8 +34,6 @@ import {
     RESET_PASSWORD_ERROR,
 } from '../actions/authRegister';
 
-import { setCookie } from '../../utils/utils';
-
 const initialState = {
     userData: null,
     refreshToken: "",

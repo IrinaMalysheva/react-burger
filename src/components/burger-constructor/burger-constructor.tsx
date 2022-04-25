@@ -1,5 +1,6 @@
+import { FC, SyntheticEvent } from 'react';
 import { useMemo } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { useDrop } from "react-dnd";
 import { v4 as uuidv4 } from 'uuid';
@@ -12,21 +13,22 @@ import {
     addIngredient,
     removeIngredient,
 } from "../../services/actions";
+import { TIngredient } from '../../utils/types';
 
-function BurgerConstructor() {
+const BurgerConstructor: FC = () => {
     const dispatch = useDispatch();
     const history = useHistory();
-    const { isLoggedIn } = useSelector(store => store.authRegister);
-    const { constructorBun, constructorFillingIngredients, orderRequest } = useSelector(state => state.ingredientsOrder);
+    const { isLoggedIn } = useSelector((store: RootStateOrAny) => store.authRegister);
+    const { constructorBun, constructorFillingIngredients, orderRequest } = useSelector((store: RootStateOrAny) => store.ingredientsOrder);
 
     const totalPrice = useMemo(() => {
         let interimPrice = constructorBun ? constructorBun.price * 2 : 0;
         return (constructorFillingIngredients)
-            ? constructorFillingIngredients?.reduce((sum, item) => sum + item.price, interimPrice)
+            ? constructorFillingIngredients?.reduce((sum: number, item: TIngredient) => sum + item.price, interimPrice)
             : interimPrice
     }, [constructorBun, constructorFillingIngredients] );
 
-    const handleClick = (e) => {
+    const handleClick = (e: SyntheticEvent) => {
         if (!isLoggedIn) {
             history.push({ pathname: '/login', state: { prevPathname: history.location.pathname } });
             return;
@@ -37,12 +39,12 @@ function BurgerConstructor() {
 
     const [, dropTarget] = useDrop({
         accept: "ingredient",
-        drop: (ingredient) => {
+        drop: (ingredient: TIngredient) => {
             handleDrop(ingredient);
         },
     });
 
-    const handleDrop = (item) => {
+    const handleDrop = (item: TIngredient) => {
         const uuid = uuidv4();
         if (item.type === "bun") {
             dispatch(addBun(item, uuid));
@@ -51,7 +53,7 @@ function BurgerConstructor() {
         }
     };
 
-    const handleRemove = (uuid) => {
+    const handleRemove = (uuid: string) => {
         dispatch(removeIngredient(uuid));
     };
 

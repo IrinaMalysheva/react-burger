@@ -48,7 +48,7 @@ export function forgotPassword(emailValue) {
             }
         })
             .then(checkResponse)
-            .then(jsonResp => {
+            .then(() => {
                 dispatch({ type: FORGOT_PASSWORD_SUCCESS });
             })
             .catch((err) => {
@@ -202,7 +202,7 @@ export function resetPassword(passwordValue, tokenValue) {
             }
         })
             .then(checkResponse)
-            .then(jsonResp => {
+            .then(() => {
                 dispatch({ type: RESET_PASSWORD_SUCCESS });
             })
             .catch((err) => {

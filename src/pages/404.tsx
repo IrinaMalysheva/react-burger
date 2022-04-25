@@ -1,6 +1,7 @@
+import { FC } from 'react';
 import { Link } from 'react-router-dom';
 
-export function NotFound404() {
+export const NotFound404: FC = () => {
     return (
         <div className="autorizeBox">
             <p className="text text_type_main-large text_color_inactive pb-15">Ошибка 404</p>

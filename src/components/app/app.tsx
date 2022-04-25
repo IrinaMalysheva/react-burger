@@ -1,6 +1,6 @@
-import { useEffect } from 'react';
+import { FC, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch, useHistory, useLocation } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { HomePage } from '../../pages/home';
 import { LoginPage } from '../../pages/login';
 import { NotFound404 } from '../../pages/404';
@@ -15,12 +15,13 @@ import Modal from '../modal/modal';
 import { closeIngredientModal } from '../../services/actions';
 import appStyles from './app.module.css';
 import AppHeader from '../app-header/app-header';
-import { getUser, updateToken } from "../../services/actions/authRegister";
+import { getUser, } from "../../services/actions/authRegister";
 import { getDataIngredientsList } from '../../services/actions';
 import { API_URL } from '../../utils/constants';
+import { TLocation } from '../../utils/types';
 
 function ModalSwitch() {
-  const location = useLocation();
+  const location = useLocation<TLocation>();
   const dispatch = useDispatch();
   const history = useHistory();
   const background = location.state && location.state.background;
@@ -85,7 +86,7 @@ function ModalSwitch() {
   );
 };
 
-const App = () => {
+const App: FC = () => {
   return (
     <div className={`App ${appStyles.App}`}>
       <Router>

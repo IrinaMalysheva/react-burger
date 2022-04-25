@@ -1,13 +1,14 @@
-import { useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { FC, SyntheticEvent, useRef, useState } from 'react';
+import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
 import { Link, Redirect, useLocation } from 'react-router-dom';
 import { Button, Input, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
 import { login } from "../services/actions/authRegister";
+import { TLocation } from "../utils/types";
 
-export function LoginPage() {
+export const LoginPage: FC = () => {
     const dispatch = useDispatch();
-    const { state } = useLocation();
-    const isLoggedIn = useSelector(state => state.authRegister.isLoggedIn);
+    const { state } = useLocation<TLocation>();
+    const isLoggedIn = useSelector((store: RootStateOrAny) => store.authRegister.isLoggedIn);
 
     const [emailValue, setEmailValue] = useState('');
     const inputEmailRef = useRef(null);
@@ -17,7 +18,7 @@ export function LoginPage() {
         return <Redirect to={ state?.from || '/' } />;
     }
 
-    const handleLogin = (e) => {
+    const handleLogin = (e: SyntheticEvent) => {
         e.preventDefault();
         dispatch(login(emailValue, passwordValue));
     };

@@ -1,25 +1,25 @@
-
+import { FC } from "react";
 import { useEffect, useRef } from 'react';
-import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
-import { menuItemPropTypes } from '../../utils/constants';
 import BurgerIngredient from '../burger-ingredient/burger-ingredient';
 import ingredientsSectionStyles from './ingredients-section.module.css';
 import { SET_TAB_OFFSETTOP } from '../../services/actions';
+import { TIngredient, TIngredientsSection } from '../../utils/types';
 
-function IngredientsSection({ data, header, ingredientsType, tabName }) {
+const IngredientsSection: FC<TIngredientsSection> = ({ data, header, ingredientsType, tabName }) => {
     let minOffsetTop = 0;
     const dispatch = useDispatch();
-    const sectionElement = useRef(null);
+    const sectionElement = useRef<HTMLHeadingElement>(null);
 
     useEffect(() => {
-        let tabName = sectionElement.current.getAttribute("data-tabname");
+        let tabName = sectionElement?.current?.getAttribute("data-tabname") as string;
         if (tabName === "one") {
-            minOffsetTop = sectionElement.current.offsetTop;
+            minOffsetTop = sectionElement?.current?.offsetTop as number;
         }
+        let sectionElementOffsetTop = sectionElement?.current?.offsetTop as number;
         dispatch({
             type: SET_TAB_OFFSETTOP,
-            data: {[tabName]: sectionElement.current.offsetTop - minOffsetTop}
+            data: {[tabName]: sectionElementOffsetTop - minOffsetTop}
         });
     }, []);
 
@@ -30,20 +30,13 @@ function IngredientsSection({ data, header, ingredientsType, tabName }) {
             </h2>
             <ul className={`pl-4 ${ingredientsSectionStyles.ingredientsContainer}`}>
                 {
-                    data.map((item) => {
-                        return <BurgerIngredient item={item} data={data} key={item._id} ingredientsType={ingredientsType} />;
+                    data.map((item: TIngredient) => {
+                        return <BurgerIngredient item={item} key={item._id} ingredientsType={ingredientsType} />;
                     })
                 }
             </ul>
         </section>
     )
 };
-
-IngredientsSection.propTypes = {
-    data: PropTypes.arrayOf(menuItemPropTypes).isRequired,
-    header: PropTypes.string.isRequired,
-    ingredientsType: PropTypes.string.isRequired,
-    tabName: PropTypes.string.isRequired,
-}
 
 export default IngredientsSection;
