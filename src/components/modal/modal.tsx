@@ -1,7 +1,6 @@
 import { FC, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import modalStyles from './modal.module.css';
-import { Escape_keyCode } from '../../utils/constants';
 import ModalOverlay from '../modal-overlay/modal-overlay';
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { TModal } from '../../utils/types';
@@ -10,8 +9,8 @@ const Modal: FC<TModal> = ({ children, header, onClose }) => {
     const modalRoot = document.getElementById("react-modals") as HTMLElement;
 
     useEffect(() => {
-        const closeModal = (e: { key: string; keyCode: number; }) => {
-            if (e.key === "Escape" || e.keyCode === Escape_keyCode) {
+        const closeModal = (e: KeyboardEvent) => {
+            if (e.key === "Escape") {
                 onClose();
             }
         };
