@@ -1,5 +1,6 @@
 import { FC, SyntheticEvent, useRef, useState, useEffect } from 'react';
-import { RootStateOrAny, useSelector, useDispatch } from 'react-redux';
+import { RootStateOrAny } from 'react-redux';
+import { useSelector, useDispatch } from '../services/hooks';
 import { Link, useLocation, useHistory, Redirect } from 'react-router-dom';
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
 import { resetPassword } from "../services/actions/authRegister";

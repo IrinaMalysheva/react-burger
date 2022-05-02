@@ -82,6 +82,10 @@ export type TForm = {
     token?: string;
 }
 
+export type TUserData = Omit<TForm, "token">;
+
+export type TSetUserData = Omit<TForm, "password">;
+
 export type TIngredientId = Pick<TIngredient, '_id'>;
 
 export type TIngredientComponent = {

@@ -1,8 +1,9 @@
 import { FC } from "react";
 import { useEffect, useRef, useState } from 'react';
-import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
+import { RootStateOrAny } from 'react-redux';
+import { useSelector, useDispatch } from '../../services/hooks';
 import scrollableSectionStyles from './scrollable-section.module.css';
-import { SET_TAB_NAME } from '../../services/actions';
+import { setTabNameAction } from '../../services/actions';
 import { TScrollableSection } from '../../utils/types';
 
 const ScrollableSection: FC<TScrollableSection> = ({ parentClassName, children }) => {
@@ -38,10 +39,7 @@ const ScrollableSection: FC<TScrollableSection> = ({ parentClassName, children }
                 }
             });
         }
-        dispatch({
-            type: SET_TAB_NAME,
-            tabname: activeTab
-        });
+        dispatch(setTabNameAction(activeTab));
     }, [scrollTop]);
 
     return (

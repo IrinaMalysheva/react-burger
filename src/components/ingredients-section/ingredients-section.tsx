@@ -1,9 +1,9 @@
 import { FC } from "react";
 import { useEffect, useRef } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch } from '../../services/hooks';
 import BurgerIngredient from '../burger-ingredient/burger-ingredient';
 import ingredientsSectionStyles from './ingredients-section.module.css';
-import { SET_TAB_OFFSETTOP } from '../../services/actions';
+import { setTabOffsettopAction } from '../../services/actions';
 import { TIngredient, TIngredientsSection } from '../../utils/types';
 
 const IngredientsSection: FC<TIngredientsSection> = ({ data, header, ingredientsType, tabName }) => {
@@ -17,10 +17,7 @@ const IngredientsSection: FC<TIngredientsSection> = ({ data, header, ingredients
             minOffsetTop = sectionElement?.current?.offsetTop as number;
         }
         let sectionElementOffsetTop = sectionElement?.current?.offsetTop as number;
-        dispatch({
-            type: SET_TAB_OFFSETTOP,
-            data: {[tabName]: sectionElementOffsetTop - minOffsetTop}
-        });
+        dispatch(setTabOffsettopAction({[tabName]: sectionElementOffsetTop - minOffsetTop}));
     }, []);
 
     return (

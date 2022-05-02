@@ -1,6 +1,6 @@
 import { FC, SyntheticEvent } from 'react';
 import { Link, NavLink } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch } from '../../services/hooks';
 import profileSideMenuStyles from './profile-side-menu.module.css';
 import { logout } from "../../services/actions/authRegister";
 

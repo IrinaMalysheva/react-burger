@@ -1,6 +1,7 @@
 import { FC, SyntheticEvent } from 'react';
 import { useEffect, useRef, useState } from 'react';
-import { RootStateOrAny, useSelector, useDispatch } from 'react-redux';
+import { RootStateOrAny } from 'react-redux';
+import { useSelector, useDispatch } from '../services/hooks';
 import { Redirect } from 'react-router-dom';
 import profileStyles from './profile.module.css';
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
