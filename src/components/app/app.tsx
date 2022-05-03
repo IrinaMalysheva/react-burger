@@ -1,6 +1,6 @@
 import { FC, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch, useHistory, useLocation } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch } from '../../services/hooks';
 import { HomePage } from '../../pages/home';
 import { LoginPage } from '../../pages/login';
 import { NotFound404 } from '../../pages/404';
@@ -8,7 +8,7 @@ import { RegisterPage } from '../../pages/register';
 import { ForgotPasswordPage } from '../../pages/forgot-password';
 import { ResetPasswordPage } from '../../pages/reset-password';
 import { ProfilePage } from '../../pages/profile';
-import { OrderHistoryPage } from '../../pages/order-history';
+import { FeedPage } from '../../pages/feed';
 import { ProtectedRoute } from '../protected-route/protected-route';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import Modal from '../modal/modal';
@@ -61,9 +61,9 @@ function ModalSwitch() {
         <ProtectedRoute path="/profile" exact={true}>
           <ProfilePage />
         </ProtectedRoute>
-        <ProtectedRoute path="/order-history" exact={true}>
-          <OrderHistoryPage />
-        </ProtectedRoute>
+        <Route path="/feed" exact={true}>
+          <FeedPage />
+        </Route>
         <Route path='/ingredients/:ingredientId' exact>
           <IngredientDetails />
         </Route>

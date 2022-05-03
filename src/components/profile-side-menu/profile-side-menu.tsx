@@ -23,7 +23,7 @@ const ProfileSideMenu: FC = () => {
                 </NavLink>
             </div>
             <div className={profileSideMenuStyles.sideMenuItem}>
-                <NavLink to='/order-history'
+                <NavLink to='/profile/orders'
                     className={`text text_type_main-medium text_color_inactive ${profileSideMenuStyles.sideMenuLink}`}
                     activeClassName={profileSideMenuStyles.activeLink}
                 >

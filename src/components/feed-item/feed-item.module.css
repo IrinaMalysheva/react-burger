@@ -1,0 +1,71 @@
+.feedItem {
+    background: #1C1C21;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.04), 0px 0px 2px rgba(0, 0, 0, 0.06), 0px 0px 1px rgba(0, 0, 0, 0.04);
+    border-radius: 40px;
+    padding: 24px;
+    max-width: 584px;
+}
+
+.feedIngredientImg {
+    background: linear-gradient(90deg, #801AB2, #4C4CFF);
+    border-radius: 50%;
+    height: 64px;
+    width: 64px;
+    margin-right: -16px;
+    position: relative;
+} 
+
+.feedIngredientsList {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.link {
+    color: unset;
+    text-decoration: none;
+}
+
+.moreIngredients {
+    align-items: center;
+    background-color: rgba(28, 28, 33, 0.6);
+    border-radius: 50%;
+    display: flex;
+    font-size: 16px;
+    font-weight: 400;
+    height: 64px;
+    justify-content: center;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 64px;
+}
+
+.orderId {
+    font-size: 28px;
+}
+
+.orderIngrImg {
+    background-color: #131316;
+    border-radius: 50%;
+    height: 60px;
+    margin: 2px 0 0 2px;
+    object-fit: cover;
+    width: 60px;
+}
+
+.feedItemSubblock {
+    display: flex;
+    justify-content: space-between;
+}
+
+.orderName {
+    font-size: 24px;
+}
+
+.orderPrice {
+    align-items: center;
+    display: flex;
+}

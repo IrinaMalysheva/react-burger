@@ -1,5 +1,6 @@
 import { Location } from "history";
 import { ReactNode } from "react";
+import { match } from 'react-router-dom';
 
 export type TBurgerIngredient = {
     ingredientsType: string;
@@ -20,6 +21,16 @@ export type TConstructorInnerElement = {
     index: number,
     itemData: TIngredient,
     onDelete: (uuid: string) => void;
+}
+
+export type TFeedItemComponent = {
+    orderID: string;
+    orderNumber: number;
+    orderDate: string;
+    orderName: string;
+    status: string;
+    ingredients: Array<TIngredientId | string>;
+    isUserOrder: match<{}> | null;
 }
 
 export type TIngredient = {
@@ -58,6 +69,16 @@ export type TModal = {
 export type TModalOverlay = {
     onClose: () => void;
 }
+
+export type TOrder = {
+    name: string;
+    ingredients: Array<TIngredientId | string>;
+    _id: string;
+    status: string;
+    number: number;
+    createdAt: string;
+    updatedAt: string;
+};
 
 export type TParams = {
     ingredientId: string;

@@ -17,7 +17,7 @@ const AppHeader: FC = () => {
                         <span className=''>Конструктор</span>
                     </NavLink>
                     <NavLink
-                        to="/order-history" exact
+                        to="/feed" exact
                         className={`mb-4 mt-4 pl-5 pr-5 pb-4 pt-4 text text_type_main-default text_color_inactive ${appHeaderStyles.headerLink}`}
                         activeClassName={appHeaderStyles.activeLink}
                     >

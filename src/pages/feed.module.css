@@ -1,0 +1,12 @@
+.feedContainer {
+    display: flex;
+    justify-content: space-between;
+    margin: 40px auto 0;
+    max-width: 1240px;
+    text-align: left;
+}
+
+.scrollContainerStyles {
+    height: 716px;
+    scrollbar-width: thin;
+}
