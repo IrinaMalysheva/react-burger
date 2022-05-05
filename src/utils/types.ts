@@ -24,12 +24,12 @@ export type TConstructorInnerElement = {
 }
 
 export type TFeedItemComponent = {
-    orderID: string;
+    orderId: string;
     orderNumber: number;
     orderDate: string;
     orderName: string;
     status: string;
-    ingredients: Array<TIngredientId | string>;
+    ingredients: Array<TIngredientId>;
     isUserOrder: match<{}> | null;
 }
 
@@ -48,6 +48,8 @@ export type TIngredient = {
     __v: number,
     uuid: string,
 }
+
+export type TIngredientId = Pick<TIngredient, '_id'> | string;
 
 export type TIngredientsSection = {
     data: TIngredient[];
@@ -72,7 +74,7 @@ export type TModalOverlay = {
 
 export type TOrder = {
     name: string;
-    ingredients: Array<TIngredientId | string>;
+    ingredients: Array<TIngredientId>;
     _id: string;
     status: string;
     number: number;
@@ -81,7 +83,7 @@ export type TOrder = {
 };
 
 export type TParams = {
-    ingredientId: string;
+    id: string;
 }
 
 export type TScrollableSection = {
@@ -107,8 +109,6 @@ export type TUserData = Omit<TForm, "token">;
 
 export type TSetUserData = Omit<TForm, "password">;
 
-export type TIngredientId = Pick<TIngredient, '_id'>;
-
 export type TIngredientComponent = {
     item: TIngredient;
 }
@@ -117,3 +117,10 @@ export type TIngredientsItemComponent = {
     ingredients: TIngredient[];
     name: string;
 }
+
+export type TOrderIngrItem = {
+    name: string;
+    ingredient: TIngredient; 
+    image: string;
+    currentOrder: TOrder;
+} 

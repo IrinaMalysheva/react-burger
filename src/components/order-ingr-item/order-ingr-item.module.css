@@ -1,0 +1,38 @@
+.orderItemContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.orderItemImg {
+    background-color: #131316;
+    border-radius: 50%;
+    height: 60px;
+    margin: 2px 0 0 2px;
+    object-fit: cover;
+    width: 60px;
+}
+
+.orderItemImgOuter {
+    background: linear-gradient(90deg, #801AB2, #4C4CFF);
+    border-radius: 50%;
+    flex-shrink: 0;
+    height: 64px;
+    width: 64px;
+    margin-right: -16px;
+    position: relative;
+}
+
+.orderItemIngrBox {
+    align-items: center;
+    display: flex;
+}
+
+.orderItemIngrBox p {
+    max-width: 414px;
+}
+
+.orderItemPricing {
+    display: flex;
+    align-items: center;
+}

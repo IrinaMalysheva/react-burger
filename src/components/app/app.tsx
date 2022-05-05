@@ -7,12 +7,13 @@ import { NotFound404 } from '../../pages/404';
 import { RegisterPage } from '../../pages/register';
 import { ForgotPasswordPage } from '../../pages/forgot-password';
 import { ResetPasswordPage } from '../../pages/reset-password';
-import { ProfilePage } from '../../pages/profile';
-import { FeedPage } from '../../pages/feed';
+import { ProfilePage } from '../../pages/profile/profile';
+import { FeedPage } from '../../pages/feed/feed';
+import { OrderPage } from '../../pages/order/order';
 import { ProtectedRoute } from '../protected-route/protected-route';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import Modal from '../modal/modal';
-import { closeIngredientModal } from '../../services/actions';
+import { closeIngredientModal, closeModal } from '../../services/actions';
 import appStyles from './app.module.css';
 import AppHeader from '../app-header/app-header';
 import { getUser, } from "../../services/actions/authRegister";
@@ -34,8 +35,13 @@ function ModalSwitch() {
     dispatch(getDataIngredientsList(API_URL));
   }, [dispatch]);
 
-  const handleModalClose = () => {
+  const handleIngredienModalClose = () => {
     dispatch(closeIngredientModal());
+    history.goBack();
+  };
+
+  const handleModalClose = () => {
+    dispatch(closeModal());
     history.goBack();
   };
 
@@ -64,7 +70,10 @@ function ModalSwitch() {
         <Route path="/feed" exact={true}>
           <FeedPage />
         </Route>
-        <Route path='/ingredients/:ingredientId' exact>
+        <Route path="/feed/:id" exact={true}>
+          <OrderPage />
+        </Route>
+        <Route path='/ingredients/:id' exact={true}>
           <IngredientDetails />
         </Route>
         <Route>
@@ -74,13 +83,27 @@ function ModalSwitch() {
 
       {background && (
         <Route
-          path='/ingredients/:ingredientId'
+          path='/ingredients/:id'
           children={
-            <Modal header="Детали ингредиента" onClose={handleModalClose}>
+            <Modal header="Детали ингредиента" onClose={handleIngredienModalClose}>
               <IngredientDetails />
             </Modal>
           }
         />
+      )}
+      {background && (
+        <Route path="/feed/:id">
+          <Modal header="Заказ" onClose={handleModalClose}>
+            <OrderPage />
+          </Modal>
+        </Route>
+      )}
+      {background && (
+        <ProtectedRoute path="/profile/orders/:id">
+          <Modal header="Заказ" onClose={handleModalClose}>
+            <OrderPage />
+          </Modal>
+        </ProtectedRoute>
       )}
     </>
   );

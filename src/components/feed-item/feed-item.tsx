@@ -6,7 +6,7 @@ import feedItemStyles from "./feed-item.module.css";
 import { TFeedItemComponent, TIngredient } from "../../utils/types";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 
-const FeedItem: FC<TFeedItemComponent> = ({ orderID, orderNumber, orderDate, orderName, ingredients, status, isUserOrder }) => {
+const FeedItem: FC<TFeedItemComponent> = ({ orderId, orderNumber, orderDate, orderName, ingredients, status, isUserOrder }) => {
     const location = useLocation();
     const dataIngredientsList = useSelector((store: RootStateOrAny) => store.general.dataIngredientsList);
     const burgerIngredients = dataIngredientsList?.filter((item: TIngredient) => ingredients.includes(item._id));
@@ -33,10 +33,10 @@ const FeedItem: FC<TFeedItemComponent> = ({ orderID, orderNumber, orderDate, ord
     return (
         <Link
             to={{
-                pathname: `${location.pathname}/${orderID}`,
+                pathname: `/feed/${orderId}`,
                 state: { background: location }
             }}
-            className={feedItemStyles.link}
+            className={feedItemStyles.feedItemlink}
         >
             <article className={feedItemStyles.feedItem + " mb-4"}>
                 <div>

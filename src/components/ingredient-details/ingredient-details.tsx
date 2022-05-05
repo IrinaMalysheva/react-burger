@@ -9,7 +9,7 @@ const IngredientDetails: FC = () => {
     const params = useParams<TParams>();
     const { state } = useLocation<TLocation>();
     const isBackground = state?.background;
-    const ingredientId = params.ingredientId;
+    const ingredientId = params.id;
     const dataIngredientsList = useSelector((store: RootStateOrAny) => store.general.dataIngredientsList);
 
     const ingredientItem = useMemo(

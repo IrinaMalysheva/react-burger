@@ -7,7 +7,7 @@
 }
 
 .scrollableSection::-webkit-scrollbar-track {
-    background: #2F2F37;
+    background-color: #2F2F37;
     border: 1px dashed #4C4CFF;
 }
 

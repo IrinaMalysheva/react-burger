@@ -1,7 +1,7 @@
 import { FC } from 'react';
-import OrdersList from "../components/orders-list/orders-list";
-import OrdersStand from "../components/orders-stand/orders-stand";
-import ScrollableSection from '../components/scrollable-section/scrollable-section';
+import OrdersList from "../../components/orders-list/orders-list";
+import OrdersStand from "../../components/orders-stand/orders-stand";
+import ScrollableSection from '../../components/scrollable-section/scrollable-section';
 import feedStyles from './feed.module.css';
 
 export const FeedPage: FC = () => {

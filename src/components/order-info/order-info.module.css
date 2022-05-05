@@ -1,0 +1,41 @@
+.done {
+    color: #00CCCC;
+}
+
+.orderInfo {
+    margin: 0 auto;
+    padding-top: 122px;
+}
+
+.orderModalInfo {
+    padding-top: 0;
+}
+
+.order_id {
+    text-align: center;
+}
+
+.order_name, .order_title {
+    font-size: 30px;
+}
+
+.order_status {
+    margin: 0;
+}
+
+.order_price {
+    display: flex;
+    justify-content: space-between;
+}
+
+.order_total {
+    display: flex;
+}
+
+.order_list {
+    height: 336px;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    padding-right: 24px;
+}

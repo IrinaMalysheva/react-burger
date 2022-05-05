@@ -14,7 +14,7 @@ const OrdersList: FC = () => {
           {ordersList.map((item: TOrder) => (
             <FeedItem
               key={item._id}
-              orderID={item._id}
+              orderId={item._id}
               orderNumber={item.number}
               orderName={item.name}
               orderDate={item.createdAt}

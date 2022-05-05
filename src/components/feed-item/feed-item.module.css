@@ -23,7 +23,7 @@
     flex-direction: row-reverse;
 }
 
-.link {
+.feedItemlink {
     color: unset;
     text-decoration: none;
 }
