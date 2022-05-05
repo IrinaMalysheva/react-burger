@@ -64,7 +64,10 @@ function ModalSwitch() {
         <Route path="/reset-password" exact={true}>
           <ResetPasswordPage />
         </Route>
-        <ProtectedRoute path="/profile" exact={true}>
+        <ProtectedRoute path="/profile/orders/:id" exact={true}>
+          <OrderPage />
+        </ProtectedRoute>
+        <ProtectedRoute path="/profile">
           <ProfilePage />
         </ProtectedRoute>
         <Route path="/feed" exact={true}>

@@ -39,3 +39,16 @@ export function setCookie(name: string, value: string, props?: any) {
     }
     document.cookie = updatedCookie;
 }
+
+export function textFromStatus(status: string) {
+    switch (status) {
+        case "created":
+            return "Создан";
+        case "pending":
+            return "Готовится";
+        case "done":
+            return "Выполнен";
+        default:
+            return "Status: Not defined";
+    }
+}

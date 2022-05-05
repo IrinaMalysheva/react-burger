@@ -30,7 +30,7 @@ export type TFeedItemComponent = {
     orderName: string;
     status: string;
     ingredients: Array<TIngredientId>;
-    isUserOrder: match<{}> | null;
+    isProfileOrder: match<{}> | null;
 }
 
 export type TIngredient = {

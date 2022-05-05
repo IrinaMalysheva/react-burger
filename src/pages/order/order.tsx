@@ -1,10 +1,12 @@
 import { FC } from "react";
-import styles from "./order.module.css";
+import orderPageStyles from "./order.module.css";
 import OrderInfo from "../../components/order-info/order-info";
 
 export const OrderPage: FC = () => {
+  console.log("OrderPage");
+
   return (
-    <main className={styles.order_section}>
+    <main className={orderPageStyles.orderContainer}>
         <OrderInfo />
     </main>
   );

@@ -2,17 +2,20 @@ import { FC, SyntheticEvent } from 'react';
 import { useEffect, useRef, useState } from 'react';
 import { RootStateOrAny } from 'react-redux';
 import { useSelector, useDispatch } from '../../services/hooks';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Route, Switch, useRouteMatch } from 'react-router-dom';
 import profileStyles from './profile.module.css';
+import OrdersList from "../../components/orders-list/orders-list";
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
 import { updateUser } from "../../services/actions/authRegister";
 import ProfileSideMenu from "../../components/profile-side-menu/profile-side-menu";
+import ScrollableSection from '../../components/scrollable-section/scrollable-section';
 import { getUser } from "../../services/actions/authRegister";
 
 export const ProfilePage: FC = () => {
     const dispatch = useDispatch();
+    const { path } = useRouteMatch();
     const { isLoggedIn, userData } = useSelector((store: RootStateOrAny) => store.authRegister);
-    const [profileValues, setProfileValues] = useState({ 
+    const [profileValues, setProfileValues] = useState({
         name: userData ? userData?.name : "",
         email: userData ? userData?.email : "",
         password: ""
@@ -28,7 +31,7 @@ export const ProfilePage: FC = () => {
             profileValues?.name !== userData?.name || profileValues?.email !== userData?.email || profileValues?.password !== userData?.password
         );
     }, [userData, profileValues]);
-    
+
     if (!isLoggedIn) {
         return <Redirect to="/login" />;
     }
@@ -45,7 +48,7 @@ export const ProfilePage: FC = () => {
     const onCancel = (e: SyntheticEvent) => {
         e.preventDefault();
         dispatch(getUser());
-        setProfileValues({ ...userData, password: ""});
+        setProfileValues({ ...userData, password: "" });
     };
 
     const onNameIconClick = () => {
@@ -63,64 +66,73 @@ export const ProfilePage: FC = () => {
     return (
         <div className={profileStyles.profileContainer}>
             <ProfileSideMenu />
-            <form onSubmit={handleSubmit} className={profileStyles.profileBox}>
-                <div className="inputWrapper">
-                    <Input
-                        type={'text'}
-                        placeholder={'Имя'}
-                        onChange={handleChange}
-                        icon={'EditIcon'}
-                        value={profileValues.name}
-                        name={'name'}
-                        error={false}
-                        ref={inputNameRef}
-                        onIconClick={onNameIconClick}
-                        errorText={'Ошибка'}
-                    />
-                </div>
-                <div className="inputWrapper">
-                    <Input
-                        type={'email'}
-                        placeholder={'Логин'}
-                        onChange={handleChange}
-                        icon={'EditIcon'}
-                        value={profileValues.email}
-                        name={'email'}
-                        error={false}
-                        ref={inputEmailRef}
-                        onIconClick={onEmailIconClick}
-                        errorText={'Ошибка'}
-                    />
-                </div>
-                <div className="inputWrapper">
-                    <Input
-                        type={'password'}
-                        placeholder={'Пароль'}
-                        onChange={handleChange}
-                        icon={'EditIcon'}
-                        value={profileValues.password}
-                        name={'password'}
-                        error={false}
-                        ref={inputPasswordRef}
-                        onIconClick={onPasswordIconClick}
-                        errorText={'Ошибка'}
-                    />
-                </div>
-                {isChanged && (
-                    <div className="mt-8">
-                        <Button
-                            type="secondary"
-                            size="medium"
-                            onClick={onCancel}
-                        >
-                            Отмена
-                        </Button>
-                        <Button type="primary" size="medium">
-                            Сохранить
-                        </Button>
-                    </div>
-                )}
-            </form>
+            <Switch>
+                <Route path={`${path}`} exact={true}>
+                    <form onSubmit={handleSubmit} className={profileStyles.profileBox}>
+                        <div className="inputWrapper">
+                            <Input
+                                type={'text'}
+                                placeholder={'Имя'}
+                                onChange={handleChange}
+                                icon={'EditIcon'}
+                                value={profileValues.name}
+                                name={'name'}
+                                error={false}
+                                ref={inputNameRef}
+                                onIconClick={onNameIconClick}
+                                errorText={'Ошибка'}
+                            />
+                        </div>
+                        <div className="inputWrapper">
+                            <Input
+                                type={'email'}
+                                placeholder={'Логин'}
+                                onChange={handleChange}
+                                icon={'EditIcon'}
+                                value={profileValues.email}
+                                name={'email'}
+                                error={false}
+                                ref={inputEmailRef}
+                                onIconClick={onEmailIconClick}
+                                errorText={'Ошибка'}
+                            />
+                        </div>
+                        <div className="inputWrapper">
+                            <Input
+                                type={'password'}
+                                placeholder={'Пароль'}
+                                onChange={handleChange}
+                                icon={'EditIcon'}
+                                value={profileValues.password}
+                                name={'password'}
+                                error={false}
+                                ref={inputPasswordRef}
+                                onIconClick={onPasswordIconClick}
+                                errorText={'Ошибка'}
+                            />
+                        </div>
+                        {isChanged && (
+                            <div className="mt-8">
+                                <Button
+                                    type="secondary"
+                                    size="medium"
+                                    onClick={onCancel}
+                                >
+                                    Отмена
+                                </Button>
+                                <Button type="primary" size="medium">
+                                    Сохранить
+                                </Button>
+                            </div>
+                        )}
+                    </form>
+                </Route>
+                <Route path={`${path}/orders`} exact={true}>
+                    <ScrollableSection parentClassName={profileStyles.scrollContainerStyles}>
+                        <OrdersList />
+                    </ScrollableSection>
+                </Route>
+            </Switch>
         </div>
     );
 }

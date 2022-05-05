@@ -15,8 +15,7 @@ const OrderIngrItem: FC<TOrderIngrItem> = ({name, ingredient, image, currentOrde
                 <p className={styles.orderNumber}>{orderIngrItemCount}</p>
                 &nbsp;x&nbsp;
                 <p className={styles.orderNumber}>{ingredient.price}</p> 
-                &nbsp;
-                <CurrencyIcon type="primary" />
+                &nbsp;<CurrencyIcon type="primary" />
             </div>
         </div>
     )
