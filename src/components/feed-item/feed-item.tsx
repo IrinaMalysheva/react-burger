@@ -9,10 +9,8 @@ import { textFromStatus } from '../../utils/utils';
 
 const FeedItem: FC<TFeedItemComponent> = ({ orderId, orderNumber, orderDate, orderName, ingredients, status, isProfileOrder }) => {
     const location = useLocation();
-    const dataIngredientsList = useSelector((store: RootStateOrAny) => store.general.dataIngredientsList);
+    const dataIngredientsList = useSelector((store: RootStateOrAny) => store.generalBurgers.dataIngredientsList);
     const burgerIngredients = dataIngredientsList?.filter((item: TIngredient) => ingredients.includes(item._id));
-
-console.log(location);
 
     const orderPrice = React.useMemo(
         () =>

@@ -2,11 +2,12 @@ import { ThunkAction } from 'redux-thunk';
 import { Action, ActionCreator } from 'redux';
 
 import { store } from '../store';
-import { TMainBurgersActions } from '../actions';
+import { TGeneralBurgersActions } from '../actions/generalBurgers';
 import { TAuthRegisterActions } from '../actions/authRegister';
+import { TWSOrdersFeedActions } from '../actions/wsOrdersFeed';
 
 export type RootState = ReturnType<typeof store.getState>; 
-type TApplicationActions = TMainBurgersActions | TAuthRegisterActions;
+export type TApplicationActions = TGeneralBurgersActions | TAuthRegisterActions | TWSOrdersFeedActions;
 export type AppThunk<TReturn = void> = ActionCreator<
   ThunkAction<TReturn, Action, RootState, TApplicationActions>
 >; 

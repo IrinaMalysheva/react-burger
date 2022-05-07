@@ -6,18 +6,18 @@ import orderInfoStyles from "./order-info.module.css";
 import OrderIngrItem from "../order-ingr-item/order-ingr-item";
 import ScrollableSection from "../scrollable-section/scrollable-section"
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import { ordersList } from "../../utils/constants";
 import { TIngredient, TLocation, TParams, TOrder } from "../../utils/types";
 import { textFromStatus } from '../../utils/utils';
 
 const OrderInfo: FC = () => {
     const { id } = useParams<TParams>();
-    const dataIngredientsList = useSelector((store: RootStateOrAny) => store.general.dataIngredientsList);
+    const dataIngredientsList = useSelector((store: RootStateOrAny) => store.generalBurgers.dataIngredientsList);
     const { state } = useLocation<TLocation>();
     const isBackground = state?.background;
     const isProfileOrder = useRouteMatch({ path: "/profile/orders" });
-    const feedOrder = ordersList && ordersList.find((item: TOrder) => item._id === id);
-    const userOrder = ordersList && ordersList.find((item: TOrder) => item._id === id);
+    const { feedOrders, userOrders } = useSelector((store: RootStateOrAny) => store.wsOrdersFeed);
+    const feedOrder = feedOrders && feedOrders.find((item: TOrder) => item._id === id);
+    const userOrder = userOrders && userOrders.find((item: TOrder) => item._id === id);
     const currentOrder = isProfileOrder ? userOrder : feedOrder;
     const burgerIngredients = dataIngredientsList && dataIngredientsList.filter((item: TIngredient) => currentOrder?.ingredients.includes(item._id));
 

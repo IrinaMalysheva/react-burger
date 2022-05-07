@@ -10,8 +10,8 @@ import ScrollableSection from '../scrollable-section/scrollable-section';
 const BurgerIngredients: FC = () => {
     const [current, setCurrent] = useState('one');
 
-    const dataIngredientsList = useSelector((store: RootStateOrAny) => store.general.dataIngredientsList);
-    const tabName = useSelector((store: RootStateOrAny) => store.general.tabName);
+    const dataIngredientsList = useSelector((store: RootStateOrAny) => store.generalBurgers.dataIngredientsList);
+    const tabName = useSelector((store: RootStateOrAny) => store.generalBurgers.tabName);
 
     useEffect(() => {
         setCurrent(tabName);

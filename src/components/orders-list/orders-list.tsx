@@ -1,18 +1,37 @@
-import { FC } from "react";
-import FeedItem from "../feed-item/feed-item";
+import { FC, useEffect } from "react";
+import { RootStateOrAny } from 'react-redux';
 import { useRouteMatch } from "react-router-dom";
+import { useSelector, useDispatch } from '../../services/hooks';
 import ordersListStyles from "./orders-list.module.css";
+import FeedItem from "../feed-item/feed-item";
 import { TOrder } from "../../utils/types";
-import { ordersList } from "../../utils/constants";
+import {
+  wsOrderConnectionStartAction,
+  wsOrderConnectionClosedAction,
+  wsUserOrderConnectionStartAction,
+  wsUserOrderConnectionClosedAction
+} from "../../services/actions/wsOrdersFeed";
 
 const OrdersList: FC = () => {
+  const dispatch = useDispatch();
   const isProfileOrder = useRouteMatch({ path: "/profile/orders" });
+  const { feedOrders, userOrders } = useSelector((store: RootStateOrAny) => store.wsOrdersFeed);
+  const currentOrder = isProfileOrder ? userOrders : feedOrders;
+
+  useEffect(
+    () => {
+      dispatch(isProfileOrder ? wsUserOrderConnectionStartAction() : wsOrderConnectionStartAction());
+      return () => {
+        dispatch(isProfileOrder ? wsUserOrderConnectionClosedAction() : wsOrderConnectionClosedAction());
+      };
+    }, [],
+  );
 
   return (
     <section className={isProfileOrder?.isExact ? (ordersListStyles.profileOrdersSection) : ""}>
-      {ordersList &&
+      {currentOrder &&
         <ul className="pr-2">
-          {ordersList.map((item: TOrder) => (
+          {currentOrder.map((item: TOrder) => (
             <FeedItem
               key={item._id}
               orderId={item._id}

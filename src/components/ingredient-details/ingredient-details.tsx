@@ -10,7 +10,7 @@ const IngredientDetails: FC = () => {
     const { state } = useLocation<TLocation>();
     const isBackground = state?.background;
     const ingredientId = params.id;
-    const dataIngredientsList = useSelector((store: RootStateOrAny) => store.general.dataIngredientsList);
+    const dataIngredientsList = useSelector((store: RootStateOrAny) => store.generalBurgers.dataIngredientsList);
 
     const ingredientItem = useMemo(
         () => dataIngredientsList?.find((item: TIngredient) => item._id === ingredientId),

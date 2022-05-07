@@ -13,11 +13,11 @@ import { OrderPage } from '../../pages/order/order';
 import { ProtectedRoute } from '../protected-route/protected-route';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import Modal from '../modal/modal';
-import { closeIngredientModal, closeModal } from '../../services/actions';
+import { closeIngredientModal, closeModal } from '../../services/actions/generalBurgers';
 import appStyles from './app.module.css';
 import AppHeader from '../app-header/app-header';
 import { getUser, } from "../../services/actions/authRegister";
-import { getDataIngredientsList } from '../../services/actions';
+import { getDataIngredientsList } from '../../services/actions/generalBurgers';
 import { API_URL } from '../../utils/constants';
 import { TLocation } from '../../utils/types';
 

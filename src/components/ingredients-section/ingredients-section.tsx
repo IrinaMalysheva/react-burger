@@ -3,7 +3,7 @@ import { useEffect, useRef } from 'react';
 import { useDispatch } from '../../services/hooks';
 import BurgerIngredient from '../burger-ingredient/burger-ingredient';
 import ingredientsSectionStyles from './ingredients-section.module.css';
-import { setTabOffsettopAction } from '../../services/actions';
+import { setTabOffsettopAction } from '../../services/actions/generalBurgers';
 import { TIngredient, TIngredientsSection } from '../../utils/types';
 
 const IngredientsSection: FC<TIngredientsSection> = ({ data, header, ingredientsType, tabName }) => {

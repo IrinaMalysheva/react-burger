@@ -2,17 +2,20 @@
     color: #00CCCC;
 }
 
+.standColsBox, .standSubcontainer {
+    display: flex;
+    justify-content: space-between;
+}
+
 .standContainer {
     width: 584px;
 }
 
-.standSubontainer {
-    display: flex;
-    justify-content: space-between;
+.standSubcontainer {
     margin-bottom: -8px;
 }
 
-.standSubontainer>div {
+.standSubcontainer>div {
     width: 272px;
 }
 

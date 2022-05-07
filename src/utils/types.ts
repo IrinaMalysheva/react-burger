@@ -82,6 +82,12 @@ export type TOrder = {
     updatedAt: string;
 };
 
+export type TWSOrdersFeed = {
+    orders: Array<TOrder>;
+    total: number;
+    totalToday: number;
+}
+
 export type TParams = {
     id: string;
 }

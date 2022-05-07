@@ -4,7 +4,7 @@ import { useDrag, useDrop } from "react-dnd";
 import { useDispatch } from '../../services/hooks';
 import constructorInnerElementStyles from './constructor-inner-element.module.css';
 import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import { moveIngredient } from '../../services/actions';
+import { moveIngredient } from '../../services/actions/generalBurgers';
 import { TConstructorInnerElement, TIngredient } from '../../utils/types';
 
 const ConstructorInnerElement: FC<TConstructorInnerElement> = ({ itemData, id, index, onDelete }) => {

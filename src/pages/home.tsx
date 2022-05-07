@@ -3,14 +3,14 @@ import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { RootStateOrAny } from 'react-redux';
 import { useSelector, useDispatch } from '../services/hooks';
-import { closeOrderModal } from '../services/actions';
+import { closeOrderModal } from '../services/actions/generalBurgers';
 import BurgerIngredients from '../components/burger-ingredients/burger-ingredients';
 import BurgerConstructor from '../components/burger-constructor/burger-constructor';
 import Modal from '../components/modal/modal';
 import OrderDetails from '../components/order-details/order-details';
 
 export const HomePage: FC = () => {
-    const isOrderModal = useSelector((store: RootStateOrAny) => store.general.isOrderModal);
+    const isOrderModal = useSelector((store: RootStateOrAny) => store.generalBurgers.isOrderModal);
 
     const dispatch = useDispatch();
 

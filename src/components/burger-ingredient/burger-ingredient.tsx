@@ -5,14 +5,14 @@ import { Link, useLocation } from 'react-router-dom';
 import { useDrag } from "react-dnd";
 import BurgerIngredientStyles from './burger-ingredient.module.css';
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import { openIngredientModal, openModal } from '../../services/actions';
+import { openIngredientModal, openModal } from '../../services/actions/generalBurgers';
 import { TBurgerIngredient, TIngredient } from '../../utils/types';
 
 const BurgerIngredient: FC<TBurgerIngredient> = ({ ingredientsType, item }) => {
     const dispatch = useDispatch();
     const location = useLocation();
-    const constructorBun = useSelector((store: RootStateOrAny) => store.general.constructorBun);
-    const constructorFillingIngredients = useSelector((store: RootStateOrAny) => store.general.constructorFillingIngredients);
+    const constructorBun = useSelector((store: RootStateOrAny) => store.generalBurgers.constructorBun);
+    const constructorFillingIngredients = useSelector((store: RootStateOrAny) => store.generalBurgers.constructorFillingIngredients);
     let count = 0;
 
     const ingredientId = item['_id'];

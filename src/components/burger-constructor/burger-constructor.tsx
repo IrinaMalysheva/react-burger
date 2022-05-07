@@ -8,19 +8,19 @@ import { v4 as uuidv4 } from 'uuid';
 import burgerConstructorStyles from './burger-constructor.module.css';
 import ConstructorInner from '../constructor-inner/constructor-inner';
 import { Button, ConstructorElement, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import { openModal, openOrderModal } from '../../services/actions';
+import { openModal, openOrderModal } from '../../services/actions/generalBurgers';
 import {
     addBun,
     addIngredient,
     removeIngredient,
-} from "../../services/actions";
+} from "../../services/actions/generalBurgers";
 import { TIngredient } from '../../utils/types';
 
 const BurgerConstructor: FC = () => {
     const dispatch = useDispatch();
     const history = useHistory();
     const { isLoggedIn } = useSelector((store: RootStateOrAny) => store.authRegister);
-    const { constructorBun, constructorFillingIngredients, orderRequest } = useSelector((store: RootStateOrAny) => store.general);
+    const { constructorBun, constructorFillingIngredients, orderRequest } = useSelector((store: RootStateOrAny) => store.generalBurgers);
 
     const totalPrice = useMemo(() => {
         let interimPrice = constructorBun ? constructorBun.price * 2 : 0;

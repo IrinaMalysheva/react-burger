@@ -25,7 +25,7 @@ import {
     CLOSE_ORDER_MODAL,
     SET_TAB_NAME,
     SET_TAB_OFFSETTOP,
-} from '../constants';
+} from '../constants/generalBurgers';
 
 export interface IGetDataIngredientsRequestAction {
     readonly type: typeof GET_DATA_INGREDIENTS_REQUEST;
@@ -116,7 +116,7 @@ export interface ISetTabOffsettopAction {
     data: {[tabName: string]: number};
 }
 
-export type TMainBurgersActions =
+export type TGeneralBurgersActions =
     | IGetDataIngredientsRequestAction
     | IGetDataIngredientsSuccessAction
     | IGetDataIngredientsErrorAction
@@ -190,16 +190,14 @@ export const getDataIngredientsList: AppThunk = (apiUrl: string) => (dispatch: A
 
 export const getOrder: AppThunk = (apiUrl: string, constructorIngredients: {ingredients: Array<TIngredient>}) => (dispatch: AppDispatch) => {
     const json = JSON.stringify(constructorIngredients);
-    const headers: string[][] = [
-        ['Content-Type', 'application/json; charset=utf-8'],
-        ['Authorization', getCookie("refreshToken")]
-    ];
-
     dispatch(getOrderRequestAction());
     return fetch(apiUrl + "/orders", {
         method: 'POST',
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: 'Bearer ' + getCookie('accessToken')
+        },
         body: json,
-        headers: headers
     })
         .then(checkResponse)
         .then(jsonResp => {
