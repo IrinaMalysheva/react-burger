@@ -1,5 +1,4 @@
 import { FC, SyntheticEvent } from 'react';
-import { RootStateOrAny } from 'react-redux';
 import { useSelector, useDispatch } from '../../services/hooks';
 import { Link, useLocation } from 'react-router-dom';
 import { useDrag } from "react-dnd";
@@ -11,8 +10,7 @@ import { TBurgerIngredient, TIngredient } from '../../utils/types';
 const BurgerIngredient: FC<TBurgerIngredient> = ({ ingredientsType, item }) => {
     const dispatch = useDispatch();
     const location = useLocation();
-    const constructorBun = useSelector((store: RootStateOrAny) => store.generalBurgers.constructorBun);
-    const constructorFillingIngredients = useSelector((store: RootStateOrAny) => store.generalBurgers.constructorFillingIngredients);
+    const { constructorBun, constructorFillingIngredients } = useSelector(store => store.generalBurgers);
     let count = 0;
 
     const ingredientId = item['_id'];

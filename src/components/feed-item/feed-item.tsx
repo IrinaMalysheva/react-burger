@@ -1,7 +1,6 @@
 import React, { FC } from "react";
 import { useLocation, Link } from "react-router-dom";
 import { useSelector } from '../../services/hooks';
-import { RootStateOrAny } from 'react-redux';
 import feedItemStyles from "./feed-item.module.css";
 import { TFeedItemComponent, TIngredient } from "../../utils/types";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
@@ -9,7 +8,7 @@ import { textFromStatus } from '../../utils/utils';
 
 const FeedItem: FC<TFeedItemComponent> = ({ orderId, orderNumber, orderDate, orderName, ingredients, status, isProfileOrder }) => {
     const location = useLocation();
-    const dataIngredientsList = useSelector((store: RootStateOrAny) => store.generalBurgers.dataIngredientsList);
+    const dataIngredientsList = useSelector(store => store.generalBurgers.dataIngredientsList);
     const burgerIngredients = dataIngredientsList?.filter((item: TIngredient) => ingredients.includes(item._id));
 
     const orderPrice = React.useMemo(

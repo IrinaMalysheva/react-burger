@@ -1,6 +1,5 @@
 import { FC } from "react";
 import { useEffect } from "react";
-import { RootStateOrAny } from 'react-redux';
 import { useSelector, useDispatch } from '../../services/hooks';
 import orderDetailsStyles from './order-details.module.css';
 import { getOrder } from '../../services/actions/generalBurgers';
@@ -9,11 +8,10 @@ import doneImg from "../../images/done.png";
 
 const OrderDetails: FC = () => {
     const dispatch = useDispatch();
-    const constructorFillingIngredients = useSelector((store: RootStateOrAny) => store.generalBurgers.constructorFillingIngredients);
-    const constructorBun = useSelector((store: RootStateOrAny) => store.generalBurgers.constructorBun);
+    const { constructorBun, constructorFillingIngredients } = useSelector(store => store.generalBurgers);
     const constructorIngredients = {ingredients: [...constructorFillingIngredients, constructorBun]};
 
-    const { orderObject, orderRequest, orderFailed } = useSelector((store: RootStateOrAny) => store.generalBurgers);
+    const { orderObject, orderRequest, orderFailed } = useSelector(store => store.generalBurgers);
 
     useEffect(() => {
         dispatch(getOrder(API_URL, constructorIngredients));

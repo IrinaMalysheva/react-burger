@@ -1,5 +1,4 @@
 import { FC, useMemo } from "react";
-import { RootStateOrAny } from 'react-redux';
 import { useSelector } from '../../services/hooks';
 import { Link, useLocation, useParams } from 'react-router-dom';
 import ingredientDetailsStyles from './ingredient-details.module.css';
@@ -10,7 +9,7 @@ const IngredientDetails: FC = () => {
     const { state } = useLocation<TLocation>();
     const isBackground = state?.background;
     const ingredientId = params.id;
-    const dataIngredientsList = useSelector((store: RootStateOrAny) => store.generalBurgers.dataIngredientsList);
+    const dataIngredientsList = useSelector(store => store.generalBurgers.dataIngredientsList);
 
     const ingredientItem = useMemo(
         () => dataIngredientsList?.find((item: TIngredient) => item._id === ingredientId),

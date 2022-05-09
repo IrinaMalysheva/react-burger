@@ -1,6 +1,5 @@
 import { FC } from 'react';
 import { useEffect, useState } from 'react';
-import { RootStateOrAny } from 'react-redux';
 import { useSelector } from '../../services/hooks';
 import burgerIngredientsStyles from './burger-ingredients.module.css';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -10,8 +9,7 @@ import ScrollableSection from '../scrollable-section/scrollable-section';
 const BurgerIngredients: FC = () => {
     const [current, setCurrent] = useState('one');
 
-    const dataIngredientsList = useSelector((store: RootStateOrAny) => store.generalBurgers.dataIngredientsList);
-    const tabName = useSelector((store: RootStateOrAny) => store.generalBurgers.tabName);
+    const { dataIngredientsList, tabName } = useSelector(store => store.generalBurgers);
 
     useEffect(() => {
         setCurrent(tabName);

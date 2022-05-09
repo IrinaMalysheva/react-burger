@@ -1,5 +1,4 @@
 import { FC, useEffect } from "react";
-import { RootStateOrAny } from 'react-redux';
 import { useRouteMatch } from "react-router-dom";
 import { useSelector, useDispatch } from '../../services/hooks';
 import ordersListStyles from "./orders-list.module.css";
@@ -15,7 +14,7 @@ import {
 const OrdersList: FC = () => {
   const dispatch = useDispatch();
   const isProfileOrder = useRouteMatch({ path: "/profile/orders" });
-  const { feedOrders, userOrders } = useSelector((store: RootStateOrAny) => store.wsOrdersFeed);
+  const { feedOrders, userOrders } = useSelector(store => store.wsOrdersFeed);
   const currentOrder = isProfileOrder ? userOrders : feedOrders;
 
   useEffect(

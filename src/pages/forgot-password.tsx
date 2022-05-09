@@ -1,5 +1,4 @@
 import { FC, SyntheticEvent, useState } from 'react';
-import { RootStateOrAny } from 'react-redux';
 import { useSelector, useDispatch } from '../services/hooks';
 import { Link, Redirect, useHistory, useLocation } from 'react-router-dom';
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -11,7 +10,7 @@ export const ForgotPasswordPage: FC = () => {
     const { state } = useLocation<TLocation>();
     const history = useHistory();
 
-    const isLoggedIn = useSelector((store: RootStateOrAny) => store.authRegister.isLoggedIn);
+    const isLoggedIn = useSelector(store => store.authRegister.isLoggedIn);
     const [emailValue, setEmailValue] = useState('');
 
     if (isLoggedIn) {

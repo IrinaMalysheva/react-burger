@@ -1,6 +1,5 @@
 import { FC, SyntheticEvent } from 'react';
 import { useEffect, useRef, useState } from 'react';
-import { RootStateOrAny } from 'react-redux';
 import { useSelector, useDispatch } from '../../services/hooks';
 import { Redirect, Route, Switch, useRouteMatch } from 'react-router-dom';
 import profileStyles from './profile.module.css';
@@ -10,14 +9,15 @@ import { updateUser } from "../../services/actions/authRegister";
 import ProfileSideMenu from "../../components/profile-side-menu/profile-side-menu";
 import ScrollableSection from '../../components/scrollable-section/scrollable-section';
 import { getUser } from "../../services/actions/authRegister";
+import { TUserData } from '../../utils/types';
 
 export const ProfilePage: FC = () => {
     const dispatch = useDispatch();
     const { path } = useRouteMatch();
-    const { isLoggedIn, userData } = useSelector((store: RootStateOrAny) => store.authRegister);
-    const [profileValues, setProfileValues] = useState({
-        name: userData ? userData?.name : "",
-        email: userData ? userData?.email : "",
+    const { isLoggedIn, userData } = useSelector(store => store.authRegister);
+    const [profileValues, setProfileValues] = useState<TUserData>({
+        name: "",
+        email: "",
         password: ""
     });
     const inputNameRef = useRef<HTMLInputElement>(null);
@@ -75,7 +75,7 @@ export const ProfilePage: FC = () => {
                                 placeholder={'Имя'}
                                 onChange={handleChange}
                                 icon={'EditIcon'}
-                                value={profileValues.name}
+                                value={`${profileValues.name}`}
                                 name={'name'}
                                 error={false}
                                 ref={inputNameRef}
@@ -89,7 +89,7 @@ export const ProfilePage: FC = () => {
                                 placeholder={'Логин'}
                                 onChange={handleChange}
                                 icon={'EditIcon'}
-                                value={profileValues.email}
+                                value={`${profileValues.email}`}
                                 name={'email'}
                                 error={false}
                                 ref={inputEmailRef}
@@ -103,7 +103,7 @@ export const ProfilePage: FC = () => {
                                 placeholder={'Пароль'}
                                 onChange={handleChange}
                                 icon={'EditIcon'}
-                                value={profileValues.password}
+                                value={`${profileValues.password}`}
                                 name={'password'}
                                 error={false}
                                 ref={inputPasswordRef}

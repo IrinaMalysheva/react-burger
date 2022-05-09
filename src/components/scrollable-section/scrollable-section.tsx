@@ -1,6 +1,5 @@
 import { FC } from "react";
 import { useEffect, useRef, useState } from 'react';
-import { RootStateOrAny } from 'react-redux';
 import { useSelector, useDispatch } from '../../services/hooks';
 import scrollableSectionStyles from './scrollable-section.module.css';
 import { setTabNameAction } from '../../services/actions/generalBurgers';
@@ -9,8 +8,8 @@ import { TScrollableSection } from '../../utils/types';
 const ScrollableSection: FC<TScrollableSection> = ({ parentClassName, children }) => {
     const sectionElement = useRef<HTMLElement>(null);
     const dispatch = useDispatch();
-    const tabName = useSelector((store: RootStateOrAny) => store.generalBurgers.tabName);
-    const tabOffsets = useSelector((store: RootStateOrAny) => store.generalBurgers.tabOffsets);
+    const tabName = useSelector(store => store.generalBurgers.tabName);
+    const tabOffsets = useSelector(store => store.generalBurgers.tabOffsets);
     const [scrollTop, setScrollTop] = useState<number | undefined>(0);
 
     useEffect(() => {

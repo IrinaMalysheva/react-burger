@@ -1,5 +1,4 @@
 import React, { FC } from "react";
-import { RootStateOrAny } from "react-redux";
 import { useLocation, useParams, useRouteMatch } from "react-router-dom";
 import { useSelector } from '../../services/hooks';
 import orderInfoStyles from "./order-info.module.css";
@@ -11,11 +10,11 @@ import { textFromStatus } from '../../utils/utils';
 
 const OrderInfo: FC = () => {
     const { id } = useParams<TParams>();
-    const dataIngredientsList = useSelector((store: RootStateOrAny) => store.generalBurgers.dataIngredientsList);
+    const dataIngredientsList = useSelector(store => store.generalBurgers.dataIngredientsList);
     const { state } = useLocation<TLocation>();
     const isBackground = state?.background;
     const isProfileOrder = useRouteMatch({ path: "/profile/orders" });
-    const { feedOrders, userOrders } = useSelector((store: RootStateOrAny) => store.wsOrdersFeed);
+    const { feedOrders, userOrders } = useSelector(store => store.wsOrdersFeed);
     const feedOrder = feedOrders && feedOrders.find((item: TOrder) => item._id === id);
     const userOrder = userOrders && userOrders.find((item: TOrder) => item._id === id);
     const currentOrder = isProfileOrder ? userOrder : feedOrder;

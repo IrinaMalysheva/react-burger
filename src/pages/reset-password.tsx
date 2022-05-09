@@ -1,5 +1,4 @@
 import { FC, SyntheticEvent, useRef, useState, useEffect } from 'react';
-import { RootStateOrAny } from 'react-redux';
 import { useSelector, useDispatch } from '../services/hooks';
 import { Link, useLocation, useHistory, Redirect } from 'react-router-dom';
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -10,7 +9,7 @@ export const ResetPasswordPage: FC = () => {
     const dispatch = useDispatch();
     const { state } = useLocation<TLocation>();
     const history = useHistory<THistory>();
-    const { isLoggedIn, isPasswordReseted } = useSelector((store: RootStateOrAny) => store.authRegister);
+    const { isLoggedIn, isPasswordReseted } = useSelector(store => store.authRegister);
     const prevPathname = history.location.state?.prevPathname;
 
     const [passwordValue, setPasswordValue] = useState('');

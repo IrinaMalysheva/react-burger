@@ -1,11 +1,10 @@
 import { FC, useMemo } from "react";
-import { RootStateOrAny } from 'react-redux';
 import { useSelector } from '../../services/hooks';
 import ordersTotalStyles from "./orders-stand.module.css";
 import { TOrder } from "../../utils/types";
 
 const OrdersStand: FC = () => {
-    const { feedOrders, total, totalToday } = useSelector((store: RootStateOrAny) => store.wsOrdersFeed);
+    const { feedOrders, total, totalToday } = useSelector(store => store.wsOrdersFeed);
     const doneOrders = useMemo(() => feedOrders.filter((item: TOrder) => item.status === "done"), [feedOrders]);
     const pendingOrders = useMemo(() => feedOrders.filter((item: TOrder) => item.status === "pending"), [feedOrders]);
     let doneOrders1Col = doneOrders;

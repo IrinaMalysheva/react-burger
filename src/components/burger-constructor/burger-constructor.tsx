@@ -1,6 +1,5 @@
 import { FC, SyntheticEvent } from 'react';
 import { useMemo } from 'react';
-import { RootStateOrAny } from 'react-redux';
 import { useSelector, useDispatch } from '../../services/hooks';
 import { useHistory } from 'react-router-dom';
 import { useDrop } from "react-dnd";
@@ -19,8 +18,8 @@ import { TIngredient } from '../../utils/types';
 const BurgerConstructor: FC = () => {
     const dispatch = useDispatch();
     const history = useHistory();
-    const { isLoggedIn } = useSelector((store: RootStateOrAny) => store.authRegister);
-    const { constructorBun, constructorFillingIngredients, orderRequest } = useSelector((store: RootStateOrAny) => store.generalBurgers);
+    const { isLoggedIn } = useSelector(store => store.authRegister);
+    const { constructorBun, constructorFillingIngredients, orderRequest } = useSelector(store => store.generalBurgers);
 
     const totalPrice = useMemo(() => {
         let interimPrice = constructorBun ? constructorBun.price * 2 : 0;
