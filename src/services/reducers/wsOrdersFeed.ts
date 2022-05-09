@@ -13,7 +13,8 @@ import { TWSOrdersFeedActions } from '../actions/wsOrdersFeed';
 import { TOrder } from '../../utils/types';
 
 type TOrdersFeedState = {
-    wsConnected: boolean;
+    wsFeedConnected: boolean;
+    wsUserConnected: boolean;
     feedOrders: Array<TOrder>;
     userOrders: Array<TOrder>;
     total: number;
@@ -21,7 +22,8 @@ type TOrdersFeedState = {
 };
 
 const initialState: TOrdersFeedState = {
-    wsConnected: false,
+    wsFeedConnected: false,
+    wsUserConnected: false,
     feedOrders: [],
     userOrders: [],
     total: 0,
@@ -33,19 +35,19 @@ export const wsOrdersFeedReducer = (state = initialState, action: TWSOrdersFeedA
         case WS_ORDER_CONNECTION_SUCCESS: {
             return {
                 ...state,
-                wsConnected: true,
+                wsFeedConnected: true,
             };
         }
         case WS_ORDER_CONNECTION_ERROR: {
             return {
                 ...state,
-                wsConnected: false,
+                wsFeedConnected: false,
             };
         }
         case WS_ORDER_CONNECTION_CLOSED: {
             return {
                 ...state,
-                wsConnected: false,
+                wsFeedConnected: false,
             };
         }
         case WS_ORDER_GET_MESSAGE: {
@@ -59,19 +61,19 @@ export const wsOrdersFeedReducer = (state = initialState, action: TWSOrdersFeedA
         case WS_USER_ORDER_CONNECTION_SUCCESS: {
             return {
                 ...state,
-                wsConnected: true,
+                wsUserConnected: true,
             };
         }
         case WS_USER_ORDER_CONNECTION_ERROR: {
             return {
                 ...state,
-                wsConnected: false,
+                wsUserConnected: false,
             };
         }
         case WS_USER_ORDER_CONNECTION_CLOSED: {
             return {
                 ...state,
-                wsConnected: false,
+                wsUserConnected: false,
             };
         }
         case WS_USER_ORDER_GET_MESSAGE: {

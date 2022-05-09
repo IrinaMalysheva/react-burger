@@ -1,24 +1,42 @@
-import React, { FC } from "react";
-import { useLocation, useParams, useRouteMatch } from "react-router-dom";
-import { useSelector } from '../../services/hooks';
+import React, { FC, useEffect } from "react";
+import { Link, useLocation, useParams, useRouteMatch } from "react-router-dom";
+import { useSelector, useDispatch } from '../../services/hooks';
 import orderInfoStyles from "./order-info.module.css";
 import OrderIngrItem from "../order-ingr-item/order-ingr-item";
 import ScrollableSection from "../scrollable-section/scrollable-section"
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { TIngredient, TLocation, TParams, TOrder } from "../../utils/types";
 import { textFromStatus } from '../../utils/utils';
+import {
+    wsOrderConnectionStartAction,
+    wsOrderConnectionClosedAction,
+    wsUserOrderConnectionStartAction,
+    wsUserOrderConnectionClosedAction
+} from "../../services/actions/wsOrdersFeed";
 
 const OrderInfo: FC = () => {
+    const dispatch = useDispatch();
     const { id } = useParams<TParams>();
-    const dataIngredientsList = useSelector(store => store.generalBurgers.dataIngredientsList);
     const { state } = useLocation<TLocation>();
+    const location = useLocation();
     const isBackground = state?.background;
+    const dataIngredientsList = useSelector(store => store.generalBurgers.dataIngredientsList);
+    const { isLoggedIn } = useSelector(store => store.authRegister);
     const isProfileOrder = useRouteMatch({ path: "/profile/orders" });
-    const { feedOrders, userOrders } = useSelector(store => store.wsOrdersFeed);
+    const { feedOrders, userOrders, wsFeedConnected, wsUserConnected } = useSelector(store => store.wsOrdersFeed);
     const feedOrder = feedOrders && feedOrders.find((item: TOrder) => item._id === id);
     const userOrder = userOrders && userOrders.find((item: TOrder) => item._id === id);
     const currentOrder = isProfileOrder ? userOrder : feedOrder;
     const burgerIngredients = dataIngredientsList && dataIngredientsList.filter((item: TIngredient) => currentOrder?.ingredients.includes(item._id));
+
+    useEffect(
+        () => {
+            dispatch(isProfileOrder ? wsUserOrderConnectionStartAction() : wsOrderConnectionStartAction());
+            return () => {
+                dispatch(isProfileOrder ? wsUserOrderConnectionClosedAction() : wsOrderConnectionClosedAction());
+            };
+        }, [isLoggedIn]
+    );
 
     const orderPrice = React.useMemo(
         () =>
@@ -33,35 +51,63 @@ const OrderInfo: FC = () => {
 
     return (
         <div className={`${orderInfoStyles.orderInfo} ${isBackground && orderInfoStyles.orderModalInfo}`}>
-            {currentOrder && burgerIngredients &&
-                <>
-                    <p className={`${orderInfoStyles.order_id} text text_type_digits-default ${isBackground ? "pt-6 pb-6" : "pb-10"}`}>#{currentOrder.number}</p>
-                    <p className={`${orderInfoStyles.order_name} text text_type_main-default ${isBackground ? "pb-1" : "pb-3"}`}>{currentOrder.name}</p>
-                    <p className={`${orderInfoStyles.orderStatus} text text_type_main-default ${isBackground ? "pb-10" : "pb-15"} ${currentOrder.status == "done" && orderInfoStyles.done}`}>
-                        {textFromStatus(currentOrder.status)}
-                    </p>
-                    <h3 className={orderInfoStyles.order_title + " text text_type_main-default pb-6"}>Состав:</h3>
-                    <ScrollableSection>
-                    <ul className={orderInfoStyles.order_list}>
-                        {burgerIngredients.map((ingredient: TIngredient) => (
-                            <OrderIngrItem
-                                key={ingredient._id}
-                                ingredient={ingredient}
-                                name={ingredient.name}
-                                image={ingredient.image}
-                                currentOrder={currentOrder}
-                            />
-                        ))}
-                    </ul>
-                    </ScrollableSection>
-                    <div className={orderInfoStyles.order_price + " mt-10 pb-10"}>
-                        <p className={orderInfoStyles.order_date + " text text_type_main-default text_color_inactive"}>{orderDateFormated}</p>
-                        <div className={orderInfoStyles.order_total}>
-                            <p className={orderInfoStyles.orderNumber + " text text_type_digits-default"}>{orderPrice}</p>
-                            &nbsp;<CurrencyIcon type="primary" />
+            {
+                (currentOrder && burgerIngredients) ?
+                    <>
+                        <p className={`${orderInfoStyles.orderNumber} text text_type_digits-default ${isBackground ? "pt-6 pb-6" : "pb-10"}`}>#{currentOrder.number}</p>
+                        <p className={`${orderInfoStyles.orderName} text text_type_main-default ${isBackground ? "pb-1" : "pb-3"}`}>{currentOrder.name}</p>
+                        <p className={`${orderInfoStyles.orderStatus} text text_type_main-default ${isBackground ? "pb-10" : "pb-15"} ${currentOrder.status == "done" && orderInfoStyles.done}`}>
+                            {textFromStatus(currentOrder.status)}
+                        </p>
+                        <h3 className={orderInfoStyles.orderTitle + " text text_type_main-default pb-6"}>Состав:</h3>
+                        <ScrollableSection>
+                            <ul className={orderInfoStyles.order_list}>
+                                {burgerIngredients.map((ingredient: TIngredient) => (
+                                    <OrderIngrItem
+                                        key={ingredient._id}
+                                        ingredient={ingredient}
+                                        name={ingredient.name}
+                                        image={ingredient.image}
+                                        currentOrder={currentOrder}
+                                    />
+                                ))}
+                            </ul>
+                        </ScrollableSection>
+                        <div className={orderInfoStyles.order_price + " mt-10 pb-10"}>
+                            <p className={orderInfoStyles.order_date + " text text_type_main-default text_color_inactive"}>{orderDateFormated}</p>
+                            <div className={orderInfoStyles.order_total}>
+                                <p className={orderInfoStyles.orderNumber + " text text_type_digits-default"}>{orderPrice}</p>
+                                &nbsp;<CurrencyIcon type="primary" />
+                            </div>
                         </div>
-                    </div>
-                </>}
+                    </>
+                    :
+                    (!!(feedOrders.length || userOrders.length))
+                        ? (wsFeedConnected || wsUserConnected)
+                            ? <>
+                                <p className={orderInfoStyles.orderInfo + " " + orderInfoStyles.orderNumber + " text text_type_main-medium"}>
+                                    Заказ с идентификатором <span className="text_color_inactive">{id}</span> не найден в списке последних заказов
+                                </p >
+                                <p className={orderInfoStyles.orderNumber + " text text_type_main-default pt-10"}>
+                                    Перейти на <Link to='/' className="text_color_inactive">главную</Link>, чтобы сделать заказ
+                                </p>
+                            </>
+                            : <p className={orderInfoStyles.orderInfo + " " + orderInfoStyles.orderNumber + " text text_type_main-medium"}>
+                                Ожидаем подключение к серверу
+                            </p>
+                        : (isProfileOrder && !userOrders.length)
+                            ? <>
+                                <p className={orderInfoStyles.orderInfo + " " + orderInfoStyles.orderNumber + " text text_type_main-medium"}>
+                                    У Вас пока не было заказа с идентификатором <span className="text_color_inactive">{id}</span>
+                                </p>
+                                <p className={ orderInfoStyles.orderNumber + " text text_type_main-default pt-10"}>
+                                    Вернуться в <Link to='/profile' className="text_color_inactive">профиль</Link>
+                                </p>
+                            </>
+                            : <p className={orderInfoStyles.orderInfo + " " + orderInfoStyles.orderNumber + " text text_type_main-medium"}>
+                                Ожидаем данные от сервера
+                            </p>
+            }
         </div>
     );
 };

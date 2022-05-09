@@ -1,5 +1,5 @@
 import { FC, useEffect } from "react";
-import { useRouteMatch } from "react-router-dom";
+import { Link, useRouteMatch } from "react-router-dom";
 import { useSelector, useDispatch } from '../../services/hooks';
 import ordersListStyles from "./orders-list.module.css";
 import FeedItem from "../feed-item/feed-item";
@@ -28,7 +28,7 @@ const OrdersList: FC = () => {
 
   return (
     <section className={isProfileOrder?.isExact ? (ordersListStyles.profileOrdersSection) : ""}>
-      {currentOrder &&
+      {currentOrder.length ?
         <ul className="pr-2">
           {currentOrder.map((item: TOrder) => (
             <FeedItem
@@ -42,7 +42,15 @@ const OrdersList: FC = () => {
               isProfileOrder={isProfileOrder}
             />
           ))}
-        </ul>}
+        </ul>
+        : (isProfileOrder ?
+          <>
+            <p className="text text_type_main-medium mt-5">У Вас пока не было заказов</p>
+            <p className="text text_type_main-default mt-9">
+              Чтобы создать заказ, перейдите на <Link to='/' className="text_color_inactive">главную</Link>
+            </p>
+          </> : <></>)
+      }
     </section>
   );
 };

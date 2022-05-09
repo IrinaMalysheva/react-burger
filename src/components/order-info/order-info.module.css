@@ -11,12 +11,12 @@
     padding-top: 0;
 }
 
-.order_id {
-    text-align: center;
+.orderName, .orderTitle {
+    font-size: 30px;
 }
 
-.order_name, .order_title {
-    font-size: 30px;
+.orderNumber {
+    text-align: center;
 }
 
 .orderStatus {
