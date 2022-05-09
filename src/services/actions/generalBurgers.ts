@@ -26,6 +26,7 @@ import {
     SET_TAB_NAME,
     SET_TAB_OFFSETTOP,
 } from '../constants/generalBurgers';
+import { TOrderObject } from '../../utils/types';
 
 export interface IGetDataIngredientsRequestAction {
     readonly type: typeof GET_DATA_INGREDIENTS_REQUEST;
@@ -71,7 +72,7 @@ export interface IGetOrderRequestAction {
 
 export interface IGetOrderSuccessAction {
     readonly type: typeof GET_ORDER_SUCCESS;
-    data: object;
+    data: TOrderObject;
 }
 
 export interface IGetOrderErrorAction {
@@ -166,7 +167,7 @@ const moveConstructorIngredientRequestAction = (dragIndex: number, hoverIndex: n
 });
 
 const getOrderRequestAction = (): IGetOrderRequestAction => ({ type: GET_ORDER_REQUEST });
-const getOrderSuccessAction = (data: object): IGetOrderSuccessAction => ({
+const getOrderSuccessAction = (data: TOrderObject): IGetOrderSuccessAction => ({
     type: GET_ORDER_SUCCESS,
     data
 });

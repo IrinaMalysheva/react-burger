@@ -25,7 +25,7 @@ import {
     MOVE_CONSTRUCTOR_INGREDIENT,
 } from '../constants/generalBurgers';
 import { TGeneralBurgersActions } from '../actions/generalBurgers';
-import { TTabOffsettop } from '../../utils/types';
+import { TOrderObject, TTabOffsettop } from '../../utils/types';
 
 type TGeneralBurgersState = {
     tabName: string;
@@ -42,7 +42,7 @@ type TGeneralBurgersState = {
     constructorFillingIngredients: TIngredient[];
     constructorBun: TIngredient | null;
 
-    orderObject: any;
+    orderObject: TOrderObject | null;
     orderRequest: boolean;
     orderFailed: boolean;
 } 

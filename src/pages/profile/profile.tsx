@@ -16,8 +16,8 @@ export const ProfilePage: FC = () => {
     const { path } = useRouteMatch();
     const { isLoggedIn, userData } = useSelector(store => store.authRegister);
     const [profileValues, setProfileValues] = useState<TUserData>({
-        name: "",
-        email: "",
+        name: userData?.name || "",
+        email: userData?.email || "",
         password: ""
     });
     const inputNameRef = useRef<HTMLInputElement>(null);
