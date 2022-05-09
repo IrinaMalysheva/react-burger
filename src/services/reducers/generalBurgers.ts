@@ -25,10 +25,11 @@ import {
     MOVE_CONSTRUCTOR_INGREDIENT,
 } from '../constants/generalBurgers';
 import { TGeneralBurgersActions } from '../actions/generalBurgers';
+import { TTabOffsettop } from '../../utils/types';
 
 type TGeneralBurgersState = {
     tabName: string;
-    tabOffsets: Array<object>;
+    tabOffsets: Array<TTabOffsettop>;
 
     isModalOpen: boolean;
     isIngredientModal: boolean;
@@ -41,7 +42,7 @@ type TGeneralBurgersState = {
     constructorFillingIngredients: TIngredient[];
     constructorBun: TIngredient | null;
 
-    orderObject: object | null;
+    orderObject: any;
     orderRequest: boolean;
     orderFailed: boolean;
 } 

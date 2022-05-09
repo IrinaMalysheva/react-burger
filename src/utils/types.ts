@@ -55,6 +55,7 @@ export type TIngredientsSection = {
     data: TIngredient[];
     header: string;
     ingredientsType: string;
+    tabHeadersOffset: number;
     tabName: string;
 }
 
@@ -95,6 +96,10 @@ export type TParams = {
 export type TScrollableSection = {
     children?: ReactNode;
     parentClassName?: string;
+}
+
+export type TTabOffsettop = {
+    [tabName: string]: number
 }
 
 export type TBurgerConstructorComponent = {
