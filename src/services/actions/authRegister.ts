@@ -270,8 +270,8 @@ export const login: AppThunk = (emailValue: string, passwordValue: string) => (d
         .then(jsonResp => {
             if (jsonResp.success) {
                 const accessToken = jsonResp.accessToken.split('Bearer ')[1];
-                setCookie('accessToken', accessToken);
-                setCookie('refreshToken', jsonResp.refreshToken);
+                setCookie('accessToken', accessToken, { path: '/' });
+                setCookie('refreshToken', jsonResp.refreshToken, { path: '/' });
                 dispatch(setUserDataAction({
                     "email": jsonResp.user.email,
                     "name": jsonResp.user.name
@@ -325,8 +325,8 @@ export const register: AppThunk = (nameValue: string, emailValue: string, passwo
         .then(jsonResp => {
             if (jsonResp.success) {
                 const accessToken = jsonResp.accessToken.split('Bearer ')[1];
-                setCookie('accessToken', accessToken);
-                setCookie('refreshToken', jsonResp.refreshToken);
+                setCookie('accessToken', accessToken, { path: '/' });
+                setCookie('refreshToken', jsonResp.refreshToken, { path: '/' });
                 dispatch(setUserDataAction({
                     "email": jsonResp.user.email,
                     "name": jsonResp.user.name
@@ -375,7 +375,7 @@ export const updateToken: AppThunk = () => (dispatch: AppDispatch) => {
         .then(jsonResp => {
             if (jsonResp.success) {
                 const accessToken = jsonResp.accessToken.split('Bearer ')[1];
-                setCookie('accessToken', accessToken);
+                setCookie('accessToken', accessToken, { path: '/' });
                 dispatch(updateTokenSuccessAction());
             }
         })

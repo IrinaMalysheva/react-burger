@@ -7,7 +7,7 @@ export function checkResponse(resp: Response) {
 }
 
 export function deleteCookie(name: string) {
-    setCookie(name, "", { expires: -1 });
+    setCookie(name, "", { expires: -1, path: '/' });
 }
 
 export function getCookie(name: string): string {
