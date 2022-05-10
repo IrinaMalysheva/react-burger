@@ -1,6 +1,6 @@
 import { FC } from 'react';
-import { useEffect, useState } from 'react';
-import { RootStateOrAny, useSelector } from 'react-redux';
+import { useEffect, useRef, useState } from 'react';
+import { useSelector } from '../../services/hooks';
 import burgerIngredientsStyles from './burger-ingredients.module.css';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import IngredientsSection from '../ingredients-section/ingredients-section';
@@ -8,9 +8,10 @@ import ScrollableSection from '../scrollable-section/scrollable-section';
 
 const BurgerIngredients: FC = () => {
     const [current, setCurrent] = useState('one');
+    const divElement = useRef<HTMLDivElement>(null);
+    const { dataIngredientsList, tabName } = useSelector(store => store.generalBurgers);
 
-    const dataIngredientsList = useSelector((store: RootStateOrAny) => store.ingredientsOrder.dataIngredientsList);
-    const tabName = useSelector((store: RootStateOrAny) => store.general.tabName);
+    const tabHeadersOffset = (divElement.current?.offsetTop as number) + (divElement.current?.offsetHeight as number);
 
     useEffect(() => {
         setCurrent(tabName);
@@ -18,10 +19,10 @@ const BurgerIngredients: FC = () => {
     
     return (
         <main className="mr-10" >
-            <h2 className={`pt-10 pb-5 text text_type_main-large ${burgerIngredientsStyles.header}`}>
+            <h2 className={`pt-10 pb-5 text text_type_main-large ${burgerIngredientsStyles.tabHeader}`}>
                 Соберите бургер
             </h2>
-            <div className={burgerIngredientsStyles.tabsWrapper}>
+            <div className={burgerIngredientsStyles.tabsWrapper} ref={divElement}>
                 <Tab value="one" active={current === 'one'} onClick={setCurrent}>
                     Булки
                 </Tab>
@@ -33,9 +34,9 @@ const BurgerIngredients: FC = () => {
                 </Tab>
             </div>
             <ScrollableSection parentClassName={burgerIngredientsStyles.scrollContainerStyles}>
-                <IngredientsSection data={dataIngredientsList} header="Булки" ingredientsType="bun" tabName="one" />
-                <IngredientsSection data={dataIngredientsList} header="Соусы" ingredientsType="sauce" tabName="two" />
-                <IngredientsSection data={dataIngredientsList} header="Начинки" ingredientsType="main" tabName="three" />
+                <IngredientsSection data={dataIngredientsList} header="Булки" ingredientsType="bun" tabName="one" tabHeadersOffset={tabHeadersOffset} />
+                <IngredientsSection data={dataIngredientsList} header="Соусы" ingredientsType="sauce" tabName="two" tabHeadersOffset={tabHeadersOffset} />
+                <IngredientsSection data={dataIngredientsList} header="Начинки" ingredientsType="main" tabName="three" tabHeadersOffset={tabHeadersOffset} />
             </ScrollableSection>
         </main>
     )

@@ -1,15 +1,14 @@
 import { FC } from "react";
 import { useEffect, useRef, useState } from 'react';
-import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
+import { useSelector, useDispatch } from '../../services/hooks';
 import scrollableSectionStyles from './scrollable-section.module.css';
-import { SET_TAB_NAME } from '../../services/actions';
-import { TScrollableSection } from '../../utils/types';
+import { setTabNameAction } from '../../services/actions/generalBurgers';
+import { TScrollableSection, TTabOffsettop } from '../../utils/types';
 
 const ScrollableSection: FC<TScrollableSection> = ({ parentClassName, children }) => {
     const sectionElement = useRef<HTMLElement>(null);
     const dispatch = useDispatch();
-    const tabName = useSelector((store: RootStateOrAny) => store.general.tabName);
-    const tabOffsets = useSelector((store: RootStateOrAny) => store.general.tabOffsets);
+    const { tabName, tabOffsets } = useSelector(store => store.generalBurgers);
     const [scrollTop, setScrollTop] = useState<number | undefined>(0);
 
     useEffect(() => {
@@ -20,14 +19,16 @@ const ScrollableSection: FC<TScrollableSection> = ({ parentClassName, children }
         setScrollTop(sectionElement?.current?.scrollTop);
     }
 
+    const tabOffsetsLength = tabOffsets.length;
+
     useEffect(() => {
         let activeTab = tabName;
-        if (tabOffsets[2]) {
-            let distDiff = tabOffsets[2].three;
+        if (tabOffsetsLength) {
             let sectionElementScrollTop = sectionElement?.current?.scrollTop as number;
+            let distDiff = Object.values(tabOffsets[tabOffsetsLength - 1])[0];
             let curDiff = Math.abs(distDiff - sectionElementScrollTop);
 
-            tabOffsets.forEach((element: number[]) => {
+            tabOffsets.forEach((element: TTabOffsettop) => {
                 for (let tab in element) {
                     sectionElementScrollTop = sectionElement?.current?.scrollTop as number;
                     curDiff = Math.abs(element[tab] - sectionElementScrollTop);
@@ -38,10 +39,7 @@ const ScrollableSection: FC<TScrollableSection> = ({ parentClassName, children }
                 }
             });
         }
-        dispatch({
-            type: SET_TAB_NAME,
-            tabname: activeTab
-        });
+        dispatch(setTabNameAction(activeTab));
     }, [scrollTop]);
 
     return (

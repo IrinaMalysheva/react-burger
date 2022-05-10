@@ -1,17 +1,16 @@
 import { FC, SyntheticEvent } from 'react';
-import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
+import { useSelector, useDispatch } from '../../services/hooks';
 import { Link, useLocation } from 'react-router-dom';
 import { useDrag } from "react-dnd";
 import BurgerIngredientStyles from './burger-ingredient.module.css';
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import { OPEN_MODAL, OPEN_INGREDIENT_MODAL } from '../../services/actions';
+import { openIngredientModal, openModal } from '../../services/actions/generalBurgers';
 import { TBurgerIngredient, TIngredient } from '../../utils/types';
 
 const BurgerIngredient: FC<TBurgerIngredient> = ({ ingredientsType, item }) => {
     const dispatch = useDispatch();
     const location = useLocation();
-    const constructorBun = useSelector((store: RootStateOrAny) => store.ingredientsOrder.constructorBun);
-    const constructorFillingIngredients = useSelector((store: RootStateOrAny) => store.ingredientsOrder.constructorFillingIngredients);
+    const { constructorBun, constructorFillingIngredients } = useSelector(store => store.generalBurgers);
     let count = 0;
 
     const ingredientId = item['_id'];
@@ -23,8 +22,8 @@ const BurgerIngredient: FC<TBurgerIngredient> = ({ ingredientsType, item }) => {
     }
     
     const handleClick = (e: SyntheticEvent) => {
-        dispatch({ type: OPEN_MODAL });
-        dispatch({ type: OPEN_INGREDIENT_MODAL });
+        dispatch(openModal());
+        dispatch(openIngredientModal());
     }
 
     const [, dragRef] = useDrag({

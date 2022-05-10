@@ -1,11 +1,11 @@
 import { FC } from 'react';
 import { useCallback, useRef } from 'react';
 import { useDrag, useDrop } from "react-dnd";
-import { useDispatch } from 'react-redux';
+import { useDispatch } from '../../services/hooks';
 import constructorInnerElementStyles from './constructor-inner-element.module.css';
 import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import { moveIngredient } from '../../services/actions';
-import { TConstructorInnerElement, TIngredient } from '../../utils/types';
+import { moveIngredient } from '../../services/actions/generalBurgers';
+import { TConstructorInnerElement } from '../../utils/types';
 
 const ConstructorInnerElement: FC<TConstructorInnerElement> = ({ itemData, id, index, onDelete }) => {
     const ref = useRef<HTMLLIElement>(null);

@@ -15,3 +15,7 @@
 .sideMenuLink {
     text-decoration: none;
 }
+
+.subComment {
+    opacity: 0.4;
+}

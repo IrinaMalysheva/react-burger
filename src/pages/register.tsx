@@ -1,5 +1,5 @@
 import { FC, SyntheticEvent, useEffect, useRef, useState } from 'react';
-import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
+import { useSelector, useDispatch } from '../services/hooks';
 import { Link, Redirect, useLocation } from 'react-router-dom';
 import { Button, Input, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
 import { register } from "../services/actions/authRegister";
@@ -8,7 +8,7 @@ import { TLocation } from "../utils/types";
 export const RegisterPage: FC = () => {
     const dispatch = useDispatch();
     const { state } = useLocation<TLocation>();
-    const { isLoggedIn, isRegistered, registerFailed } = useSelector((store: RootStateOrAny) => store.authRegister);
+    const { isLoggedIn, isRegistered, registerFailed } = useSelector(store => store.authRegister);
 
     const [nameValue, setNameValue] = useState('');
     const inputNameRef = useRef(null);

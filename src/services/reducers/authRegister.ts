@@ -1,3 +1,4 @@
+import { TUserData } from '../../utils/types';
 import {
     SET_USER_DATA,
 
@@ -9,9 +10,9 @@ import {
     LOGIN_SUCCESS,
     LOGIN_ERROR,
 
-    TOKEN_REQUEST,
-    TOKEN_SUCCESS,
-    TOKEN_ERROR,
+    UPDATE_TOKEN_REQUEST,
+    UPDATE_TOKEN_SUCCESS,
+    UPDATE_TOKEN_ERROR,
 
     UPDATE_USER_REQUEST,
     UPDATE_USER_SUCCESS,
@@ -32,9 +33,43 @@ import {
     RESET_PASSWORD_REQUEST,
     RESET_PASSWORD_SUCCESS,
     RESET_PASSWORD_ERROR,
-} from '../actions/authRegister';
+} from '../constants/authRegister';
+import { TAuthRegisterActions } from '../actions/authRegister';
 
-const initialState = {
+type TAuthRegisterState = {
+    userData: TUserData | null;
+    refreshToken: string;
+
+    isRegistered: boolean;
+    registerRequest: boolean;
+    registerFailed: boolean;
+
+    isLoggedIn: boolean;
+    loginRequest: boolean;
+    loginFailed: boolean;
+
+    tokenRequest: boolean;
+    tokenFailed: boolean;
+
+    updateUserRequest: boolean;
+    updateUserFailed: boolean;
+
+    getUserRequest: boolean;
+    getUserFailed: boolean;
+
+    isLoggedOut: boolean;
+    logoutRequest: boolean;
+    logoutFailed: boolean;
+
+    forgotPasswordRequest: boolean;
+    forgotPasswordFailed: boolean;
+
+    isPasswordReseted: boolean;
+    resetPasswordRequest: boolean;
+    resetPasswordFailed: boolean;
+}
+
+const initialState: TAuthRegisterState = {
     userData: null,
     refreshToken: "",
 
@@ -67,7 +102,7 @@ const initialState = {
     resetPasswordFailed: false,
 };
 
-export const authRegisterReducer = (state = initialState, action) => {
+export const authRegisterReducer = (state = initialState, action: TAuthRegisterActions): TAuthRegisterState => {
     switch (action.type) {
         case SET_USER_DATA: {
             return {
@@ -126,21 +161,21 @@ export const authRegisterReducer = (state = initialState, action) => {
                 loginFailed: true
             };
         }
-        case TOKEN_REQUEST: {
+        case UPDATE_TOKEN_REQUEST: {
             return {
                 ...state,
                 tokenRequest: true,
                 tokenFailed: false
             };
         }
-        case TOKEN_SUCCESS: {
+        case UPDATE_TOKEN_SUCCESS: {
             return {
                 ...state,
                 tokenRequest: false,
                 tokenFailed: false
             };
         }
-        case TOKEN_ERROR: {
+        case UPDATE_TOKEN_ERROR: {
             return {
                 ...state,
                 tokenRequest: false,

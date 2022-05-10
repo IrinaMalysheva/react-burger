@@ -1,10 +1,9 @@
-.header {
-    text-align: left;
-}
-
 .scrollContainerStyles {
     height: 716px;
-    scrollbar-width: thin;
+}
+
+.tabHeader {
+    text-align: left;
 }
 
 .tabsWrapper {

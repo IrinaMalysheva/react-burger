@@ -7,17 +7,17 @@ export function checkResponse(resp: Response) {
 }
 
 export function deleteCookie(name: string) {
-    setCookie(name, "", { expires: -1 });
+    setCookie(name, "", { expires: -1, path: '/' });
 }
 
-export function getCookie(name: string) {
+export function getCookie(name: string): string {
     const matches = document.cookie.match(
         new RegExp('(?:^|; )' + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + '=([^;]*)')
     );
-    return matches ? decodeURIComponent(matches[1]) : undefined;
+    return matches ? decodeURIComponent(matches[1]) : "";
 }
 
-export function setCookie(name: string, value: string, props: any) {
+export function setCookie(name: string, value: string, props?: any) {
     props = props || {};
     let exp = props.expires;
     if (typeof exp == 'number' && exp) {
@@ -38,4 +38,17 @@ export function setCookie(name: string, value: string, props: any) {
         }
     }
     document.cookie = updatedCookie;
+}
+
+export function textFromStatus(status: string) {
+    switch (status) {
+        case "created":
+            return "Создан";
+        case "pending":
+            return "Готовится";
+        case "done":
+            return "Выполнен";
+        default:
+            return "Status: Not defined";
+    }
 }
