@@ -1,9 +1,11 @@
 import {
+    WS_ORDER_CONNECTION_START,
     WS_ORDER_CONNECTION_SUCCESS,
     WS_ORDER_CONNECTION_ERROR,
     WS_ORDER_CONNECTION_CLOSED,
     WS_ORDER_GET_MESSAGE,
 
+    WS_USER_ORDER_CONNECTION_START,
     WS_USER_ORDER_CONNECTION_SUCCESS,
     WS_USER_ORDER_CONNECTION_ERROR,
     WS_USER_ORDER_CONNECTION_CLOSED,
@@ -13,6 +15,8 @@ import { TWSOrdersFeedActions } from '../actions/wsOrdersFeed';
 import { TOrder } from '../../utils/types';
 
 type TOrdersFeedState = {
+    wsFeedStarted: boolean;
+    wsUserStarted: boolean;
     wsFeedConnected: boolean;
     wsUserConnected: boolean;
     feedOrders: Array<TOrder>;
@@ -22,6 +26,8 @@ type TOrdersFeedState = {
 };
 
 const initialState: TOrdersFeedState = {
+    wsFeedStarted: false,
+    wsUserStarted: false,
     wsFeedConnected: false,
     wsUserConnected: false,
     feedOrders: [],
@@ -32,6 +38,12 @@ const initialState: TOrdersFeedState = {
 
 export const wsOrdersFeedReducer = (state = initialState, action: TWSOrdersFeedActions): TOrdersFeedState => {
     switch (action.type) {
+        case WS_ORDER_CONNECTION_START: {
+            return {
+                ...state,
+                wsFeedStarted: true,
+            };
+        }
         case WS_ORDER_CONNECTION_SUCCESS: {
             return {
                 ...state,
@@ -47,6 +59,7 @@ export const wsOrdersFeedReducer = (state = initialState, action: TWSOrdersFeedA
         case WS_ORDER_CONNECTION_CLOSED: {
             return {
                 ...state,
+                wsFeedStarted: false,
                 wsFeedConnected: false,
             };
         }
@@ -56,6 +69,12 @@ export const wsOrdersFeedReducer = (state = initialState, action: TWSOrdersFeedA
                 feedOrders: action.orders.orders,
                 total: action.orders.total,
                 totalToday: action.orders.totalToday
+            };
+        }
+        case WS_USER_ORDER_CONNECTION_START: {
+            return {
+                ...state,
+                wsUserStarted: true,
             };
         }
         case WS_USER_ORDER_CONNECTION_SUCCESS: {
@@ -73,6 +92,7 @@ export const wsOrdersFeedReducer = (state = initialState, action: TWSOrdersFeedA
         case WS_USER_ORDER_CONNECTION_CLOSED: {
             return {
                 ...state,
+                wsUserStarted: false,
                 wsUserConnected: false,
             };
         }

@@ -67,7 +67,10 @@ function ModalSwitch() {
         <ProtectedRoute path="/profile/orders/:id" exact={true}>
           <OrderPage />
         </ProtectedRoute>
-        <ProtectedRoute path="/profile">
+        <ProtectedRoute path="/profile/orders" exact={true}>
+          <ProfilePage />
+        </ProtectedRoute>
+        <ProtectedRoute path="/profile" exact={true}>
           <ProfilePage />
         </ProtectedRoute>
         <Route path="/feed" exact={true}>

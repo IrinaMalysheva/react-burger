@@ -18,12 +18,11 @@ const OrderInfo: FC = () => {
     const dispatch = useDispatch();
     const { id } = useParams<TParams>();
     const { state } = useLocation<TLocation>();
-    const location = useLocation();
     const isBackground = state?.background;
     const dataIngredientsList = useSelector(store => store.generalBurgers.dataIngredientsList);
     const { isLoggedIn } = useSelector(store => store.authRegister);
     const isProfileOrder = useRouteMatch({ path: "/profile/orders" });
-    const { feedOrders, userOrders, wsFeedConnected, wsUserConnected } = useSelector(store => store.wsOrdersFeed);
+    const { feedOrders, userOrders, wsFeedConnected, wsUserConnected, wsFeedStarted, wsUserStarted } = useSelector(store => store.wsOrdersFeed);
     const feedOrder = feedOrders && feedOrders.find((item: TOrder) => item._id === id);
     const userOrder = userOrders && userOrders.find((item: TOrder) => item._id === id);
     const currentOrder = isProfileOrder ? userOrder : feedOrder;
@@ -52,7 +51,8 @@ const OrderInfo: FC = () => {
     return (
         <div className={`${orderInfoStyles.orderInfo} ${isBackground && orderInfoStyles.orderModalInfo}`}>
             {
-                (currentOrder && burgerIngredients) ?
+                (currentOrder && burgerIngredients)
+                    ?
                     <>
                         <p className={`${orderInfoStyles.orderNumber} text text_type_digits-default ${isBackground ? "pt-6 pb-6" : "pb-10"}`}>#{currentOrder.number}</p>
                         <p className={`${orderInfoStyles.orderName} text text_type_main-default ${isBackground ? "pb-1" : "pb-3"}`}>{currentOrder.name}</p>
@@ -82,31 +82,45 @@ const OrderInfo: FC = () => {
                         </div>
                     </>
                     :
-                    (!!(feedOrders.length || userOrders.length))
+                    (wsFeedStarted || wsUserStarted)
                         ? (wsFeedConnected || wsUserConnected)
-                            ? <>
-                                <p className={orderInfoStyles.orderInfo + " " + orderInfoStyles.orderNumber + " text text_type_main-medium"}>
-                                    Заказ с идентификатором <span className="text_color_inactive">{id}</span> не найден в списке последних заказов
-                                </p >
-                                <p className={orderInfoStyles.orderNumber + " text text_type_main-default pt-10"}>
-                                    Перейти на <Link to='/' className="text_color_inactive">главную</Link>, чтобы сделать заказ
-                                </p>
-                            </>
-                            : <p className={orderInfoStyles.orderInfo + " " + orderInfoStyles.orderNumber + " text text_type_main-medium"}>
-                                Ожидаем подключение к серверу
-                            </p>
-                        : (isProfileOrder && !userOrders.length)
-                            ? <>
-                                <p className={orderInfoStyles.orderInfo + " " + orderInfoStyles.orderNumber + " text text_type_main-medium"}>
-                                    У Вас пока не было заказа с идентификатором <span className="text_color_inactive">{id}</span>
-                                </p>
-                                <p className={ orderInfoStyles.orderNumber + " text text_type_main-default pt-10"}>
-                                    Вернуться в <Link to='/profile' className="text_color_inactive">профиль</Link>
-                                </p>
-                            </>
-                            : <p className={orderInfoStyles.orderInfo + " " + orderInfoStyles.orderNumber + " text text_type_main-medium"}>
+                            ? (isProfileOrder)
+                                ? (userOrders.length)
+                                    ?
+                                    <>
+                                        <p className={orderInfoStyles.orderInfo + " " + orderInfoStyles.orderNumber + " text text_type_main-medium"}>
+                                            Заказ с идентификатором <span className="text_color_inactive">{id}</span> не найден в списке Ваших последних заказов
+                                        </p >
+                                        <p className={orderInfoStyles.orderNumber + " text text_type_main-default pt-10"}>
+                                            Перейти на <Link to='/' className="text_color_inactive">главную</Link>, чтобы сделать заказ
+                                        </p>
+                                    </>
+                                    :
+                                    <>
+                                        <p className={orderInfoStyles.orderInfo + " " + orderInfoStyles.orderNumber + " text text_type_main-medium"}>
+                                            В последнее время у Вас не было заказов 
+                                        </p >
+                                        <p className={orderInfoStyles.orderNumber + " text text_type_main-default pt-10"}>
+                                            Чтобы создать заказ, перейдите на <Link to='/' className="text_color_inactive">главную</Link>
+                                        </p>
+                                    </>
+                                :
+                                <>
+                                    <p className={orderInfoStyles.orderInfo + " " + orderInfoStyles.orderNumber + " text text_type_main-medium"}>
+                                        Заказ с идентификатором <span className="text_color_inactive">{id}</span> не найден
+                                    </p >
+                                    <p className={orderInfoStyles.orderNumber + " text text_type_main-default pt-10"}>
+                                        Перейти на <Link to='/' className="text_color_inactive">главную</Link>, чтобы сделать заказ
+                                    </p>
+                                </>
+                            :
+                            <p className={orderInfoStyles.orderInfo + " " + orderInfoStyles.orderNumber + " text text_type_main-medium"}>
                                 Ожидаем данные от сервера
                             </p>
+                        :
+                        <p className={orderInfoStyles.orderInfo + " " + orderInfoStyles.orderNumber + " text text_type_main-medium"}>
+                            Ожидаем подключение к серверу
+                        </p>
             }
         </div>
     );

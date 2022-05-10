@@ -14,7 +14,7 @@ import {
 const OrdersList: FC = () => {
   const dispatch = useDispatch();
   const isProfileOrder = useRouteMatch({ path: "/profile/orders" });
-  const { feedOrders, userOrders } = useSelector(store => store.wsOrdersFeed);
+  const { feedOrders, userOrders, wsFeedStarted, wsUserStarted, wsFeedConnected, wsUserConnected } = useSelector(store => store.wsOrdersFeed);
   const currentOrder = isProfileOrder ? userOrders : feedOrders;
 
   useEffect(
@@ -43,13 +43,25 @@ const OrdersList: FC = () => {
             />
           ))}
         </ul>
-        : (isProfileOrder ?
-          <>
-            <p className="text text_type_main-medium mt-5">У Вас пока не было заказов</p>
-            <p className="text text_type_main-default mt-9">
-              Чтобы создать заказ, перейдите на <Link to='/' className="text_color_inactive">главную</Link>
+        : (wsFeedStarted || wsUserStarted)
+          ? (wsFeedConnected || wsUserConnected)
+            ?
+            <>
+              <p className="text text_type_main-medium mt-5">Список {isProfileOrder && "Ваших"} заказов пуст</p>
+              {isProfileOrder &&
+                <p className="text text_type_main-default mt-9">
+                  Чтобы создать заказ, перейдите на <Link to='/' className="text_color_inactive">главную</Link>
+                </p>
+              }
+            </>
+            :
+            <p className="text text_type_main-medium mt-5">
+              Ожидаем данные от сервера
             </p>
-          </> : <></>)
+          :
+          <p className={"text text_type_main-medium mt-5"}>
+            Ожидаем подключение к серверу
+          </p>
       }
     </section>
   );

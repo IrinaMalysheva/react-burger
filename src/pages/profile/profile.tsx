@@ -1,7 +1,7 @@
 import { FC, SyntheticEvent } from 'react';
 import { useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from '../../services/hooks';
-import { Redirect, Route, Switch, useRouteMatch } from 'react-router-dom';
+import { Redirect, Route, Switch } from 'react-router-dom';
 import profileStyles from './profile.module.css';
 import OrdersList from "../../components/orders-list/orders-list";
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -13,7 +13,6 @@ import { TUserData } from '../../utils/types';
 
 export const ProfilePage: FC = () => {
     const dispatch = useDispatch();
-    const { path } = useRouteMatch();
     const { isLoggedIn, userData } = useSelector(store => store.authRegister);
     const [profileValues, setProfileValues] = useState<TUserData>({
         name: userData?.name || "",
@@ -67,7 +66,7 @@ export const ProfilePage: FC = () => {
         <div className={profileStyles.profileContainer}>
             <ProfileSideMenu />
             <Switch>
-                <Route path={`${path}`} exact={true}>
+                <Route path="/profile" exact={true}>
                     <form onSubmit={handleSubmit} className={profileStyles.profileBox}>
                         <div className="inputWrapper">
                             <Input
@@ -127,7 +126,7 @@ export const ProfilePage: FC = () => {
                         )}
                     </form>
                 </Route>
-                <Route path={`${path}/orders`} exact={true}>
+                <Route path="/profile/orders" exact={true}>
                     <ScrollableSection parentClassName={profileStyles.scrollContainerStyles}>
                         <OrdersList />
                     </ScrollableSection>
