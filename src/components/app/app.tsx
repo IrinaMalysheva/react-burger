@@ -82,6 +82,9 @@ function ModalSwitch() {
         <Route path='/ingredients/:id' exact={true}>
           <IngredientDetails />
         </Route>
+        <Route path="/react-burger" exact={true}>
+          <HomePage />
+        </Route>
         <Route>
           <NotFound404 />
         </Route>
