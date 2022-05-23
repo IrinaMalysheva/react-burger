@@ -69,7 +69,7 @@ type TAuthRegisterState = {
     resetPasswordFailed: boolean;
 }
 
-const initialState: TAuthRegisterState = {
+export const initialState: TAuthRegisterState = {
     userData: null,
     refreshToken: "",
 
@@ -102,7 +102,7 @@ const initialState: TAuthRegisterState = {
     resetPasswordFailed: false,
 };
 
-export const authRegisterReducer = (state = initialState, action: TAuthRegisterActions): TAuthRegisterState => {
+const authRegisterReducer = (state = initialState, action: TAuthRegisterActions): TAuthRegisterState => {
     switch (action.type) {
         case SET_USER_DATA: {
             return {
@@ -302,3 +302,5 @@ export const authRegisterReducer = (state = initialState, action: TAuthRegisterA
         }
     }
 };
+
+export default authRegisterReducer;
