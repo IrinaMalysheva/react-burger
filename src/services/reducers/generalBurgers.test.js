@@ -154,7 +154,7 @@ describe('generalBurgers reducer', () => {
         orderFailed: false,
       }
     )
-  })
+  });
 
   it("should handle CLOSE_MODAL", () => {
     expect(
@@ -231,7 +231,7 @@ describe('generalBurgers reducer', () => {
         tabOffsets: []
       }, {
         type: types.SET_TAB_OFFSETTOP,
-        tabOffset
+        data: tabOffset
       })
     ).toEqual({
       ...initialState,
@@ -243,7 +243,7 @@ describe('generalBurgers reducer', () => {
     expect(
       reducer(initialState, {
         type: types.SET_TAB_NAME,
-        tabName
+        tabname: tabName
       })
     ).toEqual({
       ...initialState,
@@ -267,7 +267,7 @@ describe('generalBurgers reducer', () => {
     expect(
       reducer(initialState, {
         type: types.GET_DATA_INGREDIENTS_SUCCESS,
-        ingrsFetchedList
+        data: ingrsFetchedList
       })
     ).toEqual({
       ...initialState,
@@ -311,7 +311,7 @@ describe('generalBurgers reducer', () => {
         constructorBun: null
       }, {
         type: types.SET_CONSTRUCTOR_BUN,
-        constructorBun: ingrsFetchedList[0]
+        item: ingrsFetchedList[0]
       })
     ).toEqual({
       ...initialState,
@@ -382,7 +382,7 @@ describe('generalBurgers reducer', () => {
     expect(
       reducer(initialState, {
         type: types.GET_ORDER_SUCCESS,
-        orderObject: order
+        data: order
       })
     ).toEqual({
       ...initialState,
@@ -414,4 +414,4 @@ describe('generalBurgers reducer', () => {
       orderObject: null
     });
   });
-})
+});
