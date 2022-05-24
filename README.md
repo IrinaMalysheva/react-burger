@@ -1,3 +1,17 @@
+# Frontend domain
+### [best.nomoredomains.xyz](https://best.nomoredomains.xyz/)
+
+# [cloud.yandex.ru](https://console.cloud.yandex.ru/folders/b1g6gh9i58s80l21fmlp/compute/instances)
+
+### Public IPv4
+51.250.11.11
+
+### Login
+best-login
+
+# GitHub Pages
+### [irinamalysheva.github.io](https://irinamalysheva.github.io/react-burger/)
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
