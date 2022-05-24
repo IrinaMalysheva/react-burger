@@ -23,7 +23,7 @@ const Modal: FC<TModal> = ({ children, header, onClose }) => {
     return ReactDOM.createPortal(
         <>
             <ModalOverlay onClose={onClose} />
-            <div className={modalStyles.modal}>
+            <div className={modalStyles.modal} data-test="modal">
                 <div className={modalStyles.modalHeader + " pt-10 pr-10 pl-10"}>
                     <p className="text text_type_main-large">
                         {header}

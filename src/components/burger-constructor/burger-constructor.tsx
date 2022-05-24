@@ -61,7 +61,10 @@ const BurgerConstructor: FC = () => {
 
     return (
         <main className="pt-25 pb-13 pl-4">
-            <div className={`${burgerConstructorStyles.constructorTarget} ${!constructorBun && !constructorFillingIngredients.length && burgerConstructorStyles.constructorBordered}`} ref={dropTarget}>
+            <div className={`${burgerConstructorStyles.constructorTarget} ${!constructorBun && !constructorFillingIngredients.length && burgerConstructorStyles.constructorBordered}`}
+                ref={dropTarget}
+                data-test="constructor_target"
+            >
                 {constructorBun &&
                     <section className="ml-8" >
                         <ConstructorElement

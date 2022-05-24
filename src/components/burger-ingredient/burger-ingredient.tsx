@@ -42,7 +42,7 @@ const BurgerIngredient: FC<TBurgerIngredient> = ({ ingredientsType, item }) => {
         >
             {
                 (item.type == ingredientsType) &&
-                <li className={`mb-8 ${BurgerIngredientStyles.ingredient}`} onClick={handleClick} id={item._id} ref={dragRef}>
+                <li className={`mb-8 ${BurgerIngredientStyles.ingredient}`} onClick={handleClick} id={item._id} ref={dragRef} data-test={item._id}>
                     {count != 0 && <Counter count={count} size="default" />}
                     <img className="pl-4 pr-4" src={item.image} />
                     <p className="pt-1 pb-1 flexContainerJcCenter">
