@@ -25,7 +25,7 @@ type TOrdersFeedState = {
     totalToday: number;
 };
 
-const initialState: TOrdersFeedState = {
+export const initialState: TOrdersFeedState = {
     wsFeedStarted: false,
     wsUserStarted: false,
     wsFeedConnected: false,
@@ -36,7 +36,7 @@ const initialState: TOrdersFeedState = {
     totalToday: 0
 };
 
-export const wsOrdersFeedReducer = (state = initialState, action: TWSOrdersFeedActions): TOrdersFeedState => {
+const wsOrdersFeedReducer = (state = initialState, action: TWSOrdersFeedActions): TOrdersFeedState => {
     switch (action.type) {
         case WS_ORDER_CONNECTION_START: {
             return {
@@ -107,3 +107,5 @@ export const wsOrdersFeedReducer = (state = initialState, action: TWSOrdersFeedA
         }
     }
 };
+
+export default wsOrdersFeedReducer;
