@@ -35,7 +35,7 @@ type TGeneralBurgersState = {
     isIngredientModal: boolean;
     isOrderModal: boolean;
 
-    dataIngredientsList: TIngredient[];
+    dataIngredientsList: Array<TIngredient>;
     dataIngredientsRequest: boolean;
     dataIngredientsFailed: boolean;
 
@@ -47,7 +47,7 @@ type TGeneralBurgersState = {
     orderFailed: boolean;
 } 
 
-const initialState: TGeneralBurgersState = {
+export const initialState: TGeneralBurgersState = {
     tabName: "one",
     tabOffsets: [],
 
@@ -67,20 +67,20 @@ const initialState: TGeneralBurgersState = {
     orderFailed: false,
 };
 
-export const generalBurgersReducer = (state = initialState, action: TGeneralBurgersActions): TGeneralBurgersState => {
+const generalBurgersReducer = (state = initialState, action: TGeneralBurgersActions): TGeneralBurgersState => {
     switch (action.type) {
-        case CLOSE_MODAL: {
-            return {
-                ...state,
-                isModalOpen: false
-            };
-        }
         case OPEN_MODAL: {
             return {
                 ...state,
                 isModalOpen: true,
                 isIngredientModal: false,
                 isOrderModal: false
+            };
+        }
+        case CLOSE_MODAL: {
+            return {
+                ...state,
+                isModalOpen: false
             };
         }
         case OPEN_INGREDIENT_MODAL: {
@@ -132,7 +132,7 @@ export const generalBurgersReducer = (state = initialState, action: TGeneralBurg
         case GET_DATA_INGREDIENTS_SUCCESS: {
             return {
                 ...state, 
-                dataIngredientsList: [...action.data],
+                dataIngredientsList: action.data,
                 dataIngredientsRequest: false,
                 dataIngredientsFailed: false,
             };
@@ -187,7 +187,7 @@ export const generalBurgersReducer = (state = initialState, action: TGeneralBurg
         }
         case GET_ORDER_SUCCESS: {
             return {
-                ...state, 
+                ...state,
                 orderObject: action.data,
                 orderRequest: false,
                 orderFailed: false,
@@ -211,3 +211,5 @@ export const generalBurgersReducer = (state = initialState, action: TGeneralBurg
         }
     }
 };
+
+export default generalBurgersReducer;
