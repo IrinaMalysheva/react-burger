@@ -245,8 +245,7 @@ export const getUser: AppThunk = () => (dispatch) => {
         })
         .catch((err) => {
             if (getCookie('refreshToken')) {
-                dispatch(updateToken());
-                dispatch(getUser());
+                dispatch(updateToken(getUser));
             } else {
                 dispatch(getUserErrorAction())
             }
@@ -360,7 +359,7 @@ export const resetPassword: AppThunk = (passwordValue: string, tokenValue: strin
         })
 };
 
-export const updateToken: AppThunk = () => (dispatch: AppDispatch) => {
+export const updateToken: AppThunk = (afterRefresh: AppThunk) => (dispatch) => {
     dispatch(updateTokenRequestAction());
     return fetch(API_URL + "/auth/token", {
         method: 'POST',
@@ -377,6 +376,7 @@ export const updateToken: AppThunk = () => (dispatch: AppDispatch) => {
                 const accessToken = jsonResp.accessToken.split('Bearer ')[1];
                 setCookie('accessToken', accessToken, { path: '/' });
                 dispatch(updateTokenSuccessAction());
+                dispatch(afterRefresh());
             }
         })
         .catch((err) => {
